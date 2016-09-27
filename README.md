@@ -11,7 +11,11 @@ The testsuite of a driver should be based as follow:
 ```json
 {
     "require": {
-        "behat/mink": "~1.6@dev"
+        "behat/mink": "~1.7"
+    },
+    
+    "require-dev": {
+        "mink/driver-testsuite": "dev-master"
     },
 
     "autoload-dev": {
@@ -26,7 +30,7 @@ The testsuite of a driver should be based as follow:
 <!-- phpunit.xml.dist -->
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="true" bootstrap="vendor/behat/mink/driver-testsuite/bootstrap.php">
+<phpunit colors="true" bootstrap="vendor/autoload.php">
     <php>
         <var name="driver_config_factory" value="Acme\MyDriver\Tests\Config::getInstance" />
 
