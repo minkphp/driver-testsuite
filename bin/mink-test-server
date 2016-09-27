@@ -5,7 +5,7 @@ set -o pipefail
 # fail harder
 set -eu
 
-base_dir=$(cd $(dirname $0); cd ..; pwd)
+base_dir=$(dirname "$(dirname "$(readlink -f "$0")")")
 host="localhost:8002"
 php_bin=${MINK_PHP_BIN-php}
 
