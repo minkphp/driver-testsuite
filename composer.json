@@ -23,6 +23,10 @@
         "symfony/phpunit-bridge": "~2.7|~3.0"
     },
 
+    "bin": [
+        "bin/mink-test-server"
+    ],
+
     "autoload": {
         "psr-4": {
             "Behat\\Mink\\Tests\\Driver\\": "tests/"

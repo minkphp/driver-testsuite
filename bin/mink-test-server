@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# fail hard
+set -o pipefail
+# fail harder
+set -eu
+
+base_dir=$(cd $(dirname $0); cd ..; pwd)
+host="localhost:8002"
+php_bin=${MINK_PHP_BIN-php}
+
+# Use exec to make it easier to stop the process
+exec "$php_bin" -S "$host" -t "$base_dir/web-fixtures"
