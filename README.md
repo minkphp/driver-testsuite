@@ -26,20 +26,19 @@ The testsuite of a driver should be based as follow:
 }
 ```
 
+The PHPUnit config should look like this:
+
 ```xml
-<!-- phpunit.xml.dist -->
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit colors="true" bootstrap="vendor/autoload.php">
     <php>
         <var name="driver_config_factory" value="Acme\MyDriver\Tests\Config::getInstance" />
-
-        <server name="WEB_FIXTURES_HOST" value="http://test.mink.dev" />
     </php>
 
     <testsuites>
         <testsuite name="Functional tests">
-            <directory>vendor/behat/mink/driver-testsuite/tests</directory>
+            <directory>vendor/mink/driver-testsuite/tests</directory>
         </testsuite>
         <!-- if needed to add more tests -->
         <testsuite name="Driver tests">
@@ -91,6 +90,26 @@ class Config extends AbstractConfig
 
 Some other methods are available in the AbstractConfig which can be overwritten to adapt the testsuite to
 the needs of the driver (skipping some tests for instance).
+
+Running tests
+-------------
+
+Before running tests, you need to start the webserver exposing the web fixtures (unless the driver does
+not perform real HTTP requests). This is done using this command:
+
+```bash
+$ vendor/bin/mink-test-server
+```
+
+To stop the server at the end of tests, cancel the command.
+
+> Note: this command requires Bash. If you are on Windows, use either GitBash or Cygwin (or another
+> equivalent tool) to launch it.
+>
+> This command also requires PHP 5.4+ to be able to use the builtin webserver. If the PHP version available
+> in the PATH is a different one, use the `MINK_PHP_BIN` env variable to select a different PHP runtime.
+
+You can now run tests for your driver with `phpunit`.
 
 Adding Driver-specific Tests
 ----------------------------
