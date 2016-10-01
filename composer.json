@@ -23,12 +23,17 @@
         "symfony/phpunit-bridge": "~2.7|~3.0"
     },
 
+    "require-dev": {
+        "symfony/http-kernel": "^2.3 || ^3.0"
+    },
+
     "bin": [
         "bin/mink-test-server"
     ],
 
     "autoload": {
         "psr-4": {
+            "Behat\\Mink\\Tests\\Driver\\Util\\": "src/",
             "Behat\\Mink\\Tests\\Driver\\": "tests/"
         }
     }
