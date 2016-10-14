@@ -39,19 +39,16 @@ class SelectTest extends TestCase
         $this->assertNotNull($button);
         $button->press();
 
-        $space = ' ';
         $out = <<<OUT
-  'agreement' = 'off',
-  'select_multiple_numbers' =$space
-  array (
-    0 = '1',
-    1 = '3',
+  agreement = `off`,
+  select_multiple_numbers = array(
+    0 = `1`,
+    1 = `3`,
   ),
-  'select_multiple_values' =$space
-  array (
-    0 = '2',
+  select_multiple_values = array(
+    0 = `2`,
   ),
-  'select_number' = '30',
+  select_number = `30`,
 OUT;
         $this->assertContains($out, $page->getContent());
     }

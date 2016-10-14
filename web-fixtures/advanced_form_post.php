@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
 <body>
+<pre>
 <?php
 error_reporting(0);
 
@@ -16,7 +17,7 @@ if (isset($_POST['select_multiple_numbers']) && false !== strpos($_POST['select_
 
 $_POST['agreement'] = isset($_POST['agreement']) ? 'on' : 'off';
 ksort($_POST);
-echo str_replace('>', '', var_export(html_escape_value($_POST), true)) . "\n";
+echo html_escape_value(mink_dump($_POST)) . "\n";
 if (isset($_FILES['about']) && file_exists($_FILES['about']['tmp_name'])) {
     echo html_escape_value($_FILES['about']['name']) . "\n";
     echo html_escape_value(file_get_contents($_FILES['about']['tmp_name']));
@@ -24,5 +25,6 @@ if (isset($_FILES['about']) && file_exists($_FILES['about']['tmp_name'])) {
     echo "no file";
 }
 ?>
+</pre>
 </body>
 </html>

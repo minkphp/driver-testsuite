@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 </head>
 <body>
-    <?php print_r($request->server->all()); ?>
+<pre>
+    <?php echo html_escape_value(mink_dump($request->server->all())); ?>
+</pre>
 </body>
 </html>

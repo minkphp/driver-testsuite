@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 </head>
 <body>
+<pre>
     <?php
     $cookies = $request->cookies->all();
     unset($cookies['MOCKSESSID']);
@@ -19,7 +20,8 @@
     foreach ($cookies as $name => $val) {
         $cookies[$name] = (string)$val;
     }
-    echo str_replace(array('>'), '', var_export(html_escape_value($cookies), true));
+    echo html_escape_value(mink_dump($cookies));
     ?>
+</pre>
 </body>
 </html>

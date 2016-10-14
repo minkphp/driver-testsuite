@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
 <body>
+<pre>
 <?php
 error_reporting(0);
 
@@ -19,7 +20,7 @@ if (isset($POST['select_multiple_numbers']) && false !== strpos($POST['select_mu
 // http://www.w3.org/TR/html401/interact/forms.html#checkbox
 $POST['agreement'] = isset($POST['agreement']) ? 'on' : 'off';
 ksort($POST);
-echo str_replace('>', '', var_export(html_escape_value($POST), true)) . "\n";
+echo html_escape_value(mink_dump($POST)) . "\n";
 if (isset($FILES['about']) && file_exists($FILES['about']->getPathname())) {
     echo html_escape_value($FILES['about']->getClientOriginalName()) . "\n";
     echo html_escape_value(file_get_contents($FILES['about']->getPathname()));
@@ -27,5 +28,6 @@ if (isset($FILES['about']) && file_exists($FILES['about']->getPathname())) {
     echo "no file";
 }
 ?>
+</pre>
 </body>
 </html>

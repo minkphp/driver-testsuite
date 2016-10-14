@@ -25,8 +25,8 @@ class Html5Test extends TestCase
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
             $out = <<<OUT
-  'first_name' = 'John',
-  'last_name' = 'Doe',
+  first_name = `John`,
+  last_name = `Doe`,
 OUT;
             $this->assertContains($out, $page->getContent());
             $this->assertNotContains('other_field', $page->getContent());
@@ -52,7 +52,7 @@ OUT;
         $page->pressButton('Submit in form');
 
         $out = <<<OUT
-  'sex' = 'm',
+  sex = `m`,
 OUT;
         $this->assertContains($out, $page->getContent());
     }
@@ -73,9 +73,9 @@ OUT;
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
             $out = <<<OUT
-  'first_name' = 'John',
-  'last_name' = 'Doe',
-  'submit_button' = 'test',
+  first_name = `John`,
+  last_name = `Doe`,
+  submit_button = `test`,
 OUT;
             $this->assertContains($out, $page->getContent());
         }
@@ -92,7 +92,7 @@ OUT;
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
             $out = <<<OUT
-  'other_field' = 'hello',
+  other_field = `hello`,
 OUT;
             $this->assertContains($out, $page->getContent());
             $this->assertNotContains('first_name', $page->getContent());
@@ -114,13 +114,13 @@ OUT;
         $page->pressButton('Submit');
 
         $out = <<<OUT
-  'color' = '#ff00aa',
-  'date' = '2014-05-19',
-  'email' = 'mink@example.org',
-  'number' = '6',
-  'search' = 'mink',
-  'submit_button' = 'Submit',
-  'url' = 'http://mink.behat.org/',
+  color = `#ff00aa`,
+  date = `2014-05-19`,
+  email = `mink@example.org`,
+  number = `6`,
+  search = `mink`,
+  submit_button = `Submit`,
+  url = `http://mink.behat.org/`,
 OUT;
 
         $this->assertContains($out, $page->getContent());

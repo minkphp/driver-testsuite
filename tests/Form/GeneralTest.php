@@ -204,15 +204,15 @@ class GeneralTest extends TestCase
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
             $out = <<<OUT
-array (
-  'agreement' = 'on',
-  'email' = 'ever.zet@gmail.com',
-  'first_name' = 'Foo &quot;item&quot;',
-  'last_name' = 'Bar',
-  'notes' = 'new notes',
-  'select_number' = '30',
-  'sex' = 'm',
-  'submit' = 'Register',
+array(
+  agreement = `on`,
+  email = `ever.zet@gmail.com`,
+  first_name = `Foo &quot;item&quot;`,
+  last_name = `Bar`,
+  notes = `new notes`,
+  select_number = `30`,
+  sex = `m`,
+  submit = `Register`,
 )
 some_file.txt
 1 uploaded file
@@ -256,13 +256,11 @@ OUT;
         $this->assertNotNull($button);
         $button->press();
 
-        $space = ' ';
         $out = <<<OUT
-  'tags' =$space
-  array (
-    0 = 'tag2',
-    1 = 'one',
-    2 = 'tag3',
+  tags = array(
+    0 = `tag2`,
+    1 = `one`,
+    2 = `tag3`,
   ),
 OUT;
         $this->assertContains($out, $page->getContent());
@@ -278,8 +276,8 @@ OUT;
         $button->press();
 
         $toSearch = array(
-            "'agreement' = 'off',",
-            "'submit' = 'Login',",
+            "agreement = `off`,",
+            "submit = `Login`,",
             'no file',
         );
 
@@ -298,8 +296,8 @@ OUT;
         $page->pressButton('Save');
 
         $toSearch = array(
-            "'textarea' = '',",
-            "'submit' = 'Save',",
+            "textarea = ``,",
+            "submit = `Save`,",
             'no file',
         );
 
