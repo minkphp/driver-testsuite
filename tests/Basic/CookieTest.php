@@ -138,7 +138,7 @@ class CookieTest extends TestCase
 
         $this->getSession()->reset();
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
-        $this->assertContains("array()", $this->getSession()->getPage()->getText());
+        $this->assertContains('array()', $this->getSession()->getPage()->getText());
     }
 
     public function testHttpOnlyCookieIsDeleted()

@@ -62,7 +62,7 @@ class WindowTest extends TestCase
 
         $session->resizeWindow(400, 300);
         $session->wait(1000, 'false');
-        $jsWindowSizeScript = <<<JS
+        $jsWindowSizeScript = <<<'JS'
         (function(){
           var boolSizeCheck = Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;
           if (boolSizeCheck){

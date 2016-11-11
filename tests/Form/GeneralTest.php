@@ -98,7 +98,7 @@ class GeneralTest extends TestCase
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
-        };
+        }
     }
 
     public function testFormSubmitWithoutButton()
@@ -113,7 +113,7 @@ class GeneralTest extends TestCase
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
-        };
+        }
     }
 
     public function testBasicGetForm()
@@ -203,7 +203,7 @@ class GeneralTest extends TestCase
         $button->press();
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
+            $out = <<<'OUT'
 array(
   agreement = `on`,
   email = `ever.zet@gmail.com`,
@@ -256,7 +256,7 @@ OUT;
         $this->assertNotNull($button);
         $button->press();
 
-        $out = <<<OUT
+        $out = <<<'OUT'
   tags = array(
     0 = `tag2`,
     1 = `one`,
@@ -276,8 +276,8 @@ OUT;
         $button->press();
 
         $toSearch = array(
-            "agreement = `off`,",
-            "submit = `Login`,",
+            'agreement = `off`,',
+            'submit = `Login`,',
             'no file',
         );
 
@@ -296,8 +296,8 @@ OUT;
         $page->pressButton('Save');
 
         $toSearch = array(
-            "textarea = ``,",
-            "submit = `Save`,",
+            'textarea = ``,',
+            'submit = `Save`,',
             'no file',
         );
 

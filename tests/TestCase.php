@@ -112,7 +112,7 @@ abstract class TestCase extends SkippingUnsupportedTestCase
     /**
      * Map remote file path.
      *
-     * @param string $file File path.
+     * @param string $file File path
      *
      * @return string
      */

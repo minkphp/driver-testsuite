@@ -39,7 +39,7 @@ class SelectTest extends TestCase
         $this->assertNotNull($button);
         $button->press();
 
-        $out = <<<OUT
+        $out = <<<'OUT'
   agreement = `off`,
   select_multiple_numbers = array(
     0 = `1`,

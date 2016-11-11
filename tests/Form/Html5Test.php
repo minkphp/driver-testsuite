@@ -24,7 +24,7 @@ class Html5Test extends TestCase
         $page->pressButton('Submit in form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
+            $out = <<<'OUT'
   first_name = `John`,
   last_name = `Doe`,
 OUT;
@@ -51,7 +51,7 @@ OUT;
 
         $page->pressButton('Submit in form');
 
-        $out = <<<OUT
+        $out = <<<'OUT'
   sex = `m`,
 OUT;
         $this->assertContains($out, $page->getContent());
@@ -72,7 +72,7 @@ OUT;
         $page->pressButton('Submit outside form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
+            $out = <<<'OUT'
   first_name = `John`,
   last_name = `Doe`,
   submit_button = `test`,
@@ -91,7 +91,7 @@ OUT;
         $page->pressButton('Submit separate form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
+            $out = <<<'OUT'
   other_field = `hello`,
 OUT;
             $this->assertContains($out, $page->getContent());
@@ -113,7 +113,7 @@ OUT;
 
         $page->pressButton('Submit');
 
-        $out = <<<OUT
+        $out = <<<'OUT'
   color = `#ff00aa`,
   date = `2014-05-19`,
   email = `mink@example.org`,
