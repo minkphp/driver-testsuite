@@ -125,4 +125,36 @@ OUT;
 
         $this->assertContains($out, $page->getContent());
     }
+
+    public function testHtml5FormAction()
+    {
+        $this->getSession()->visit($this->pathTo('html5_form.html'));
+        $page = $this->getSession()->getPage();
+
+        $page->fillField('first_name', 'Jimmy');
+        $page->pressButton('Submit to basic form');
+
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+            $this->assertContains('<title>Basic Form Saving</title>', $page->getContent());
+            $this->assertContains('Firstname: Jimmy', $page->getContent());
+        }
+    }
+
+    public function testHtml5FormMethod()
+    {
+        $this->getSession()->visit($this->pathTo('html5_form.html'));
+        $page = $this->getSession()->getPage();
+
+        $page->fillField('first_name', 'Jimmy');
+        $page->fillField('last_name', 'Jones');
+        $page->pressButton('Submit as GET');
+
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+            $this->assertEquals(
+                $this->pathTo('advanced_form_post.php').'?first_name=Jimmy&last_name=Jones',
+                $this->getSession()->getCurrentUrl()
+            );
+        }
+    }
+
 }
