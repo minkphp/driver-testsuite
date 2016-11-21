@@ -16,7 +16,7 @@ abstract class AbstractConfig
     /**
      * Map remote file path.
      *
-     * @param string $file File path.
+     * @param string $file File path
      *
      * @return string
      */
@@ -50,7 +50,7 @@ abstract class AbstractConfig
      * @param string $testCase The name of the TestCase class
      * @param string $test     The name of the test method
      *
-     * @return string|null A message explaining why the test should be skipped, or null to run the test.
+     * @return string|null A message explaining why the test should be skipped, or null to run the test
      */
     public function skipMessage($testCase, $test)
     {

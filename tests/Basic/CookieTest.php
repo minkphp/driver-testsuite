@@ -120,25 +120,25 @@ class CookieTest extends TestCase
 
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            "'client_cookie1' = 'some_val'",
+            'client_cookie1 = `some_val`',
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            "'client_cookie2' = '123'",
+            'client_cookie2 = `123`',
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            "_SESS' = ",
+            '_SESS = ',
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            " 'srvr_cookie' = 'srv_var_is_set'",
+            ' srvr_cookie = `srv_var_is_set`',
             $this->getSession()->getPage()->getText()
         );
 
         $this->getSession()->reset();
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
-        $this->assertContains('array ( )', $this->getSession()->getPage()->getText());
+        $this->assertContains('array()', $this->getSession()->getPage()->getText());
     }
 
     public function testHttpOnlyCookieIsDeleted()

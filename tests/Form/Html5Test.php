@@ -24,9 +24,9 @@ class Html5Test extends TestCase
         $page->pressButton('Submit in form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
-  'first_name' = 'John',
-  'last_name' = 'Doe',
+            $out = <<<'OUT'
+  first_name = `John`,
+  last_name = `Doe`,
 OUT;
             $this->assertContains($out, $page->getContent());
             $this->assertNotContains('other_field', $page->getContent());
@@ -51,8 +51,8 @@ OUT;
 
         $page->pressButton('Submit in form');
 
-        $out = <<<OUT
-  'sex' = 'm',
+        $out = <<<'OUT'
+  sex = `m`,
 OUT;
         $this->assertContains($out, $page->getContent());
     }
@@ -72,10 +72,10 @@ OUT;
         $page->pressButton('Submit outside form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
-  'first_name' = 'John',
-  'last_name' = 'Doe',
-  'submit_button' = 'test',
+            $out = <<<'OUT'
+  first_name = `John`,
+  last_name = `Doe`,
+  submit_button = `test`,
 OUT;
             $this->assertContains($out, $page->getContent());
         }
@@ -91,8 +91,8 @@ OUT;
         $page->pressButton('Submit separate form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<OUT
-  'other_field' = 'hello',
+            $out = <<<'OUT'
+  other_field = `hello`,
 OUT;
             $this->assertContains($out, $page->getContent());
             $this->assertNotContains('first_name', $page->getContent());
@@ -113,14 +113,14 @@ OUT;
 
         $page->pressButton('Submit');
 
-        $out = <<<OUT
-  'color' = '#ff00aa',
-  'date' = '2014-05-19',
-  'email' = 'mink@example.org',
-  'number' = '6',
-  'search' = 'mink',
-  'submit_button' = 'Submit',
-  'url' = 'http://mink.behat.org/',
+        $out = <<<'OUT'
+  color = `#ff00aa`,
+  date = `2014-05-19`,
+  email = `mink@example.org`,
+  number = `6`,
+  search = `mink`,
+  submit_button = `Submit`,
+  url = `http://mink.behat.org/`,
 OUT;
 
         $this->assertContains($out, $page->getContent());
