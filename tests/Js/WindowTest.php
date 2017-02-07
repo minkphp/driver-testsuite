@@ -86,7 +86,7 @@ JS;
     {
         $session = $this->getSession();
         $session->resizeWindow(400, 300);
-        $session->wait(1000, 'false');
+        sleep(1);
 
         $session->visit($this->pathTo('/index.html'));
 
@@ -126,9 +126,8 @@ JS;
     public function testWindowMaximizeBeforePageVisit()
     {
         $session = $this->getSession();
-
         $session->maximizeWindow();
-        $session->wait(1000, 'false');
+        sleep(1);
 
         $session->visit($this->pathTo('/index.html'));
 
