@@ -82,6 +82,34 @@ JS;
         $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
     }
 
+    public function testResizeWindowBeforePageVisit()
+    {
+        $session = $this->getSession();
+        $session->resizeWindow(400, 300);
+        $session->wait(1000, 'false');
+
+        $session->visit($this->pathTo('/index.html'));
+
+        $jsWindowSizeScript = <<<'JS'
+        (function(){
+          var boolSizeCheck = Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;
+          if (boolSizeCheck){
+            return true;
+          }
+          var w = window,
+              d = document,
+              e = d.documentElement,
+              g = d.getElementsByTagName('body')[0],
+              x = w.innerWidth || e.clientWidth || g.clientWidth,
+              y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+          boolSizeCheck = Math.abs(y - 300) <= 100 && Math.abs(x - 400) <= 100;
+          return boolSizeCheck;
+        })();
+JS;
+
+        $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
+    }
+
     public function testWindowMaximize()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
@@ -89,6 +117,20 @@ JS;
 
         $session->maximizeWindow();
         $session->wait(1000, 'false');
+
+        $script = 'return Math.abs(screen.availHeight - window.outerHeight) <= 100;';
+
+        $this->assertTrue($session->evaluateScript($script));
+    }
+
+    public function testWindowMaximizeBeforePageVisit()
+    {
+        $session = $this->getSession();
+
+        $session->maximizeWindow();
+        $session->wait(1000, 'false');
+
+        $session->visit($this->pathTo('/index.html'));
 
         $script = 'return Math.abs(screen.availHeight - window.outerHeight) <= 100;';
 
