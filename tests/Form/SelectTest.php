@@ -54,7 +54,7 @@ OUT;
     }
 
     /**
-     * @dataProvider testElementSelectedStateCheckDataProvider
+     * @dataProvider elementSelectedStateCheckDataProvider
      */
     public function testElementSelectedStateCheck($selectName, $optionValue, $optionText)
     {
@@ -70,7 +70,7 @@ OUT;
         $this->assertTrue($option->isSelected());
     }
 
-    public function testElementSelectedStateCheckDataProvider()
+    public function elementSelectedStateCheckDataProvider()
     {
         return array(
             array('select_number', '30', 'thirty'),
