@@ -174,4 +174,21 @@ class CookieTest extends TestCase
         $node = $webAssert->elementExists('css', '#session-id');
         $this->assertEquals($newSessionId, $node->getText());
     }
+
+    public function testChangingCookieValueWhenTheFirstCookieWasSetByMinkAndNextFromHost()
+    {
+        $session = $this->getSession();
+
+        $session->setCookie('tc', 'original value');
+
+        $session->visit($this->pathTo('/issue140.php'));
+        $session->getPage()->fillField('cookie_value', 'original value');
+        $session->getPage()->pressButton('Set cookie');
+
+        $session->setCookie('tc', 'changed value');
+
+        $session->visit($this->pathTo('/issue140.php?show_value'));
+        $this->assertEquals('changed value', $session->getCookie('tc'));
+        $this->assertEquals('changed value', $session->getPage()->getText());
+    }
 }
