@@ -126,6 +126,9 @@ OUT;
         $this->assertContains($out, $page->getContent());
     }
 
+    /**
+     * @requires function \Symfony\Component\DomCrawler\Tests\FormTest::testGetUriWithActionOverride
+     */
     public function testHtml5FormAction()
     {
         $this->getSession()->visit($this->pathTo('html5_form.html'));
@@ -140,6 +143,9 @@ OUT;
         }
     }
 
+    /**
+     * @requires function \Symfony\Component\DomCrawler\Tests\FormTest::testGetMethodWithOverride
+     */
     public function testHtml5FormMethod()
     {
         $this->getSession()->visit($this->pathTo('html5_form.html'));
