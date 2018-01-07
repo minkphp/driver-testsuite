@@ -193,11 +193,11 @@ class GeneralTest extends TestCase
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
 
-        $page->fillField('first_name', 'Foo "item"');
+        $page->fillField('first_name', 'Foo item');
         $page->fillField('last_name', 'Bar');
         $page->fillField('Your email:', 'ever.zet@gmail.com');
 
-        $this->assertEquals('Foo "item"', $firstname->getValue());
+        $this->assertEquals('Foo item', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());
 
         $button->press();
@@ -207,7 +207,7 @@ class GeneralTest extends TestCase
 array(
   agreement = `on`,
   email = `ever.zet@gmail.com`,
-  first_name = `Foo &quot;item&quot;`,
+  first_name = `Foo item`,
   last_name = `Bar`,
   notes = `new notes`,
   select_number = `30`,
