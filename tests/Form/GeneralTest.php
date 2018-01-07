@@ -193,11 +193,11 @@ class GeneralTest extends TestCase
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
 
-        $page->fillField('first_name', 'Foo "item"');
+        $page->fillField('first_name', 'Foo item');
         $page->fillField('last_name', 'Bar');
         $page->fillField('Your email:', 'ever.zet@gmail.com');
 
-        $this->assertEquals('Foo "item"', $firstname->getValue());
+        $this->assertEquals('Foo item', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());
 
         $button->press();
@@ -207,7 +207,7 @@ class GeneralTest extends TestCase
 array(
   agreement = `on`,
   email = `ever.zet@gmail.com`,
-  first_name = `Foo &quot;item&quot;`,
+  first_name = `Foo item`,
   last_name = `Bar`,
   notes = `new notes`,
   select_number = `30`,
@@ -218,6 +218,46 @@ some_file.txt
 1 uploaded file
 OUT;
             $this->assertContains($out, $page->getContent());
+        }
+    }
+
+    public function testQuoteInValue()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+        $page = $this->getSession()->getPage();
+        $this->assertEquals('ADvanced Form Page', $webAssert->elementExists('css', 'h1')->getText());
+
+        $firstname = $webAssert->fieldExists('first_name');
+        $lastname = $webAssert->fieldExists('lastn');
+
+        $button = $page->findButton('Register');
+        $this->assertNotNull($button);
+
+        $page->fillField('first_name', 'Foo "item"');
+        $page->fillField('last_name', 'Bar');
+
+        $this->assertEquals('Foo "item"', $firstname->getValue());
+        $this->assertEquals('Bar', $lastname->getValue());
+
+        $button->press();
+
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+            $out = <<<'OUT'
+  first_name = `Foo &quot;item&quot;`,
+  last_name = `Bar`,
+OUT;
+            // Escaping of double quotes are optional in HTML text nodes. Even though our backend escapes
+            // the quote in the HTML when returning it, browsers may apply only the minimal escaping in
+            // the content they expose to Selenium depending of how they build it (they might serialize
+            // their DOM again rathet than returning the raw HTTP response content).
+            $minEscapedOut = <<<'OUT'
+  first_name = `Foo "item"`,
+  last_name = `Bar`,
+OUT;
+
+            $this->assertThat($page->getContent(), $this->logicalOr($this->stringContains($out), $this->stringContains($minEscapedOut)));
         }
     }
 
