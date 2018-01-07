@@ -20,11 +20,11 @@
     "require": {
         "php": ">=5.3.1",
         "behat/mink":  "~1.7",
-        "symfony/phpunit-bridge": "~2.7|~3.0"
+        "symfony/phpunit-bridge": "^4.0"
     },
 
     "require-dev": {
-        "symfony/http-kernel": "^2.3 || ^3.0"
+        "symfony/http-kernel": "^2.7 || ^3.2 || ^4.0"
     },
 
     "bin": [
