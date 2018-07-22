@@ -39,4 +39,13 @@ class JavascriptTest extends TestCase
 
         $this->assertContains('OH AIH!', $this->getSession()->getPage()->getText());
     }
+
+    public function testAutocomplete()
+    {
+        $this->getSession()->visit($this->pathTo('/autocomplete.html'));
+        $this->getSession()->getPage()->fillField('autocomplete', 'arc');
+        $this->getSession()->wait(5000, '$("ul.ui-autocomplete li").is(":visible") === true');
+
+        $this->assertContains('Arctic fox', $this->getSession()->getPage()->getText());
+    }
 }
