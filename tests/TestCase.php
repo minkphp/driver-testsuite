@@ -50,13 +50,13 @@ abstract class TestCase extends SkippingUnsupportedTestCase
         return self::$config;
     }
 
-    protected function checkRequirements()
+    protected function setUp()
     {
         if (null !== $message = self::getConfig()->skipMessage(get_class($this), $this->getName(false))) {
             $this->markTestSkipped($message);
         }
 
-        parent::checkRequirements();
+        parent::setUp();
     }
 
     protected function tearDown()
