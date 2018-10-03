@@ -8,6 +8,8 @@ class RadioTest extends TestCase
 {
     protected function setUp()
     {
+        parent::setUp();
+
         $this->getSession()->visit($this->pathTo('radio.html'));
     }
 
