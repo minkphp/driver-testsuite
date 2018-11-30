@@ -74,7 +74,13 @@ class FixturesKernel implements HttpKernelInterface
 
             $params = session_get_cookie_params();
 
-            $response->headers->setCookie(new Cookie($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']));
+            if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
+                $cookie = Cookie::create($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+            } else {
+                $cookie = new Cookie($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+            }
+
+            $response->headers->setCookie($cookie);
         }
     }
 }
