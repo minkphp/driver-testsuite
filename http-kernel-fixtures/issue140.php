@@ -7,7 +7,11 @@
 <?php
 if ($request->isMethod('POST')) {
     $resp = new Symfony\Component\HttpFoundation\Response();
-    $cook = new Symfony\Component\HttpFoundation\Cookie('tc', $request->request->get('cookie_value'));
+    if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
+        $cook = Symfony\Component\HttpFoundation\Cookie::create('tc', $request->request->get('cookie_value'));
+    } else {
+        $cook = new Symfony\Component\HttpFoundation\Cookie('tc', $request->request->get('cookie_value'));
+    }
     $resp->headers->setCookie($cook);
 } elseif ($request->query->has('show_value')) {
     echo html_escape_value($request->cookies->get('tc'));
