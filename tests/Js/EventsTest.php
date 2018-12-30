@@ -88,35 +88,53 @@ class EventsTest extends TestCase
     /**
      * @dataProvider provideKeyboardEventsModifiers
      */
-    public function testKeyboardEvents($modifier, $eventProperties)
+    public function testKeyboardEvents($method, $char, $charCode, $modifier, $eventProperties)
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $webAssert = $this->getAssertSession();
 
-        $input1 = $webAssert->elementExists('css', '.elements input.input.first');
-        $input2 = $webAssert->elementExists('css', '.elements input.input.second');
-        $input3 = $webAssert->elementExists('css', '.elements input.input.third');
+        $input = $webAssert->elementExists('css', '.elements input.input');
         $event = $webAssert->elementExists('css', '.elements .text-event');
 
-        $input1->keyDown('u', $modifier);
-        $this->assertEquals('key downed:'.$eventProperties, $event->getText());
-
-        $input2->keyPress('r', $modifier);
-        $this->assertEquals('key pressed:114 / '.$eventProperties, $event->getText());
-
-        $input3->keyUp(78, $modifier);
-        $this->assertEquals('key upped:78 / '.$eventProperties, $event->getText());
+        $input->$method($char, $modifier);
+        $this->assertContains('event=' . strtolower($method) . ';keyCode=' . $charCode . ';modifier='.$eventProperties, $event->getText());
     }
 
     public function provideKeyboardEventsModifiers()
     {
         return array(
-            'none' => array(null, '0 / 0 / 0 / 0'),
-            'alt' => array('alt', '1 / 0 / 0 / 0'),
-             // jQuery considers ctrl as being a metaKey in the normalized event
-            'ctrl' => array('ctrl', '0 / 1 / 0 / 1'),
-            'shift' => array('shift', '0 / 0 / 1 / 0'),
-            'meta' => array('meta', '0 / 0 / 0 / 1'),
+            'none-keyDown' => array('keyDown', 'u', 85, null, '0 / 0 / 0 / 0'),
+            'none-keyPress' => array('keyPress', 'b', 98, null, '0 / 0 / 0 / 0'),
+            /**
+             * @see http://api.jquery.com/keypress/
+             *
+             * Note that keydown and keyup provide a code indicating which key is pressed,
+             * while keypress indicates which character was entered.
+             * For example, a lowercase "a" will be reported as 65 by keydown and keyup, but as 97 by keypress.
+             * An uppercase "A" is reported as 65 by all events.
+             */
+            'none-keyUp' => array('keyUp', 110, 78, null, '0 / 0 / 0 / 0'), // 110 = n  78 = N
+
+            'alt-keyDown' => array('keyDown', 'u', 85, 'alt', '1 / 0 / 0 / 0'),
+            'alt-keyPress' => array('keyPress', 'b', 98, 'alt', '1 / 0 / 0 / 0'),
+            // see explanation from above why sending 110 but expecting 78
+            'alt-keyUp' => array('keyUp', 110, 78, 'alt', '1 / 0 / 0 / 0'),
+
+            // jQuery considers ctrl as being a metaKey in the normalized event
+            'ctrl-keyDown' => array('keyDown', 'u', 85, 'ctrl', '0 / 1 / 0 / 1'),
+            'ctrl-keyPress' => array('keyPress', 'b', 98, 'ctrl', '0 / 1 / 0 / 1'), // do not use "r" because it will trigger page reload in firefox
+            // see explanation from above why sending 110 but expecting 78
+            'ctrl-keyUp' => array('keyUp', 110, 78, 'ctrl', '0 / 1 / 0 / 1'),
+
+            'shift-keyDown' => array('keyDown', 'u', 85, 'shift', '0 / 0 / 1 / 0'), // 85 = U
+            'shift-keyPress' => array('keyPress', 'b', 66, 'shift', '0 / 0 / 1 / 0'), // 66 = B
+            // see explanation from above why sending 110 but expecting 78
+            'shift-keyUp' => array('keyUp', 110, 78, 'shift', '0 / 0 / 1 / 0'),
+
+            'meta-keyDown' => array('keyDown', 'u', 85, 'meta', '0 / 0 / 0 / 1'),
+            'meta-keyPress' => array('keyPress', 'b', 98, 'meta', '0 / 0 / 0 / 1'),
+            // see explanation from above why sending 110 but expecting 78
+            'meta-keyUp' => array('keyUp', 110, 78, 'meta', '0 / 0 / 0 / 1'),
         );
     }
 }
