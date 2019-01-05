@@ -60,12 +60,14 @@ class ChangeEventTest extends TestCase
 
     public function setValueChangeEventDataProvider()
     {
+        $file = __DIR__ . '/../../web-fixtures/file.txt';
+
         return array(
             'input default' => array('the-input-default', 'from empty', 'from existing'),
             'input text' => array('the-input-text', 'from empty', 'from existing'),
             'input email' => array('the-email', 'from empty', 'from existing'),
             'textarea' => array('the-textarea', 'from empty', 'from existing'),
-            'file' => array('the-file', 'from empty', 'from existing'),
+            'file' => array('the-file', $file, $file),
             'select' => array('the-select', '30'),
             'radio' => array('the-radio-m', 'm'),
         );
