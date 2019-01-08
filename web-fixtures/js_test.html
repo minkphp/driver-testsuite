@@ -30,6 +30,7 @@
         <input class="input second" type="text" value="" />
         <input class="input third" type="text" value="" />
         <div class="text-event"></div>
+        <a href="index.html" id="focusable">no action detected</a>
     </div>
 
     <div id="draggable" class="ui-widget-content"></div>
@@ -58,14 +59,22 @@
                 $(this).text('right clicked');
             });
 
-            var $focusDetector = $('#focus-blur-detector');
+            var $focusDetector = $('#focus-blur-detector, #focusable');
 
             $focusDetector.focus(function() {
-                $(this).val('focused');
+                if (this.nodeName === 'A') {
+                    $(this).text('focused');
+                } else {
+                    $(this).val('focused');
+                }
             });
 
             $focusDetector.blur(function() {
-                $(this).val('blured');
+                if (this.nodeName === 'A') {
+                    $(this).text('blured');
+                } else {
+                    $(this).val('blured');
+                }
             });
 
             $('#mouseover-detector').mouseover(function() {
