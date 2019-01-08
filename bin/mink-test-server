@@ -9,5 +9,8 @@ base_dir=$(dirname "$(dirname "$(readlink -f "$0")")")
 host=${MINK_HOST-localhost:8002}
 php_bin=${MINK_PHP_BIN-php}
 
+# see why USE_ZEND_ALLOC=0 is required, https://bugs.php.net/bug.php?id=71443
+export USE_ZEND_ALLOC=0
+
 # Use exec to make it easier to stop the process
 exec "$php_bin" -S "$host" -t "$base_dir/web-fixtures"
