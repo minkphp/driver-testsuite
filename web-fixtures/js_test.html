@@ -29,6 +29,7 @@
         <input class="input first" type="text" value="" />
         <input class="input second" type="text" value="" />
         <input class="input third" type="text" value="" />
+        <input class="input fourth" type="text" value=""/>
         <div class="text-event"></div>
     </div>
 
@@ -82,6 +83,15 @@
 
             $('.elements input.input.third').keyup(function(ev) {
                 $('.text-event').text('key upped:' + ev.which + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
+            });
+
+            $('.elements input.input.fourth').bind('keydown keypress keyup', function(ev) {
+                $('.text-event').append([
+                    'event=' + ev.type,
+                    // chrome and firefox are returning different values on keypress
+                    'keyCode=' + (ev.keyCode || ev.charCode || ev.key),
+                    'modifier=' + ((ev.altKey * 1) + ' / ' + (ev.ctrlKey * 1) + ' / ' + (ev.shiftKey * 1) + ' / ' + (ev.metaKey * 1))
+                ].join(' ') + ';');
             });
 
             $( "#draggable" ).draggable();
