@@ -87,6 +87,7 @@ class EventsTest extends TestCase
 
     /**
      * @dataProvider provideKeyboardEventsModifiers
+     * @group legacy
      */
     public function testKeyboardEvents($modifier, $eventProperties)
     {
