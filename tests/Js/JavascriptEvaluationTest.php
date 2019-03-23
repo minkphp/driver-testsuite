@@ -60,8 +60,6 @@ class JavascriptEvaluationTest extends TestCase
         return array(
             array('document.querySelector("h1").textContent = "Hello world"'),
             array('document.querySelector("h1").textContent = "Hello world";'),
-            array('function () {document.querySelector("h1").textContent = "Hello world";}()'),
-            array('function () {document.querySelector("h1").textContent = "Hello world";}();'),
             array('(function () {document.querySelector("h1").textContent = "Hello world";})()'),
             array('(function () {document.querySelector("h1").textContent = "Hello world";})();'),
         );
