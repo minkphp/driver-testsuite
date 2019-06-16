@@ -19,13 +19,12 @@
 
     "require": {
         "php": ">=5.4",
-        "behat/mink":  "~1.7",
-        "symfony/phpunit-bridge": "dev-master#dc6eee83f01398062e96dd50ab4cc76e49361d9d"
+        "behat/mink":  "~1.7"
     },
-
     "require-dev": {
         "symfony/http-kernel": "^2.7 || ^3.2 || ^4.0",
-        "phpunit/phpunit": ">=4.8,<8.0"
+        "phpunit/phpunit": ">=4.8,<8.0",
+        "symfony/phpunit-bridge": "^4.2"
     },
 
     "bin": [
