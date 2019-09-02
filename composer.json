@@ -19,7 +19,8 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/oleg-andreyev/Mink.git"
+            "url": "https://github.com/oleg-andreyev/Mink.git",
+            "no-api": true
         }
     ],
     "require": {
