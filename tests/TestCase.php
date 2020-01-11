@@ -6,9 +6,12 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
 use Behat\Mink\Session;
 use Behat\Mink\WebAssert;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
-abstract class TestCase extends SkippingUnsupportedTestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    use SetUpTearDownTrait, OnNotSuccessfulTrait;
+
     /**
      * Mink session manager.
      *
@@ -24,7 +27,7 @@ abstract class TestCase extends SkippingUnsupportedTestCase
     /**
      * Initializes the test case.
      */
-    public static function setUpBeforeClass()
+    public static function doSetUpBeforeClass()
     {
         if (null === self::$mink) {
             $session = new Session(self::getConfig()->createDriver());
@@ -59,7 +62,7 @@ abstract class TestCase extends SkippingUnsupportedTestCase
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function doTearDown()
     {
         if (null !== self::$mink) {
             self::$mink->resetSessions();
