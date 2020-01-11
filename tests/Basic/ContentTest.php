@@ -59,7 +59,7 @@ class ContentTest extends TestCase
     public function testJson()
     {
         $this->getSession()->visit($this->pathTo('/json.php'));
-        $this->assertContains(
+        $this->assertStringContainsString(
             '{"key1":"val1","key2":234,"key3":[1,2,3]}',
             $this->getSession()->getPage()->getContent()
         );
@@ -76,8 +76,8 @@ class ContentTest extends TestCase
         $input = $webAssert->elementExists('css', 'input');
 
         $expectedHtml = '<span custom-attr="&amp;">some text</span>';
-        $this->assertContains($expectedHtml, $page->getHtml(), '.innerHTML is returned as-is');
-        $this->assertContains($expectedHtml, $page->getContent(), '.outerHTML is returned as-is');
+        $this->assertStringContainsString($expectedHtml, $page->getHtml(), '.innerHTML is returned as-is');
+        $this->assertStringContainsString($expectedHtml, $page->getContent(), '.outerHTML is returned as-is');
 
         $this->assertEquals('&', $span->getAttribute('custom-attr'), '.getAttribute value is decoded');
         $this->assertEquals('&', $input->getAttribute('value'), '.getAttribute value is decoded');

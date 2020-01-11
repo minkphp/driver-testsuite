@@ -33,6 +33,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $session = new Session(self::getConfig()->createDriver());
             self::$mink = new Mink(array('sess' => $session));
         }
+
+        parent::setUpBeforeClass();
     }
 
     /**
@@ -53,7 +55,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return self::$config;
     }
 
-    protected function setUp()
+    protected function doSetUp()
     {
         if (null !== $message = self::getConfig()->skipMessage(get_class($this), $this->getName(false))) {
             $this->markTestSkipped($message);

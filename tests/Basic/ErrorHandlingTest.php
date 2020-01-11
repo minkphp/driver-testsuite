@@ -19,7 +19,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/500.php'));
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Sorry, a server error happened',
             $this->getSession()->getPage()->getContent(),
             'Drivers allow loading pages with a 500 status code'

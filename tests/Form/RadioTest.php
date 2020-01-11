@@ -6,9 +6,9 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class RadioTest extends TestCase
 {
-    protected function setUp()
+    protected function doSetUp()
     {
-        parent::setUp();
+        parent::doSetUp();
 
         $this->getSession()->visit($this->pathTo('radio.html'));
     }

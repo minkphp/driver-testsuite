@@ -108,7 +108,7 @@ class EventsTest extends TestCase
         $event = $webAssert->elementExists('css', '.elements .text-event');
 
         $input->$method($char, $modifier);
-        $this->assertContains('event=' . strtolower($method) . ';keyCode=' . $charCode . ';modifier='.$eventProperties, $event->getText());
+        $this->assertStringContainsString('event=' . strtolower($method) . ';keyCode=' . $charCode . ';modifier='.$eventProperties, $event->getText());
     }
 
     public function provideKeyboardEventsModifiers()

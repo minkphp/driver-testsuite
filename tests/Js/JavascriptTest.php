@@ -37,6 +37,6 @@ class JavascriptTest extends TestCase
         $this->getSession()->getPage()->pressButton('Créer un compte');
         $this->getSession()->wait(5000, '$("#panel").text() != ""');
 
-        $this->assertContains('OH AIH!', $this->getSession()->getPage()->getText());
+        $this->assertStringContainsString('OH AIH!', $this->getSession()->getPage()->getText());
     }
 }

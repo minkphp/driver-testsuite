@@ -28,8 +28,8 @@ class Html5Test extends TestCase
   first_name = `John`,
   last_name = `Doe`,
 OUT;
-            $this->assertContains($out, $page->getContent());
-            $this->assertNotContains('other_field', $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
+            $this->assertStringNotContainsString('other_field', $page->getContent());
         }
     }
 
@@ -54,7 +54,7 @@ OUT;
         $out = <<<'OUT'
   sex = `m`,
 OUT;
-        $this->assertContains($out, $page->getContent());
+        $this->assertStringContainsString($out, $page->getContent());
     }
 
     public function testHtml5FormButtonAttribute()
@@ -77,7 +77,7 @@ OUT;
   last_name = `Doe`,
   submit_button = `test`,
 OUT;
-            $this->assertContains($out, $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
         }
     }
 
@@ -94,8 +94,8 @@ OUT;
             $out = <<<'OUT'
   other_field = `hello`,
 OUT;
-            $this->assertContains($out, $page->getContent());
-            $this->assertNotContains('first_name', $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
+            $this->assertStringNotContainsString('first_name', $page->getContent());
         }
     }
 
@@ -114,16 +114,20 @@ OUT;
         $page->pressButton('Submit');
 
         $out = <<<'OUT'
+array(
+  agreement = `off`,
   color = `#ff00aa`,
-  date = `2014-05-19`,
+  date = `2014-12-05`,
   email = `mink@example.org`,
   number = `6`,
   search = `mink`,
   submit_button = `Submit`,
   url = `http://mink.behat.org/`,
+)
+no file
 OUT;
 
-        $this->assertContains($out, $page->getContent());
+        $this->assertStringContainsString($out, $page->getContent());
     }
 
     public function testHtml5FormAction()
@@ -135,8 +139,8 @@ OUT;
         $page->pressButton('Submit to basic form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $this->assertContains('<title>Basic Form Saving</title>', $page->getContent());
-            $this->assertContains('Firstname: Jimmy', $page->getContent());
+            $this->assertStringContainsString('<title>Basic Form Saving</title>', $page->getContent());
+            $this->assertStringContainsString('Firstname: Jimmy', $page->getContent());
         }
     }
 

@@ -50,7 +50,7 @@ class SelectTest extends TestCase
   ),
   select_number = `30`,
 OUT;
-        $this->assertContains($out, $page->getContent());
+        $this->assertStringContainsString($out, $page->getContent());
     }
 
     /**
