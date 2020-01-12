@@ -117,7 +117,7 @@ OUT;
 array(
   agreement = `off`,
   color = `#ff00aa`,
-  date = `2014-12-05`,
+  date = `2014-05-19`,
   email = `mink@example.org`,
   number = `6`,
   search = `mink`,
