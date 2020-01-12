@@ -8,14 +8,20 @@ class JavascriptTest extends TestCase
 {
     public function testAriaRoles()
     {
-        $this->getSession()->visit($this->pathTo('/aria_roles.html'));
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/aria_roles.html'));
 
-        $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === false');
-        $this->getSession()->getPage()->pressButton('Toggle');
-        $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === true');
+        $session->wait(5000, '$("#hidden-element").is(":visible") === false');
+        $session->getPage()->pressButton('Toggle');
+        $session->wait(5000, '$("#hidden-element").is(":visible") === true');
 
-        $this->getSession()->getPage()->clickLink('Go to Index');
-        $this->assertEquals($this->pathTo('/index.html'), $this->getSession()->getCurrentUrl());
+        $session->getPage()->clickLink('Go to Index');
+
+        // usleep is required for firefox
+        // firefox does not wait for page load as chrome as we may get StaleElementReferenceException
+        usleep(500000);
+
+        $this->assertEquals($this->pathTo('/index.html'), $session->getCurrentUrl());
     }
 
     public function testDragDrop()

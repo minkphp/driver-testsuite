@@ -17,6 +17,11 @@ class HeaderTest extends TestCase
         $page = $this->getSession()->getPage();
 
         $page->clickLink('Go to 2');
+
+        // usleep is required for firefox
+        // firefox does not wait for page load as chrome as we may get StaleElementReferenceException
+        usleep(500000);
+
         $this->assertEquals($this->pathTo('/issue130.php?p=1'), $page->getText());
     }
 
