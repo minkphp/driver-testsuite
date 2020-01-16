@@ -20,8 +20,18 @@ class CheckboxTest extends TestCase
         $this->assertEquals('yes', $checkbox->getValue());
         $this->assertTrue($checkbox->isChecked());
 
+        // assert that an already checked checkbox stay checked
+        $checkbox->check();
+        $this->assertEquals('yes', $checkbox->getValue());
+        $this->assertTrue($checkbox->isChecked());
+
         $checkbox->uncheck();
 
+        $this->assertNull($checkbox->getValue());
+        $this->assertFalse($checkbox->isChecked());
+
+        // assert that an already unchecked checkbox stay unchecked
+        $checkbox->uncheck();
         $this->assertNull($checkbox->getValue());
         $this->assertFalse($checkbox->isChecked());
     }
