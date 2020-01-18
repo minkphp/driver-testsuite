@@ -28,6 +28,11 @@ class EventsTest extends TestCase
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
         $this->assertEquals('not clicked', $clicker->getText());
 
+        // usleep is required for firefox
+        // firefox does not wait for page load as chrome as we may get unbound event and dblclick will not be performed
+        // especially if session is not fresh
+        usleep(1e6);
+
         $clicker->doubleClick();
         $this->assertEquals('double clicked', $clicker->getText());
     }
