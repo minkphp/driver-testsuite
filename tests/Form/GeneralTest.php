@@ -202,7 +202,7 @@ class GeneralTest extends TestCase
 
         $button->press();
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") === "Advanced form save"')) {
             $out = <<<'OUT'
 array(
   agreement = `on`,
