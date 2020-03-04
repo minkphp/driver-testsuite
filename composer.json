@@ -20,7 +20,8 @@
     "require": {
         "php": ">=5.3",
         "behat/mink":  "~1.7",
-        "symfony/phpunit-bridge": "^4.2"
+        "symfony/phpunit-bridge": "^4.2",
+        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.18"
     },
     "require-dev": {
         "symfony/http-kernel": "^2.7 || ^3.2 || ^4.0"
