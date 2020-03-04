@@ -42,6 +42,13 @@ class RadioTest extends TestCase
         $this->assertEquals('set', $option->getValue());
     }
 
+    public function testValueIsNullIfNoSelectedOption()
+    {
+        $option = $this->findById('empty');
+
+        self::assertNull($option->getValue());
+    }
+
     public function testSetValue()
     {
         $option = $this->findById('first');

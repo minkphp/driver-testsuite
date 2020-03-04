@@ -8,6 +8,13 @@
     <h1>Multiselect Test</h1>
 
     <form method="POST" action="advanced_form_post.php">
+        <select name="select_without_option"></select>
+
+        <select name="select_first_option_is_selected_by_default">
+            <option value="1">first</option>
+            <option value="2">second</option>
+        </select>
+
         <select name="select_number">
             <option value="10">ten</option>
             <option selected="selected" value="20">twenty</option>

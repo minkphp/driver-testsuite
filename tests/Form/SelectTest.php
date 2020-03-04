@@ -13,6 +13,12 @@ class SelectTest extends TestCase
         $page = $this->getSession()->getPage();
         $this->assertEquals('Multiselect Test', $webAssert->elementExists('css', 'h1')->getText());
 
+        $selectWithoutOption = $webAssert->fieldExists('select_without_option');
+        $this->assertNull($selectWithoutOption->getValue());
+
+        $selectWithNoOptionSelected = $webAssert->fieldExists('select_first_option_is_selected_by_default');
+        $this->assertEquals('1', $selectWithNoOptionSelected->getValue());
+
         $select = $webAssert->fieldExists('select_number');
         $multiSelect = $webAssert->fieldExists('select_multiple_numbers[]');
         $secondMultiSelect = $webAssert->fieldExists('select_multiple_values[]');
@@ -41,6 +47,7 @@ class SelectTest extends TestCase
 
         $out = <<<'OUT'
   agreement = `off`,
+  select_first_option_is_selected_by_default = `1`,
   select_multiple_numbers = array(
     0 = `1`,
     1 = `3`,
@@ -63,7 +70,7 @@ OUT;
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $webAssert->fieldExists($selectName);
 
-        $option = $webAssert->elementExists('named', array('option', $optionValue));
+        $option = $webAssert->elementExists('named', array('option', $optionValue), $select);
 
         $this->assertFalse($option->isSelected());
         $select->selectOption($optionText);
