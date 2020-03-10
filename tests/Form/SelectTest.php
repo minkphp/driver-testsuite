@@ -14,7 +14,7 @@ class SelectTest extends TestCase
         $this->assertEquals('Multiselect Test', $webAssert->elementExists('css', 'h1')->getText());
 
         $selectWithoutOption = $webAssert->fieldExists('select_without_option');
-        $this->assertNull($selectWithoutOption->getValue());
+        $this->assertSame('', $selectWithoutOption->getValue());
 
         $selectWithNoOptionSelected = $webAssert->fieldExists('select_first_option_is_selected_by_default');
         $this->assertEquals('1', $selectWithNoOptionSelected->getValue());
