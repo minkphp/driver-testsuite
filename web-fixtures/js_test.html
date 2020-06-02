@@ -26,9 +26,7 @@
         <div id="mouseover-detector">no mouse action detected</div>
         <div id="invisible" style="display: none">invisible man</div>
         <input id="focus-blur-detector" type="text" value="no action detected"/>
-        <input class="input first" type="text" value="" />
-        <input class="input second" type="text" value="" />
-        <input class="input third" type="text" value="" />
+        <input class="input" type="text" value="" />
         <div class="text-event"></div>
     </div>
 
@@ -72,16 +70,15 @@
                 $(this).text('mouse overed');
             });
 
-            $('.elements input.input.first').keydown(function(ev) {
-                $('.text-event').text('key downed:' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
-            });
-
-            $('.elements input.input.second').keypress(function(ev) {
-                $('.text-event').text('key pressed:' + ev.which + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
-            });
-
-            $('.elements input.input.third').keyup(function(ev) {
-                $('.text-event').text('key upped:' + ev.which + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
+            $('.elements input.input').bind('keydown keypress keyup', function(ev) {
+                console.log('event=%s keyCode=%s altKey=%s ctrlKey=%s shiftKey=%s metaKey=%s', ev.type, ev.keyCode, ev.altKey, ev.ctrlKey, ev.shiftKey, ev.metaKey);
+                $('.text-event').append([
+                    'event=' + ev.type,
+                    // chrome and firefox are returning different values on keypress
+                    'keyCode=' + (ev.keyCode || ev.charCode),
+                    'modifier=' + ((ev.altKey * 1) + ' / ' + (ev.ctrlKey * 1) + ' / ' + (ev.shiftKey * 1) + ' / ' + (ev.metaKey * 1)),
+                    null
+                ].join(';') + "<br/>\n");
             });
 
             $( "#draggable" ).draggable();
