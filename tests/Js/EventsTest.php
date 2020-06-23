@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Facebook\WebDriver\WebDriverKeys;
 
 class EventsTest extends TestCase
 {
@@ -104,59 +105,94 @@ class EventsTest extends TestCase
     /**
      * @dataProvider provideKeyboardEventsModifiers
      */
-    public function testKeyboardEvents($method, $char, $charCode, $modifier, $eventProperties)
+    public function testKeyboardEvents($method, $string, $expected)
     {
-        $this->getSession()->visit($this->pathTo('/js_test.html'));
+        $this->getSession()->visit($this->pathTo('/keyboard_test.html'));
         $webAssert = $this->getAssertSession();
 
-        $input = $webAssert->elementExists('css', '.elements input.input');
-        $event = $webAssert->elementExists('css', '.elements .text-event');
+        $input = $webAssert->elementExists('css', '#test-target');
+        $event = $webAssert->elementExists('css', '#console-log');
 
-        $input->$method($char, $modifier);
-        $this->assertStringContainsString('event=' . strtolower($method) . ';keyCode=' . $charCode . ';modifier='.$eventProperties, $event->getText());
+        $input->$method($string);
+        $text = $event->getHtml();
+
+        $this->assertEquals(
+            str_replace("\n\n", "\n", $expected),
+            $text
+        );
     }
 
     public function provideKeyboardEventsModifiers()
     {
-        $data = array(
-            'none-keyDown' => array('keyDown', 'u', 85, null, '0 / 0 / 0 / 0'),
-            'none-keyPress' => array('keyPress', 'b', 98, null, '0 / 0 / 0 / 0'),
-            /**
-             * @see http://api.jquery.com/keypress/
-             *
-             * Note that keydown and keyup provide a code indicating which key is pressed,
-             * while keypress indicates which character was entered.
-             * For example, a lowercase "a" will be reported as 65 by keydown and keyup, but as 97 by keypress.
-             * An uppercase "A" is reported as 65 by all events.
-             */
-            'none-keyUp' => array('keyUp', 110, 78, null, '0 / 0 / 0 / 0'), // 110 = n  78 = N
+        $data = [
+            'alt-keyDown' => [
+                'keyDown',
+                'alt',
+                "Key \"Alt\" pressed  [event: keydown]\n"
+            ],
+            'alt-keyUp' => [
+                'keyUp',
+                'alt',
+                "Key \"Alt\" released  [event: keyup]\n"
+            ],
+            'shift-keyDown' => [
+                'keyDown',
+                'shift',
+                "Key \"Shift\" pressed  [event: keydown]\n"
+            ],
+            'shift-keyUp' => [
+                'keyUp',
+                'shift',
+                "Key \"Shift\" released  [event: keyup]\n"
+            ],
+            'ctrl-keyDown' => [
+                'keyDown',
+                'ctrl',
+                "Key \"Control\" pressed  [event: keydown]\n"
+            ],
+            'ctrl-keyUp' => [
+                'keyUp',
+                'ctrl',
+                "Key \"Control\" released  [event: keyup]\n"
+            ],
+            'meta-keyDown' => [
+                'keyDown',
+                'meta',
+                "Key \"Meta\" pressed  [event: keydown]\n"
+            ],
+            'meta-keyUp' => [
+                'keyUp',
+                'meta',
+                "Key \"Meta\" released  [event: keyup]\n"
+            ]
+        ];
 
-            // see explanation from above why sending 110 but expecting 78
-            'alt-keyUp' => array('keyUp', 110, 78, 'alt', '1 / 0 / 0 / 0'),
-
-            // jQuery considers ctrl as being a metaKey in the normalized event
-            'ctrl-keyDown' => array('keyDown', 'u', 85, 'ctrl', '0 / 1 / 0 / 1'),
-            // see explanation from above why sending 110 but expecting 78
-            'ctrl-keyUp' => array('keyUp', 110, 78, 'ctrl', '0 / 1 / 0 / 1'),
-
-            'shift-keyDown' => array('keyDown', 'u', 85, 'shift', '0 / 0 / 1 / 0'), // 85 = U
-            'shift-keyPress' => array('keyPress', 'b', 66, 'shift', '0 / 0 / 1 / 0'), // 66 = B
-            // see explanation from above why sending 110 but expecting 78
-            'shift-keyUp' => array('keyUp', 110, 78, 'shift', '0 / 0 / 1 / 0'),
-
-            'meta-keyDown' => array('keyDown', 'u', 85, 'meta', '0 / 0 / 0 / 1'),
-            'meta-keyPress' => array('keyPress', 'b', 98, 'meta', '0 / 0 / 0 / 1'),
-            // see explanation from above why sending 110 but expecting 78
-            'meta-keyUp' => array('keyUp', 110, 78, 'meta', '0 / 0 / 0 / 1'),
-        );
-
-        // https://bugs.chromium.org/p/chromium/issues/detail?id=13891#c16
-        // Control + <char> will not trigger keypress
-        // Option + <char> will output different results "special char" ©
-        if (PHP_OS !== 'Darwin') {
-            $data['alt-keyDown'] = array('keyDown', 'u', 85, 'alt', '1 / 0 / 0 / 0');
-            $data['alt-keyPress'] = array('keyPress', 'b', 98, 'alt', '1 / 0 / 0 / 0');
-            $data['ctrl-keyPress'] = array('keyPress', 'b', 98, 'ctrl', '0 / 1 / 0 / 1'); // do not use "r" because it will trigger page reload in firefox
+        // Firefox has weird bug as soon as modifier is pressed it's released
+        if (getenv('BROWSER_NAME') !== 'firefox') {
+            $data += [
+                'shift-keyPress' => [
+                    'keyPress',
+                    WebDriverKeys::SHIFT . 't' . WebDriverKeys::SHIFT . 'est',
+                    "Key \"Shift\" pressed  [event: keydown]\n
+Key \"T\" pressed  [event: keydown]\n
+Key \"T\" pressed and released  [event: keypress]\n
+Key \"T\" input  [event: input]\n
+Key \"T\" released  [event: keyup]\n
+Key \"Shift\" released  [event: keyup]\n
+Key \"e\" pressed  [event: keydown]\n
+Key \"e\" pressed and released  [event: keypress]\n
+Key \"e\" input  [event: input]\n
+Key \"e\" released  [event: keyup]\n
+Key \"s\" pressed  [event: keydown]\n
+Key \"s\" pressed and released  [event: keypress]\n
+Key \"s\" input  [event: input]\n
+Key \"s\" released  [event: keyup]\n
+Key \"t\" pressed  [event: keydown]\n
+Key \"t\" pressed and released  [event: keypress]\n
+Key \"t\" input  [event: input]\n
+Key \"t\" released  [event: keyup]\n"
+                ]
+            ];
         }
 
         return $data;

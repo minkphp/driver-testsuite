@@ -1,0 +1,64 @@
+<style>
+    .fx {
+        -webkit-display: flex;
+        display: flex;
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .fx > div {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .fx > div:first-child {
+        width: 30%;
+    }
+
+    .flex {
+        -webkit-flex: 1;
+        flex: 1;
+    }
+
+    #test-target {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="fx">
+    <div>
+        <textarea rows="5" name="test-target" id="test-target"></textarea>
+    </div>
+    <div class="flex">
+        <pre id="console-log"></pre>
+    </div>
+</div>
+<script>
+    let textarea = document.getElementById('test-target'),
+        consoleLog = document.getElementById('console-log'),
+        btnClearConsole = document.getElementById('btn-clear-console');
+
+    function logMessage(message) {
+        document.getElementById("console-log").innerHTML += message + "\n";
+    }
+
+    textarea.addEventListener('keypress', (e) => {
+        logMessage(`Key "${e.key}" pressed and released  [event: keypress]`);
+    });
+
+    textarea.addEventListener('keydown', (e) => {
+        if (!e.repeat)
+            logMessage(`Key "${e.key}" pressed  [event: keydown]`);
+        else
+            logMessage(`Key "${e.key}" repeating  [event: keydown]`);
+    });
+
+    textarea.addEventListener('input', (e) => {
+        logMessage(`Key "${e.data}" input  [event: input]`);
+    });
+
+    textarea.addEventListener('keyup', (e) => {
+        logMessage(`Key "${e.key}" released  [event: keyup]`);
+    });
+</script>

@@ -19,6 +19,9 @@
             background:#eee;
         }
     </style>
+
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/jquery-ui-1.11.4.min.js"></script>
 </head>
 <body>
     <div class="elements">
@@ -39,8 +42,6 @@
 
     <div id="waitable"></div>
 
-    <script src="js/jquery-1.6.2-min.js"></script>
-    <script src="js/jquery-ui-1.8.14.custom.min.js"></script>
 	<script>
 		$(document).ready(function() {
             var $clicker = $('#clicker');
@@ -77,17 +78,6 @@
 
             $('#mouseover-detector').mouseover(function() {
                 $(this).text('mouse overed');
-            });
-
-            $('.elements input.input').bind('keydown keypress keyup', function(ev) {
-                console.log('event=%s keyCode=%s altKey=%s ctrlKey=%s shiftKey=%s metaKey=%s', ev.type, ev.keyCode, ev.altKey, ev.ctrlKey, ev.shiftKey, ev.metaKey);
-                $('.text-event').append([
-                    'event=' + ev.type,
-                    // chrome and firefox are returning different values on keypress
-                    'keyCode=' + (ev.keyCode || ev.charCode),
-                    'modifier=' + ((ev.altKey * 1) + ' / ' + (ev.ctrlKey * 1) + ' / ' + (ev.shiftKey * 1) + ' / ' + (ev.metaKey * 1)),
-                    null
-                ].join(';') + "<br/>\n");
             });
 
             $( "#draggable" ).draggable();
