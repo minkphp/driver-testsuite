@@ -8,11 +8,12 @@ class ClickTest extends TestCase
 {
     public function testClickOutsideViewport()
     {
-        $this->getSession()->visit($this->pathTo('/clickoutsideviewport.html'));
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/clickoutsideviewport.html'));
         $session->resizeWindow(400, 300);
 
         $element = $this->getAssertSession()->elementExists('css', '#clickme');
         $element->click();
-        $this->assertEquals($this->pathTo('/links.html'), $this->getSession()->getCurrentUrl());
+        $this->assertEquals($this->pathTo('/links.html'), $session->getCurrentUrl());
     }
 }
