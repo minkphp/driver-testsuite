@@ -24,10 +24,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     private static $config;
 
+
     /**
-     * Initializes the test case.
+     * Inherited from SetUpTearDownTrait
      */
-    public static function doSetUpBeforeClass()
+    private static function doSetUpBeforeClass()
     {
         if (null === self::$mink) {
             $session = new Session(self::getConfig()->createDriver());
@@ -35,6 +36,30 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         }
 
         parent::setUpBeforeClass();
+    }
+
+    /**
+     * Inherited from SetUpTearDownTrait
+     */
+    protected function doSetUp()
+    {
+        if (null !== $message = self::getConfig()->skipMessage(get_class($this), $this->getName(false))) {
+            self::markTestSkipped($message);
+        }
+
+        parent::setUp();
+    }
+
+    /**
+     * Inherited from SetUpTearDownTrait
+     */
+    private function doTearDown()
+    {
+        if (null !== self::$mink) {
+            self::$mink->resetSessions();
+        }
+
+        parent::tearDown();
     }
 
     /**
@@ -53,22 +78,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         }
 
         return self::$config;
-    }
-
-    protected function doSetUp()
-    {
-        if (null !== $message = self::getConfig()->skipMessage(get_class($this), $this->getName(false))) {
-            $this->markTestSkipped($message);
-        }
-
-        parent::setUp();
-    }
-
-    protected function doTearDown()
-    {
-        if (null !== self::$mink) {
-            self::$mink->resetSessions();
-        }
     }
 
     /**
