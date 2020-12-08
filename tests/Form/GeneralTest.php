@@ -229,6 +229,7 @@ array(
 some_file.txt
 1 uploaded file
 OUT;
+            $out = str_replace(["\r", "\r\n", "\n"], \PHP_EOL, $out);
             $this->assertStringContainsString($out, $page->getContent());
         }
     }
@@ -272,6 +273,9 @@ OUT;
   first_name = `Foo "item"`,
   last_name = `Bar`,
 OUT;
+
+            $out = str_replace(["\r", "\r\n", "\n"], \PHP_EOL, $out);
+            $minEscapedOut = str_replace(["\r", "\r\n", "\n"], \PHP_EOL, $minEscapedOut);
 
             $this->assertThat($page->getContent(), $this->logicalOr($this->stringContains($out), $this->stringContains($minEscapedOut)));
         }
@@ -323,6 +327,7 @@ OUT;
     2 = `tag3`,
   ),
 OUT;
+        $out = str_replace(["\r", "\r\n", "\n"], \PHP_EOL, $out);
         $this->assertStringContainsString($out, $page->getContent());
     }
 
