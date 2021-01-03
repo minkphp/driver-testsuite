@@ -136,6 +136,8 @@ OUT;
         // firefox does not wait for page load as chrome as we may get StaleElementReferenceException
         usleep(500000);
 
+        $this->assertEquals($this->pathTo('/advanced_form_post.php'), $this->getSession()->getCurrentUrl());
+
         $out = <<<'OUT'
 array(
   agreement = `off`,
