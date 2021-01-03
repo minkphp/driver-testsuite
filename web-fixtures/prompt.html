@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>promtp</title>
+</head>
+<body>
+
+<script>
+    let prompt_result = prompt('Can you handle this?');
+    if (prompt_result) {
+        let el = document.createElement('div');
+        el.innerText = 'Prompt Result: ' + prompt_result;
+        el.id = 'prompt_result';
+
+        let body = document.body;
+        body.appendChild(el);
+    }
+</script>
+
+</body>
+</html>
