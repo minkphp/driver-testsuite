@@ -114,7 +114,7 @@ class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $this->getSession()->getPage()->getText());
 
         $this->getSession()->setCookie('client_cookie1', 'some_val');
-        $this->getSession()->setCookie('client_cookie2', 123);
+        $this->getSession()->setCookie('client_cookie2', '123');
         $this->getSession()->visit($this->pathTo('/session_test.php'));
         $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
 

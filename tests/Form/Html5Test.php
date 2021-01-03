@@ -127,6 +127,7 @@ OUT;
         $page->fillField('number', '6');
         $page->fillField('search', 'mink');
         $page->fillField('date', '2014-05-19');
+        $page->fillField('time', '12:12');
         $page->fillField('color', '#ff00aa');
 
         $page->pressButton('Submit');
@@ -144,6 +145,7 @@ array(
   number = `6`,
   search = `mink`,
   submit_button = `Submit`,
+  time = `12:12`,
   url = `http://mink.behat.org/`,
 )
 no file

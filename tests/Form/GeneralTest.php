@@ -214,7 +214,7 @@ class GeneralTest extends TestCase
         // firefox does not wait for page load as chrome as we may get StaleElementReferenceException
         usleep(500000);
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") === "Advanced form save"')) {
             $out = <<<'OUT'
 array(
   agreement = `on`,

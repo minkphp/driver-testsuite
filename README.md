@@ -13,7 +13,7 @@ The testsuite of a driver should be based as follow:
     "require": {
         "behat/mink": "~1.7"
     },
-    
+
     "require-dev": {
         "mink/driver-testsuite": "dev-master"
     },
@@ -110,6 +110,7 @@ To stop the server at the end of tests, cancel the command.
 > in the PATH is a different one, use the `MINK_PHP_BIN` env variable to select a different PHP runtime.
 
 You can now run tests for your driver with `phpunit`.
+This package installs PHPUnit as a dependency to ensure that a version of PHPUnit compatible with the testsuite is used.
 
 Adding Driver-specific Tests
 ----------------------------
