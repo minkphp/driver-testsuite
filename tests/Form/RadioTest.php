@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class RadioTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

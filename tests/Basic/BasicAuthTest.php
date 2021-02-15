@@ -17,7 +17,7 @@ class BasicAuthTest extends TestCase
 
         $session->visit($this->pathTo('/basic_auth.php'));
 
-        $this->assertContains($pageText, $session->getPage()->getContent());
+        $this->assertStringContainsString($pageText, $session->getPage()->getContent());
     }
 
     public function setBasicAuthDataProvider()
@@ -36,13 +36,13 @@ class BasicAuthTest extends TestCase
 
         $session->visit($this->pathTo('/basic_auth.php'));
 
-        $this->assertContains('is authenticated', $session->getPage()->getContent());
+        $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
 
         $session->setBasicAuth(false);
 
         $session->visit($this->pathTo('/headers.php'));
 
-        $this->assertNotContains('PHP_AUTH_USER', $session->getPage()->getContent());
+        $this->assertStringNotContainsString('PHP_AUTH_USER', $session->getPage()->getContent());
     }
 
     public function testResetWithBasicAuth()
@@ -53,12 +53,12 @@ class BasicAuthTest extends TestCase
 
         $session->visit($this->pathTo('/basic_auth.php'));
 
-        $this->assertContains('is authenticated', $session->getPage()->getContent());
+        $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
 
         $session->reset();
 
         $session->visit($this->pathTo('/headers.php'));
 
-        $this->assertNotContains('PHP_AUTH_USER', $session->getPage()->getContent());
+        $this->assertStringNotContainsString('PHP_AUTH_USER', $session->getPage()->getContent());
     }
 }

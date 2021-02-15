@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+use Exception;
+use Throwable;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use PHPUnit\Runner\Version;
+use function version_compare;
 
 if (class_exists('PHPUnit\Runner\Version') && version_compare(Version::id(), '6.0.0', '>=')) {
     /**
@@ -17,7 +22,7 @@ if (class_exists('PHPUnit\Runner\Version') && version_compare(Version::id(), '6.
      */
     class SkippingUnsupportedTestCase extends BaseTestCase
     {
-        protected function onNotSuccessfulTest(\Throwable $e)
+        protected function onNotSuccessfulTest(Throwable $e): void
         {
             if ($e instanceof UnsupportedDriverActionException) {
                 $this->markTestSkipped($e->getMessage());
@@ -26,15 +31,15 @@ if (class_exists('PHPUnit\Runner\Version') && version_compare(Version::id(), '6.
             parent::onNotSuccessfulTest($e);
         }
     }
-} elseif (version_compare(\PHPUnit_Runner_Version::id(), '5.0.0', '>=')) {
+} elseif (version_compare(Version::id(), '5.0.0', '>=')) {
     /**
      * Implementation of the skipping for UnsupportedDriverActionException for PHPUnit 5.
      *
      * @internal
      */
-    class SkippingUnsupportedTestCase extends \PHPUnit_Framework_TestCase
+    class SkippingUnsupportedTestCase extends BaseTestCase
     {
-        protected function onNotSuccessfulTest($e)
+        protected function onNotSuccessfulTest($e): void
         {
             if ($e instanceof UnsupportedDriverActionException) {
                 $this->markTestSkipped($e->getMessage());
@@ -49,9 +54,9 @@ if (class_exists('PHPUnit\Runner\Version') && version_compare(Version::id(), '6.
      *
      * @internal
      */
-    class SkippingUnsupportedTestCase extends \PHPUnit_Framework_TestCase
+    class SkippingUnsupportedTestCase extends BaseTestCase
     {
-        protected function onNotSuccessfulTest(\Exception $e)
+        protected function onNotSuccessfulTest(Exception $e): void
         {
             if ($e instanceof UnsupportedDriverActionException) {
                 $this->markTestSkipped($e->getMessage());

@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Behat\Mink\Tests\Driver\Util;
 
-
+use Symfony\Component\BrowserKit\AbstractBrowser;
+use Symfony\Component\BrowserKit\Request as BrowserKitRequest;
+use Symfony\Component\BrowserKit\Response as BrowserKitResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,9 +14,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class FixturesKernel implements HttpKernelInterface
+class FixturesKernel extends AbstractBrowser implements HttpKernelInterface
 {
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, int $type = self::MASTER_REQUEST, bool $catch = true): Response
     {
         $this->prepareSession($request);
 
@@ -82,5 +86,25 @@ class FixturesKernel implements HttpKernelInterface
 
             $response->headers->setCookie($cookie);
         }
+    }
+
+    protected function doRequest($request)
+    {
+        /** @var BrowserKitRequest $request */
+        $response = $this->handle(Request::create(
+            $request->getUri(),
+            $request->getMethod(),
+            $request->getParameters(),
+            $request->getCookies(),
+            $request->getFiles(),
+            $request->getServer(),
+            $request->getContent()
+        ));
+
+        return new BrowserKitResponse(
+            $response->getContent(),
+            $response->getStatusCode(),
+            $response->headers->allPreserveCase()
+        );
     }
 }
