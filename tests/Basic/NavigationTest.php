@@ -41,7 +41,11 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Redirect me to');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/redirector\.php$/', $link->getAttribute('href'));
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression('/redirector\.php$/', $link->getAttribute('href'));
+        } elseif (method_exists($this, 'assertRegExp')) {
+            $this->assertRegExp('/redirector\.php$/', $link->getAttribute('href'));
+        }
         $link->click();
 
         $this->assertEquals($this->pathTo('/redirect_destination.html'), $this->getSession()->getCurrentUrl());
@@ -51,7 +55,11 @@ class NavigationTest extends TestCase
         $link = $page->findLink('basic form image');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/basic_form\.html$/', $link->getAttribute('href'));
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression('/basic_form\.html$/', $link->getAttribute('href'));
+        } elseif (method_exists($this, 'assertRegExp')) {
+            $this->assertRegExp('/basic_form\.html$/', $link->getAttribute('href'));
+        }
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.html'), $this->getSession()->getCurrentUrl());
@@ -61,7 +69,11 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Link with a ');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/links\.html\?quoted$/', $link->getAttribute('href'));
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $link->getAttribute('href'));
+        } elseif (method_exists($this, 'assertRegExp')) {
+            $this->assertRegExp('/links\.html\?quoted$/', $link->getAttribute('href'));
+        }
         $link->click();
 
         $this->assertEquals($this->pathTo('/links.html?quoted'), $this->getSession()->getCurrentUrl());

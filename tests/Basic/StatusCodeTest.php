@@ -17,6 +17,6 @@ class StatusCodeTest extends TestCase
 
         $this->assertEquals($this->pathTo('/404.php'), $this->getSession()->getCurrentUrl());
         $this->assertEquals(404, $this->getSession()->getStatusCode());
-        $this->assertContains('Sorry, page not found', $this->getSession()->getPage()->getContent());
+        $this->assertStringContainsString('Sorry, page not found', $this->getSession()->getPage()->getContent());
     }
 }

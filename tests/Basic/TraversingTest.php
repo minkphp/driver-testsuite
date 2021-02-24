@@ -122,7 +122,11 @@ class TraversingTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $this->assertRegExp('/some_url$/', $subUrl->getAttribute('href'));
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression('/some_url$/', $subUrl->getAttribute('href'));
+        } elseif (method_exists($this, 'assertRegExp')) {
+            $this->assertRegExp('/some_url$/', $subUrl->getAttribute('href'));
+        }
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
 

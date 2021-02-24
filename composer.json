@@ -18,13 +18,15 @@
     ],
 
     "require": {
-        "php": ">=5.3",
+        "php": ">=7.3",
         "behat/mink":  "~1.7",
-        "symfony/phpunit-bridge": "^4.2",
-        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.18"
+        "symfony/phpunit-bridge": "~5.2",
+        "phpunit/phpunit": "~8.5 || ~9.5",
+        "symfony/browser-kit":  "~5.2"
     },
     "require-dev": {
-        "symfony/http-kernel": "^2.7 || ^3.2 || ^4.0"
+        "symfony/http-kernel": "~5.2",
+        "symfony/http-client": "~5.2"
     },
 
     "bin": [
