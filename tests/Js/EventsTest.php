@@ -105,7 +105,7 @@ class EventsTest extends TestCase
     /**
      * @dataProvider provideKeyboardEventsModifiers
      */
-    public function testKeyboardEvents($method, $string, $expected)
+    public function testKeyboardEvents($string, $expected)
     {
         $this->getSession()->visit($this->pathTo('/keyboard_test.html'));
         $webAssert = $this->getAssertSession();
@@ -113,7 +113,9 @@ class EventsTest extends TestCase
         $input = $webAssert->elementExists('css', '#test-target');
         $event = $webAssert->elementExists('css', '#console-log');
 
-        $input->$method($string);
+        $input->keyDown($string);
+        $input->keyUp($string);
+
         $text = $event->getHtml();
 
         $this->assertEquals(
@@ -125,75 +127,23 @@ class EventsTest extends TestCase
     public function provideKeyboardEventsModifiers()
     {
         $data = [
-            'alt-keyDown' => [
-                'keyDown',
-                'alt',
-                "Key \"Alt\" pressed  [event: keydown]\n"
+            'alt-keyDown-keyUp' => [
+                WebDriverKeys::LEFT_ALT,
+                "Key \"Alt\" pressed  [event: keydown]\nKey \"Alt\" released  [event: keyup]\n"
             ],
-            'alt-keyUp' => [
-                'keyUp',
-                'alt',
-                "Key \"Alt\" released  [event: keyup]\n"
+            'shift-keyDown-keyUp' => [
+                WebDriverKeys::LEFT_SHIFT,
+                "Key \"Shift\" pressed  [event: keydown]\nKey \"Shift\" released  [event: keyup]\n"
             ],
-            'shift-keyDown' => [
-                'keyDown',
-                'shift',
-                "Key \"Shift\" pressed  [event: keydown]\n"
+            'ctrl-keyDown-keyUp' => [
+                WebDriverKeys::LEFT_CONTROL,
+                "Key \"Control\" pressed  [event: keydown]\nKey \"Control\" released  [event: keyup]\n"
             ],
-            'shift-keyUp' => [
-                'keyUp',
-                'shift',
-                "Key \"Shift\" released  [event: keyup]\n"
+            'meta-keyDown-keyUp' => [
+                WebDriverKeys::META,
+                "Key \"Meta\" pressed  [event: keydown]\nKey \"Meta\" released  [event: keyup]\n"
             ],
-            'ctrl-keyDown' => [
-                'keyDown',
-                'ctrl',
-                "Key \"Control\" pressed  [event: keydown]\n"
-            ],
-            'ctrl-keyUp' => [
-                'keyUp',
-                'ctrl',
-                "Key \"Control\" released  [event: keyup]\n"
-            ],
-            'meta-keyDown' => [
-                'keyDown',
-                'meta',
-                "Key \"Meta\" pressed  [event: keydown]\n"
-            ],
-            'meta-keyUp' => [
-                'keyUp',
-                'meta',
-                "Key \"Meta\" released  [event: keyup]\n"
-            ]
         ];
-
-        // Firefox has weird bug as soon as modifier is pressed it's released
-        if (getenv('BROWSER_NAME') !== 'firefox') {
-            $data += [
-                'shift-keyPress' => [
-                    'keyPress',
-                    WebDriverKeys::SHIFT . 't' . WebDriverKeys::SHIFT . 'est',
-                    "Key \"Shift\" pressed  [event: keydown]\n
-Key \"T\" pressed  [event: keydown]\n
-Key \"T\" pressed and released  [event: keypress]\n
-Key \"T\" input  [event: input]\n
-Key \"T\" released  [event: keyup]\n
-Key \"Shift\" released  [event: keyup]\n
-Key \"e\" pressed  [event: keydown]\n
-Key \"e\" pressed and released  [event: keypress]\n
-Key \"e\" input  [event: input]\n
-Key \"e\" released  [event: keyup]\n
-Key \"s\" pressed  [event: keydown]\n
-Key \"s\" pressed and released  [event: keypress]\n
-Key \"s\" input  [event: input]\n
-Key \"s\" released  [event: keyup]\n
-Key \"t\" pressed  [event: keydown]\n
-Key \"t\" pressed and released  [event: keypress]\n
-Key \"t\" input  [event: input]\n
-Key \"t\" released  [event: keyup]\n"
-                ]
-            ];
-        }
 
         return $data;
     }
