@@ -95,6 +95,42 @@ class CookieTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider cookieWithPathsDataProvider
+     */
+    public function testCookieInSubPath($cookieRemovalMode)
+    {
+        // Start clean.
+        // The cookie is set when viewing the page.
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
+        $this->assertContains('Previous cookie: NO', $session->getPage()->getText());
+
+        $session->visit($this->pathTo('/sub-folder/cookie_page4.php'));
+
+        // On the next load, the cookie has been set.
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
+        $this->assertContains('Previous cookie: srv_var_is_set', $session->getPage()->getText());
+
+        if ($cookieRemovalMode == 'session_reset') {
+            $session->reset();
+        } elseif ($cookieRemovalMode == 'cookie_delete') {
+            $session->setCookie('srvr_cookie', null);
+        }
+
+        // Cookie is removed>
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
+        $this->assertContains('Previous cookie: NO', $session->getPage()->getText());
+    }
+
+    public function cookieInSubPathProvider()
+    {
+        return array(
+            array('session_reset'),
+            array('cookie_delete'),
+        );
+    }
+
     public function testReset()
     {
         $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
