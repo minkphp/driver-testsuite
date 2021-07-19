@@ -83,20 +83,28 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * Returns session.
      *
-     * @return Session
+     * @return Session|null
      */
     protected function getSession()
     {
+        if (!self::$mink) {
+            return null;
+        }
+
         return self::$mink->getSession('sess');
     }
 
     /**
      * Returns assert session.
      *
-     * @return WebAssert
+     * @return WebAssert|null
      */
     protected function getAssertSession()
     {
+        if (!self::$mink) {
+            return null;
+        }
+
         return self::$mink->assertSession('sess');
     }
 

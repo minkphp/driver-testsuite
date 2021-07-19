@@ -4,33 +4,34 @@
     "homepage": "http://mink.behat.org/",
     "type": "library",
     "license": "MIT",
-
     "authors": [
         {
-            "name":      "Konstantin Kudryashov",
-            "email":     "ever.zet@gmail.com",
-            "homepage":  "http://everzet.com"
+            "name": "Konstantin Kudryashov",
+            "email": "ever.zet@gmail.com",
+            "homepage": "http://everzet.com"
         },
         {
-            "name":      "Christophe Coevoet",
-            "email":     "stof@notk.org"
+            "name": "Christophe Coevoet",
+            "email": "stof@notk.org"
+        },
+        {
+            "name": "Oleg Andreyev",
+            "email": "oleg@andreyev.lv"
         }
     ],
-
     "require": {
         "php": ">=7.2",
-        "behat/mink":  "^1.8"
+        "behat/mink": "^1.8"
     },
     "require-dev": {
-        "symfony/http-kernel": "^2.7 | ^3.2 | ^4.0 | ^5.0",
+        "symfony/http-kernel": "^2.7 | ^3.2 | ^4.0 | ^5.0 | ^6.0@dev",
         "phpunit/phpunit": "^8.2",
-        "symfony/phpunit-bridge": "^5.2"
+        "symfony/phpunit-bridge": "^5.2",
+        "vimeo/psalm": "^4.8"
     },
-
     "bin": [
         "bin/mink-test-server"
     ],
-
     "autoload": {
         "psr-4": {
             "Behat\\Mink\\Tests\\Driver\\Util\\": "src/",
