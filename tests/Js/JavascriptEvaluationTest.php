@@ -8,8 +8,10 @@ class JavascriptEvaluationTest extends TestCase
 {
     /**
      * Tests, that `wait` method returns check result after exit.
+     *
+     * @return void
      */
-    public function testWaitReturnValue()
+    public function testWaitReturnValue(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
@@ -17,7 +19,7 @@ class JavascriptEvaluationTest extends TestCase
         $this->assertTrue($found);
     }
 
-    public function testWaitReturnValueAlwaysBoolean()
+    public function testWaitReturnValueAlwaysBoolean(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
@@ -25,7 +27,7 @@ class JavascriptEvaluationTest extends TestCase
         $this->assertTrue($found);
     }
 
-    public function testWait()
+    public function testWait(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
@@ -42,8 +44,10 @@ class JavascriptEvaluationTest extends TestCase
 
     /**
      * @dataProvider provideExecutedScript
+     *
+     * @return void
      */
-    public function testExecuteScript($script)
+    public function testExecuteScript(string $script): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -55,39 +59,48 @@ class JavascriptEvaluationTest extends TestCase
         $this->assertEquals('Hello world', $heading->getText());
     }
 
-    public function provideExecutedScript()
+    /**
+     * @return string[][]
+     *
+     * @psalm-return array{0: array{0: 'document.querySelector("h1").textContent = "Hello world"'}, 1: array{0: 'document.querySelector("h1").textContent = "Hello world";'}, 2: array{0: 'function () {document.querySelector("h1").textContent = "Hello world";}()'}, 3: array{0: 'function () {document.querySelector("h1").textContent = "Hello world";}();'}, 4: array{0: '(function () {document.querySelector("h1").textContent = "Hello world";})()'}, 5: array{0: '(function () {document.querySelector("h1").textContent = "Hello world";})();'}}
+     */
+    public function provideExecutedScript(): array
     {
-        return array(
-            array('document.querySelector("h1").textContent = "Hello world"'),
-            array('document.querySelector("h1").textContent = "Hello world";'),
-            array('function () {document.querySelector("h1").textContent = "Hello world";}()'),
-            array('function () {document.querySelector("h1").textContent = "Hello world";}();'),
-            array('(function () {document.querySelector("h1").textContent = "Hello world";})()'),
-            array('(function () {document.querySelector("h1").textContent = "Hello world";})();'),
-        );
+        return [
+            ['document.querySelector("h1").textContent = "Hello world"'],
+            ['document.querySelector("h1").textContent = "Hello world";'],
+            ['function () {document.querySelector("h1").textContent = "Hello world";}()'],
+            ['function () {document.querySelector("h1").textContent = "Hello world";}();'],
+            ['(function () {document.querySelector("h1").textContent = "Hello world";})()'],
+            ['(function () {document.querySelector("h1").textContent = "Hello world";})();'],
+        ];
     }
 
     /**
      * @dataProvider provideEvaluatedScript
+     *
+     * @return void
      */
-    public function testEvaluateJavascript($script)
+    public function testEvaluateJavascript(string $script): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->assertSame(2, $this->getSession()->evaluateScript($script));
     }
 
-    public function provideEvaluatedScript()
+    /**
+     * @psalm-return \Generator<int, array<int, string>>
+     * @return \Generator
+     */
+    public function provideEvaluatedScript(): \Generator
     {
-        return array(
-            array('1 + 1'),
-            array('1 + 1;'),
-            array('return 1 + 1'),
-            array('return 1 + 1;'),
-            array('function () {return 1+1;}()'),
-            array('(function () {return 1+1;})()'),
-            array('return function () { return 1+1;}()'),
-            array('return (function () {return 1+1;})()'),
-        );
+        yield ['1 + 1'];
+        yield ['1 + 1;'];
+        yield ['return 1 + 1'];
+        yield ['return 1 + 1;'];
+        yield ['function () {return 1+1;}()'];
+        yield ['(function () {return 1+1;})()'];
+        yield ['return function () { return 1+1;}()'];
+        yield ['return (function () {return 1+1;})()'];
     }
 }

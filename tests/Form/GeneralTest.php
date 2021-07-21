@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 class GeneralTest extends TestCase
 {
     // test multiple submit buttons
-    public function testIssue212()
+    public function testIssue212(): void
     {
         $session = $this->getSession();
 
@@ -17,7 +17,7 @@ class GeneralTest extends TestCase
         $this->assertEquals('poney', $field->getValue());
     }
 
-    public function testBasicForm()
+    public function testBasicForm(): void
     {
         $this->getSession()->visit($this->pathTo('/basic_form.html'));
 
@@ -37,7 +37,10 @@ class GeneralTest extends TestCase
         $this->assertEquals('Konstantin', $firstname->getValue());
         $this->assertEquals('Kudryashov', $lastname->getValue());
 
-        $page->findButton('Reset')->click();
+        $resetBtnElement = $page->findButton('Reset');
+        $this->assertNotNull($resetBtnElement);
+
+        $resetBtnElement->click();
 
         $this->assertEquals('Firstname', $firstname->getValue());
         $this->assertEquals('Lastname', $lastname->getValue());
@@ -45,7 +48,10 @@ class GeneralTest extends TestCase
         $firstname->setValue('Konstantin');
         $page->fillField('last_name', 'Kudryashov');
 
-        $page->findButton('Save')->click();
+        $saveBtnElement = $page->findButton('Save');
+        $this->assertNotNull($saveBtnElement);
+
+        $saveBtnElement->click();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
@@ -56,8 +62,10 @@ class GeneralTest extends TestCase
 
     /**
      * @dataProvider formSubmitWaysDataProvider
+     *
+     * @return void
      */
-    public function testFormSubmitWays($submitVia)
+    public function testFormSubmitWays(string $submitVia): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
@@ -67,7 +75,10 @@ class GeneralTest extends TestCase
         $firstname = $webAssert->fieldExists('first_name');
         $firstname->setValue('Konstantin');
 
-        $page->findButton($submitVia)->click();
+        $btnElement = $page->findButton($submitVia);
+        $this->assertNotNull($btnElement);
+
+        $btnElement->click();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
@@ -76,17 +87,16 @@ class GeneralTest extends TestCase
         }
     }
 
-    public function formSubmitWaysDataProvider()
+    /** @psalm-return \Generator<int, array{0: string}, mixed, void> */
+    public function formSubmitWaysDataProvider(): \Generator
     {
-        return array(
-            array('Save'),
-            array('input-type-image'),
-            array('button-without-type'),
-            array('button-type-submit'),
-        );
+        yield ['Save'];
+        yield ['input-type-image'];
+        yield ['button-without-type'];
+        yield ['button-type-submit'];
     }
 
-    public function testFormSubmit()
+    public function testFormSubmit(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
@@ -101,7 +111,7 @@ class GeneralTest extends TestCase
         }
     }
 
-    public function testFormSubmitWithoutButton()
+    public function testFormSubmitWithoutButton(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/form_without_button.html'));
@@ -116,7 +126,7 @@ class GeneralTest extends TestCase
         }
     }
 
-    public function testBasicGetForm()
+    public function testBasicGetForm(): void
     {
         $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
         $webAssert = $this->getAssertSession();
@@ -136,7 +146,7 @@ class GeneralTest extends TestCase
         $this->assertEquals('some#query', $div->getText());
     }
 
-    public function testAdvancedForm()
+    public function testAdvancedForm(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
         $page = $this->getSession()->getPage();
@@ -196,7 +206,7 @@ class GeneralTest extends TestCase
         $notes->setValue('new notes');
         $this->assertEquals('new notes', $notes->getValue());
 
-        $about->attachFile($this->mapRemoteFilePath(__DIR__.'/../../web-fixtures/some_file.txt'));
+        $about->attachFile($this->mapRemoteFilePath(__DIR__ . '/../../web-fixtures/some_file.txt'));
 
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
@@ -234,7 +244,7 @@ OUT;
         }
     }
 
-    public function testQuoteInValue()
+    public function testQuoteInValue(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -281,7 +291,7 @@ OUT;
         }
     }
 
-    public function testMultiInput()
+    public function testMultiInput(): void
     {
         $this->getSession()->visit($this->pathTo('/multi_input_form.html'));
         $page = $this->getSession()->getPage();
@@ -331,7 +341,7 @@ OUT;
         $this->assertStringContainsString($out, $page->getContent());
     }
 
-    public function testAdvancedFormSecondSubmit()
+    public function testAdvancedFormSecondSubmit(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
         $page = $this->getSession()->getPage();
@@ -344,11 +354,11 @@ OUT;
         // firefox does not wait for page load as chrome as we may get StaleElementReferenceException
         usleep(500000);
 
-        $toSearch = array(
+        $toSearch = [
             'agreement = `off`,',
             'submit = `Login`,',
             'no file',
-        );
+        ];
 
         $pageContent = $page->getContent();
 
@@ -357,7 +367,7 @@ OUT;
         }
     }
 
-    public function testSubmitEmptyTextarea()
+    public function testSubmitEmptyTextarea(): void
     {
         $this->getSession()->visit($this->pathTo('/empty_textarea.html'));
         $page = $this->getSession()->getPage();
@@ -368,11 +378,11 @@ OUT;
         // firefox does not wait for page load as chrome as we may get StaleElementReferenceException
         usleep(500000);
 
-        $toSearch = array(
+        $toSearch = [
             'textarea = ``,',
             'submit = `Save`,',
             'no file',
-        );
+        ];
 
         $pageContent = $page->getContent();
 

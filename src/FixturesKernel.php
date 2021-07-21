@@ -7,13 +7,17 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FixturesKernel implements HttpKernelInterface
 {
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
-    {
+    public function handle(
+        Request $request,
+        $type = 1/*HttpKernelInterface::MASTER_REQUEST or MAIN_REQUEST*/,
+        $catch = true
+    ) {
         $this->prepareSession($request);
 
         $response = $this->handleFixtureRequest($request);
@@ -24,61 +28,70 @@ class FixturesKernel implements HttpKernelInterface
         return $response;
     }
 
-    private function handleFixtureRequest(Request $request)
+    private function handleFixtureRequest(Request $request): Response
     {
         $fixturesDir = realpath(__DIR__.'/../web-fixtures');
         $overwriteDir = realpath(__DIR__.'/../http-kernel-fixtures');
 
+        /** @psalm-suppress UnresolvableInclude */
         require_once $fixturesDir . '/utils.php';
 
         $file = $request->getPathInfo();
 
         $path = file_exists($overwriteDir.$file) ? $overwriteDir.$file : $fixturesDir.$file;
 
-        $resp = null;
+        $response = null;
 
         ob_start();
+        /** @psalm-suppress UnresolvableInclude */
         require $path;
         $content = ob_get_clean();
 
-        if ($resp instanceof Response) {
-            if ('' === $resp->getContent()) {
-                $resp->setContent($content);
+        /** @psalm-suppress TypeDoesNotContainType */
+        if ($response instanceof Response) {
+            if ('' === $response->getContent()) {
+                $response->setContent($content);
             }
 
-            return $resp;
+            return $response;
         }
 
         return new Response($content);
     }
 
-    private function prepareSession(Request $request)
+    private function prepareSession(Request $request): void
     {
         $session = new Session(new MockFileSessionStorage());
         $request->setSession($session);
 
         $cookies = $request->cookies;
 
-        if ($cookies->has($session->getName())) {
-            $session->setId($cookies->get($session->getName()));
+        $sessionName = $session->getName();
+        if ($cookies->has($sessionName)) {
+            $id = (string) $cookies->get($sessionName);
+            $session->setId($id);
         } else {
             $session->migrate(false);
         }
     }
 
-    private function saveSession(Request $request, Response $response)
+    private function saveSession(Request $request, Response $response): void
     {
         $session = $request->getSession();
-        if ($session && $session->isStarted()) {
+        if ($session->isStarted()) {
             $session->save();
 
             $params = session_get_cookie_params();
 
-            if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
-                $cookie = Cookie::create($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-            } else {
-                $cookie = new Cookie($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-            }
+            $cookie = new Cookie(
+                $session->getName(),
+                $session->getId(),
+                $params['lifetime'] === 0 ? 0 : (time() + (int) $params['lifetime']),
+                (string) $params['path'],
+                (string) $params['domain'],
+                (bool) $params['secure'],
+                (bool) $params['httponly']
+            );
 
             $response->headers->setCookie($cookie);
         }

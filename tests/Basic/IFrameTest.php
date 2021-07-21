@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class IFrameTest extends TestCase
 {
-    public function testIFrame()
+    public function testIFrame(): void
     {
         $this->getSession()->visit($this->pathTo('/iframe.html'));
         $webAssert = $this->getAssertSession();

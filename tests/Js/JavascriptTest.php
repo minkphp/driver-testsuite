@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class JavascriptTest extends TestCase
 {
-    public function testAriaRoles()
+    public function testAriaRoles(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/aria_roles.html'));
@@ -24,7 +24,7 @@ class JavascriptTest extends TestCase
         $this->assertEquals($this->pathTo('/index.html'), $session->getCurrentUrl());
     }
 
-    public function testDragDrop()
+    public function testDragDrop(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $webAssert = $this->getAssertSession();
@@ -37,7 +37,7 @@ class JavascriptTest extends TestCase
     }
 
     // test accentuated char in button
-    public function testIssue225()
+    public function testIssue225(): void
     {
         $this->getSession()->visit($this->pathTo('/issue225.html'));
         $this->getSession()->getPage()->pressButton('Créer un compte');

@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class ContentTest extends TestCase
 {
-    public function testOuterHtml()
+    public function testOuterHtml(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -21,7 +21,7 @@ class ContentTest extends TestCase
         );
     }
 
-    public function testDumpingEmptyElements()
+    public function testDumpingEmptyElements(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -35,8 +35,10 @@ class ContentTest extends TestCase
 
     /**
      * @dataProvider getAttributeDataProvider
+     *
+     * @return void
      */
-    public function testGetAttribute($attributeName, $attributeValue)
+    public function testGetAttribute(string $attributeName, ?string $attributeValue): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -46,7 +48,12 @@ class ContentTest extends TestCase
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
     }
 
-    public function getAttributeDataProvider()
+    /**
+     * @return (null|string)[][]
+     *
+     * @psalm-return array{0: array{0: 'with-value', 1: 'some-value'}, 1: array{0: 'without-value', 1: ''}, 2: array{0: 'with-empty-value', 1: ''}, 3: array{0: 'with-missing', 1: null}}
+     */
+    public function getAttributeDataProvider(): array
     {
         return array(
             array('with-value', 'some-value'),
@@ -56,7 +63,7 @@ class ContentTest extends TestCase
         );
     }
 
-    public function testJson()
+    public function testJson(): void
     {
         $this->getSession()->visit($this->pathTo('/json.php'));
         $this->assertStringContainsString(
@@ -65,7 +72,7 @@ class ContentTest extends TestCase
         );
     }
 
-    public function testHtmlDecodingNotPerformed()
+    public function testHtmlDecodingNotPerformed(): void
     {
         $session = $this->getSession();
         $webAssert = $this->getAssertSession();

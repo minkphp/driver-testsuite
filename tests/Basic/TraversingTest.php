@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Basic;
 
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Tests\Driver\TestCase;
 
 class TraversingTest extends TestCase
@@ -10,8 +11,10 @@ class TraversingTest extends TestCase
      * find by label.
      *
      * @group issue211
+     *
+     * @return void
      */
-    public function testIssue211()
+    public function testIssue211(): void
     {
         $this->getSession()->visit($this->pathTo('/issue211.html'));
         $field = $this->getSession()->getPage()->findField('Téléphone');
@@ -19,7 +22,7 @@ class TraversingTest extends TestCase
         $this->assertNotNull($field);
     }
 
-    public function testElementsTraversing()
+    public function testElementsTraversing(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -65,7 +68,7 @@ class TraversingTest extends TestCase
         $this->assertEquals('div', $element->getTagName());
     }
 
-    public function testVeryDeepElementsTraversing()
+    public function testVeryDeepElementsTraversing(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -95,10 +98,14 @@ class TraversingTest extends TestCase
         $profileFormDivLabel = $profileFormDiv->find('css', 'label');
         $this->assertNotNull($profileFormDivLabel);
 
+        /** @psalm-var NodeElement|null $profileFormDivParent */
         $profileFormDivParent = $profileFormDivLabel->getParent();
         $this->assertNotNull($profileFormDivParent);
 
+        /** @psalm-var NodeElement|null $profileFormDivParent */
         $profileFormDivParent = $profileFormDivLabel->getParent();
+        $this->assertNotNull($profileFormDivParent);
+
         $this->assertEquals('something', $profileFormDivParent->getAttribute('data-custom'));
 
         $profileFormInput = $profileFormDivLabel->findField('user-name');
@@ -106,7 +113,7 @@ class TraversingTest extends TestCase
         $this->assertEquals('username', $profileFormInput->getAttribute('name'));
     }
 
-    public function testDeepTraversing()
+    public function testDeepTraversing(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -122,16 +129,20 @@ class TraversingTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $this->assertRegExp('/some_url$/', $subUrl->getAttribute('href'));
+        $attrValue = (string) $subUrl->getAttribute('href');
+        $this->assertMatchesRegularExpression('/some_url$/', $attrValue);
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
 
         $this->assertTrue($subUrl->has('css', 'strong'));
         $this->assertFalse($subUrl->has('css', 'em'));
-        $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
+        $nodeElement = $subUrl->find('css', 'strong');
+        $this->assertNotNull($nodeElement);
+
+        $this->assertEquals('deep', $nodeElement->getText());
     }
 
-    public function testFindingChild()
+    public function testFindingChild(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 

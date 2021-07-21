@@ -8,8 +8,10 @@ class HoverTest extends TestCase
 {
     /**
      * @group mouse-events
+     *
+     * @return void
      */
-    public function testMouseOverHover()
+    public function testMouseOverHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -22,9 +24,12 @@ class HoverTest extends TestCase
 
     /**
      * @group mouse-events
+     *
      * @depends testMouseOverHover
+     *
+     * @return void
      */
-    public function testClickHover()
+    public function testClickHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -37,9 +42,12 @@ class HoverTest extends TestCase
 
     /**
      * @group mouse-events
+     *
      * @depends testMouseOverHover
+     *
+     * @return void
      */
-    public function testDoubleClickHover()
+    public function testDoubleClickHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -52,9 +60,12 @@ class HoverTest extends TestCase
 
     /**
      * @group mouse-events
+     *
      * @depends testMouseOverHover
+     *
+     * @return void
      */
-    public function testRightClickHover()
+    public function testRightClickHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -65,7 +76,7 @@ class HoverTest extends TestCase
         $this->assertActionSquareHeight(200);
     }
 
-    private function assertActionSquareHeight($expected)
+    private function assertActionSquareHeight(int $expected): void
     {
         $this->assertEquals(
             $expected,

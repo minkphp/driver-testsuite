@@ -2,15 +2,19 @@
 
 namespace Behat\Mink\Tests\Driver\Js;
 
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Tests\Driver\TestCase;
 use Facebook\WebDriver\WebDriverKeys;
+use Generator;
 
 class EventsTest extends TestCase
 {
     /**
      * @group mouse-events
+     * @throws ElementNotFoundException
      */
-    public function testClick()
+    public function testClick(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
@@ -22,8 +26,9 @@ class EventsTest extends TestCase
 
     /**
      * @group mouse-events
+     * @throws ElementNotFoundException
      */
-    public function testDoubleClick()
+    public function testDoubleClick(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
@@ -32,7 +37,7 @@ class EventsTest extends TestCase
         // usleep is required for firefox
         // firefox does not wait for page load as chrome as we may get unbound event and dblclick will not be performed
         // especially if session is not fresh
-        usleep(1e6);
+        usleep(1000000); //1e6
 
         $clicker->doubleClick();
         $this->assertEquals('double clicked', $clicker->getText());
@@ -40,8 +45,9 @@ class EventsTest extends TestCase
 
     /**
      * @group mouse-events
+     * @throws ElementNotFoundException
      */
-    public function testRightClick()
+    public function testRightClick(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
@@ -53,8 +59,9 @@ class EventsTest extends TestCase
 
     /**
      * @group mouse-events
+     * @throws ElementNotFoundException|ExpectationException
      */
-    public function testFocus()
+    public function testFocus(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
@@ -74,10 +81,11 @@ class EventsTest extends TestCase
     }
 
     /**
-     * @group mouse-events
+     * @group   mouse-events
      * @depends testFocus
+     * @throws ElementNotFoundException
      */
-    public function testBlur()
+    public function testBlur(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
@@ -91,8 +99,9 @@ class EventsTest extends TestCase
 
     /**
      * @group mouse-events
+     * @throws ElementNotFoundException
      */
-    public function testMouseOver()
+    public function testMouseOver(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $mouseOverDetector = $this->getAssertSession()->elementExists('css', '.elements div#mouseover-detector');
@@ -104,8 +113,9 @@ class EventsTest extends TestCase
 
     /**
      * @dataProvider provideKeyboardEventsModifiers
+     * @throws ElementNotFoundException
      */
-    public function testKeyboardEvents($string, $expected)
+    public function testKeyboardEvents(string $string, string $expected): void
     {
         $this->getSession()->visit($this->pathTo('/keyboard_test.html'));
         $webAssert = $this->getAssertSession();
@@ -124,27 +134,28 @@ class EventsTest extends TestCase
         );
     }
 
-    public function provideKeyboardEventsModifiers()
+    /**
+     * @return Generator
+     *
+     * @psalm-return Generator<int, array{0: WebDriverKeys::*, 1: string}, mixed, void>
+     */
+    public function provideKeyboardEventsModifiers(): Generator
     {
-        $data = [
-            'alt-keyDown-keyUp' => [
-                WebDriverKeys::LEFT_ALT,
-                "Key \"Alt\" pressed  [event: keydown]\nKey \"Alt\" released  [event: keyup]\n"
-            ],
-            'shift-keyDown-keyUp' => [
-                WebDriverKeys::LEFT_SHIFT,
-                "Key \"Shift\" pressed  [event: keydown]\nKey \"Shift\" released  [event: keyup]\n"
-            ],
-            'ctrl-keyDown-keyUp' => [
-                WebDriverKeys::LEFT_CONTROL,
-                "Key \"Control\" pressed  [event: keydown]\nKey \"Control\" released  [event: keyup]\n"
-            ],
-            'meta-keyDown-keyUp' => [
-                WebDriverKeys::META,
-                "Key \"Meta\" pressed  [event: keydown]\nKey \"Meta\" released  [event: keyup]\n"
-            ],
+        yield [
+            WebDriverKeys::LEFT_ALT,
+            "Key \"Alt\" pressed  [event: keydown]\nKey \"Alt\" released  [event: keyup]\n"
         ];
-
-        return $data;
+        yield [
+            WebDriverKeys::LEFT_SHIFT,
+            "Key \"Shift\" pressed  [event: keydown]\nKey \"Shift\" released  [event: keyup]\n"
+        ];
+        yield [
+            WebDriverKeys::LEFT_CONTROL,
+            "Key \"Control\" pressed  [event: keydown]\nKey \"Control\" released  [event: keyup]\n"
+        ];
+        yield [
+            WebDriverKeys::META,
+            "Key \"Meta\" pressed  [event: keydown]\nKey \"Meta\" released  [event: keyup]\n"
+        ];
     }
 }

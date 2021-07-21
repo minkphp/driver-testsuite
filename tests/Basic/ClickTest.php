@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class ClickTest extends TestCase
 {
-    public function testClickOutsideViewport()
+    public function testClickOutsideViewport(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/clickoutsideviewport.html'));

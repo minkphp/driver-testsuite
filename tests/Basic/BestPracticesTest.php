@@ -3,25 +3,28 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Behat\Mink\Driver\CoreDriver;
 
 /**
  * This testcase ensures that the driver implementation follows recommended practices for drivers.
  */
 class BestPracticesTest extends TestCase
 {
-    public function testExtendsCoreDriver()
+    public function testExtendsCoreDriver(): \Behat\Mink\Driver\DriverInterface
     {
         $driver = $this->createDriver();
 
-        $this->assertInstanceOf('Behat\Mink\Driver\CoreDriver', $driver);
+        $this->assertInstanceOf(CoreDriver::class, $driver);
 
         return $driver;
     }
 
     /**
      * @depends testExtendsCoreDriver
+     *
+     * @return void
      */
-    public function testImplementFindXpath()
+    public function testImplementFindXpath(): void
     {
         $driver = $this->createDriver();
 
@@ -32,15 +35,22 @@ class BestPracticesTest extends TestCase
 
     /**
      * @dataProvider provideRequiredMethods
+     *
+     * @return void
      */
-    public function testImplementBasicApi($method)
+    public function testImplementBasicApi(string $method): void
     {
         $driver = $this->createDriver();
 
         $this->assertImplementMethod($method, $driver, 'The driver is unusable when this method is not implemented.');
     }
 
-    public function provideRequiredMethods()
+    /**
+     * @return string[][]
+     *
+     * @psalm-return array{0: array{0: 'start'}, 1: array{0: 'isStarted'}, 2: array{0: 'stop'}, 3: array{0: 'reset'}, 4: array{0: 'visit'}, 5: array{0: 'getCurrentUrl'}, 6: array{0: 'getContent'}, 7: array{0: 'click'}}
+     */
+    public function provideRequiredMethods(): array
     {
         return array(
             array('start'),
@@ -54,7 +64,7 @@ class BestPracticesTest extends TestCase
         );
     }
 
-    private function assertImplementMethod($method, $object, $reason = '')
+    private function assertImplementMethod(string $method, \Behat\Mink\Driver\DriverInterface $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);
@@ -68,7 +78,7 @@ class BestPracticesTest extends TestCase
         $this->assertNotSame('Behat\Mink\Driver\CoreDriver', $refMethod->getDeclaringClass()->name, $message);
     }
 
-    private function assertNotImplementMethod($method, $object, $reason = '')
+    private function assertNotImplementMethod(string $method, \Behat\Mink\Driver\DriverInterface $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);

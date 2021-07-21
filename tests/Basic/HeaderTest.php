@@ -10,8 +10,10 @@ class HeaderTest extends TestCase
      * test referrer.
      *
      * @group issue130
+     *
+     * @return void
      */
-    public function testIssue130()
+    public function testIssue130(): void
     {
         $this->getSession()->visit($this->pathTo('/issue130.php?p=1'));
         $page = $this->getSession()->getPage();
@@ -25,7 +27,7 @@ class HeaderTest extends TestCase
         $this->assertEquals($this->pathTo('/issue130.php?p=1'), $page->getText());
     }
 
-    public function testHeaders()
+    public function testHeaders(): void
     {
         $this->getSession()->setRequestHeader('Accept-Language', 'fr');
         $this->getSession()->visit($this->pathTo('/headers.php'));
@@ -33,7 +35,7 @@ class HeaderTest extends TestCase
         $this->assertStringContainsString('HTTP_ACCEPT_LANGUAGE = `fr`', $this->getSession()->getPage()->getContent());
     }
 
-    public function testSetUserAgent()
+    public function testSetUserAgent(): void
     {
         $session = $this->getSession();
 
@@ -42,7 +44,7 @@ class HeaderTest extends TestCase
         $this->assertStringContainsString('HTTP_USER_AGENT = `foo bar`', $session->getPage()->getContent());
     }
 
-    public function testResetHeaders()
+    public function testResetHeaders(): void
     {
         $session = $this->getSession();
 
@@ -52,8 +54,7 @@ class HeaderTest extends TestCase
         $this->assertStringContainsString(
             'HTTP_X_MINK_TEST = `test`',
             $session->getPage()->getContent(),
-            'The custom header should be sent',
-            true
+            'The custom header should be sent'
         );
 
         $session->reset();
@@ -62,15 +63,15 @@ class HeaderTest extends TestCase
         $this->assertStringNotContainsString(
             'HTTP_X_MINK_TEST = `test`',
             $session->getPage()->getContent(),
-            'The custom header should not be sent after resetting',
-            true
+            'The custom header should not be sent after resetting'
         );
     }
 
-    public function testResponseHeaders()
+    public function testResponseHeaders(): void
     {
         $this->getSession()->visit($this->pathTo('/response_headers.php'));
 
+        /** @psalm-var array<string, string> */
         $headers = $this->getSession()->getResponseHeaders();
 
         $lowercasedHeaders = array();

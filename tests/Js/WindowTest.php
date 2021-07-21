@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class WindowTest extends TestCase
 {
-    public function testWindow()
+    public function testWindow(): void
     {
         $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
@@ -35,15 +35,14 @@ class WindowTest extends TestCase
         $this->assertSame('Main window div text', $el->getText());
     }
 
-    public function testGetWindowNames()
+    public function testGetWindowNames(): void
     {
         $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
         $page = $session->getPage();
 
         $windowName = $this->getSession()->getWindowName();
-
-        $this->assertNotNull($windowName);
+        $this->assertNotEmpty($windowName);
 
         $page->clickLink('Popup #1');
         $page->clickLink('Popup #2');
@@ -55,7 +54,7 @@ class WindowTest extends TestCase
         $this->assertNotNull($windowNames[2]);
     }
 
-    public function testResizeWindow()
+    public function testResizeWindow(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
@@ -81,11 +80,11 @@ class WindowTest extends TestCase
         })();
 JS;
 
-        $result = $session->evaluateScript($jsWindowSizeScript);
+        $result = (bool) $session->evaluateScript($jsWindowSizeScript);
         $this->assertTrue($result);
     }
 
-    public function testWindowMaximize()
+    public function testWindowMaximize(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();

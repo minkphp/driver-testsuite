@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class Html5Test extends TestCase
 {
-    public function testHtml5FormInputAttribute()
+    public function testHtml5FormInputAttribute(): void
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
         $page = $this->getSession()->getPage();
@@ -38,7 +38,7 @@ OUT;
         }
     }
 
-    public function testHtml5FormRadioAttribute()
+    public function testHtml5FormRadioAttribute(): void
     {
         $this->getSession()->visit($this->pathTo('html5_radio.html'));
         $page = $this->getSession()->getPage();
@@ -66,7 +66,7 @@ OUT;
         $this->assertStringContainsString($out, $page->getContent());
     }
 
-    public function testHtml5FormButtonAttribute()
+    public function testHtml5FormButtonAttribute(): void
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
         $page = $this->getSession()->getPage();
@@ -95,7 +95,7 @@ OUT;
         }
     }
 
-    public function testHtml5FormOutside()
+    public function testHtml5FormOutside(): void
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
         $page = $this->getSession()->getPage();
@@ -117,7 +117,7 @@ OUT;
         }
     }
 
-    public function testHtml5Types()
+    public function testHtml5Types(): void
     {
         $this->getSession()->visit($this->pathTo('html5_types.html'));
         $page = $this->getSession()->getPage();
@@ -156,7 +156,7 @@ OUT;
         $this->assertStringContainsString($out, $page->getContent());
     }
 
-    public function testHtml5FormAction()
+    public function testHtml5FormAction(): void
     {
         $this->getSession()->visit($this->pathTo('html5_form.html'));
         $page = $this->getSession()->getPage();
@@ -174,7 +174,7 @@ OUT;
         }
     }
 
-    public function testHtml5FormMethod()
+    public function testHtml5FormMethod(): void
     {
         $this->getSession()->visit($this->pathTo('html5_form.html'));
         $page = $this->getSession()->getPage();

@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class SelectTest extends TestCase
 {
-    public function testMultiselect()
+    public function testMultiselect(): void
     {
         $this->getSession()->visit($this->pathTo('/multiselect_form.html'));
         $webAssert = $this->getAssertSession();
@@ -67,8 +67,10 @@ OUT;
 
     /**
      * @dataProvider elementSelectedStateCheckDataProvider
+     *
+     * @return void
      */
-    public function testElementSelectedStateCheck($selectName, $optionValue, $optionText)
+    public function testElementSelectedStateCheck(string $selectName, string $optionValue, string $optionText): void
     {
         $session = $this->getSession();
         $webAssert = $this->getAssertSession();
@@ -82,7 +84,12 @@ OUT;
         $this->assertTrue($option->isSelected());
     }
 
-    public function elementSelectedStateCheckDataProvider()
+    /**
+     * @return string[][]
+     *
+     * @psalm-return array{0: array{0: 'select_number', 1: '30', 2: 'thirty'}, 1: array{0: 'select_multiple_numbers[]', 1: '2', 2: 'two'}}
+     */
+    public function elementSelectedStateCheckDataProvider(): array
     {
         return array(
             array('select_number', '30', 'thirty'),
@@ -90,7 +97,7 @@ OUT;
         );
     }
 
-    public function testSetValueSingleSelect()
+    public function testSetValueSingleSelect(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
@@ -100,7 +107,7 @@ OUT;
         $this->assertEquals('10', $select->getValue());
     }
 
-    public function testSetValueMultiSelect()
+    public function testSetValueMultiSelect(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
@@ -112,8 +119,10 @@ OUT;
 
     /**
      * @see https://github.com/Behat/Mink/issues/193
+     *
+     * @return void
      */
-    public function testOptionWithoutValue()
+    public function testOptionWithoutValue(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/issue193.html'));
@@ -130,14 +139,19 @@ OUT;
 
     /**
      * @see https://github.com/Behat/Mink/issues/131
+     *
+     * @return void
      */
-    public function testAccentuatedOption()
+    public function testAccentuatedOption(): void
     {
         $this->getSession()->visit($this->pathTo('/issue131.html'));
         $page = $this->getSession()->getPage();
 
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
 
-        $this->assertEquals('1', $page->findField('foobar')->getValue());
+        $nodeElement = $page->findField('foobar');
+        $this->assertNotNull($nodeElement);
+
+        $this->assertEquals('1', $nodeElement->getValue());
     }
 }

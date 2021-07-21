@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class CheckboxTest extends TestCase
 {
-    public function testManipulate()
+    public function testManipulate(): void
     {
         $this->getSession()->visit($this->pathTo('advanced_form.html'));
 
@@ -36,7 +36,7 @@ class CheckboxTest extends TestCase
         $this->assertFalse($checkbox->isChecked());
     }
 
-    public function testSetValue()
+    public function testSetValue(): void
     {
         $this->getSession()->visit($this->pathTo('advanced_form.html'));
 
@@ -56,7 +56,7 @@ class CheckboxTest extends TestCase
         $this->assertFalse($checkbox->isChecked());
     }
 
-    public function testCheckboxMultiple()
+    public function testCheckboxMultiple(): void
     {
         $this->getSession()->visit($this->pathTo('/multicheckbox_form.html'));
         $webAssert = $this->getAssertSession();

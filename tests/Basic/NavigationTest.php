@@ -6,13 +6,13 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class NavigationTest extends TestCase
 {
-    public function testRedirect()
+    public function testRedirect(): void
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));
         $this->assertEquals($this->pathTo('/redirect_destination.html'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testPageControls()
+    public function testPageControls(): void
     {
         $this->getSession()->visit($this->pathTo('/randomizer.php'));
         $number1 = $this->getAssertSession()->elementExists('css', '#number')->getText();
@@ -38,7 +38,7 @@ class NavigationTest extends TestCase
         $this->assertEquals($this->pathTo('/randomizer.php'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testLinks()
+    public function testLinks(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/links.html'));
@@ -46,7 +46,8 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Redirect me to');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/redirector\.php$/', $link->getAttribute('href'));
+        $attrValue = (string) $link->getAttribute('href');
+        $this->assertMatchesRegularExpression('/redirector\.php$/', $attrValue);
         $link->click();
 
         // usleep is required for firefox
@@ -60,7 +61,8 @@ class NavigationTest extends TestCase
         $link = $page->findLink('basic form image');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/basic_form\.html$/', $link->getAttribute('href'));
+        $attrValue = (string) $link->getAttribute('href');
+        $this->assertMatchesRegularExpression('/basic_form\.html$/', $attrValue);
         $link->click();
 
         // usleep is required for firefox
@@ -74,7 +76,8 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Link with a ');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/links\.html\?quoted$/', $link->getAttribute('href'));
+        $attrValue = (string) $link->getAttribute('href');
+        $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $attrValue);
         $link->click();
 
         // usleep is required for firefox
@@ -84,14 +87,15 @@ class NavigationTest extends TestCase
         $this->assertEquals($this->pathTo('/links.html?quoted'), $session->getCurrentUrl());
     }
 
-    public function testBlockLevelElementInAnchor()
+    public function testBlockLevelElementInAnchor(): void
     {
         $this->getSession()->visit($this->pathTo('/links.html'));
         $page = $this->getSession()->getPage();
         $link = $page->findLink('Link in a block element');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/basic_form\.html$/', $link->getAttribute('href'));
+        $attrValue = (string) $link->getAttribute('href');
+        $this->assertMatchesRegularExpression('/basic_form\.html$/', $attrValue);
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.html'), $this->getSession()->getCurrentUrl());

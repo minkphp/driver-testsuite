@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class StatusCodeTest extends TestCase
 {
-    public function testStatuses()
+    public function testStatuses(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
