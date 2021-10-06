@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertionRenames;
 
 class NavigationTest extends TestCase
 {
+    use AssertionRenames;
+
     public function testRedirect()
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));
@@ -41,7 +44,7 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Redirect me to');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/redirector\.php$/', $link->getAttribute('href'));
+        $this->assertMatchesRegularExpression('/redirector\.php$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/redirect_destination.html'), $this->getSession()->getCurrentUrl());
@@ -51,7 +54,7 @@ class NavigationTest extends TestCase
         $link = $page->findLink('basic form image');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/basic_form\.html$/', $link->getAttribute('href'));
+        $this->assertMatchesRegularExpression('/basic_form\.html$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.html'), $this->getSession()->getCurrentUrl());
@@ -61,7 +64,7 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Link with a ');
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/links\.html\?quoted$/', $link->getAttribute('href'));
+        $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/links.html?quoted'), $this->getSession()->getCurrentUrl());

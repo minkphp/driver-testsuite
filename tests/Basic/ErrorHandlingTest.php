@@ -3,12 +3,17 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
+use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 /**
  * @group slow
  */
 class ErrorHandlingTest extends TestCase
 {
+    use AssertStringContains;
+    use ExpectException;
+
     const NOT_FOUND_XPATH = '//html/./invalid';
 
     const NOT_FOUND_EXCEPTION = 'Exception';
@@ -19,7 +24,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/500.php'));
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Sorry, a server error happened',
             $this->getSession()->getPage()->getContent(),
             'Drivers allow loading pages with a 500 status code'
@@ -31,7 +36,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
 
-        $this->expectInvalidException();
+        $this->expectException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->check($element->getXpath());
     }
 
@@ -39,7 +44,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->check(self::NOT_FOUND_XPATH);
     }
 
@@ -48,7 +53,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
 
-        $this->expectInvalidException();
+        $this->expectException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->uncheck($element->getXpath());
     }
 
@@ -56,7 +61,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->uncheck(self::NOT_FOUND_XPATH);
     }
 
@@ -65,7 +70,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
 
-        $this->expectInvalidException();
+        $this->expectException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->selectOption($element->getXpath(), 'test');
     }
 
@@ -73,7 +78,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->selectOption(self::NOT_FOUND_XPATH, 'test');
     }
 
@@ -82,7 +87,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
 
-        $this->expectInvalidException();
+        $this->expectException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->attachFile($element->getXpath(), __FILE__);
     }
 
@@ -90,7 +95,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->attachFile(self::NOT_FOUND_XPATH, __FILE__);
     }
 
@@ -99,7 +104,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('core');
 
-        $this->expectInvalidException();
+        $this->expectException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->submitForm($element->getXpath());
     }
 
@@ -107,7 +112,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->submitForm(self::NOT_FOUND_XPATH);
     }
 
@@ -115,7 +120,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->getTagName(self::NOT_FOUND_XPATH);
     }
 
@@ -123,7 +128,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->getText(self::NOT_FOUND_XPATH);
     }
 
@@ -131,7 +136,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->getHtml(self::NOT_FOUND_XPATH);
     }
 
@@ -139,7 +144,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->getOuterHtml(self::NOT_FOUND_XPATH);
     }
 
@@ -147,7 +152,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->getValue(self::NOT_FOUND_XPATH);
     }
 
@@ -155,7 +160,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->setValue(self::NOT_FOUND_XPATH, 'test');
     }
 
@@ -163,7 +168,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->isSelected(self::NOT_FOUND_XPATH);
     }
 
@@ -171,7 +176,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->isChecked(self::NOT_FOUND_XPATH);
     }
 
@@ -179,7 +184,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->isVisible(self::NOT_FOUND_XPATH);
     }
 
@@ -187,7 +192,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->click(self::NOT_FOUND_XPATH);
     }
 
@@ -195,7 +200,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->doubleClick(self::NOT_FOUND_XPATH);
     }
 
@@ -203,7 +208,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->rightClick(self::NOT_FOUND_XPATH);
     }
 
@@ -211,7 +216,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->getAttribute(self::NOT_FOUND_XPATH, 'id');
     }
 
@@ -219,7 +224,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->mouseOver(self::NOT_FOUND_XPATH);
     }
 
@@ -227,7 +232,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->focus(self::NOT_FOUND_XPATH);
     }
 
@@ -235,7 +240,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->blur(self::NOT_FOUND_XPATH);
     }
 
@@ -243,7 +248,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->keyPress(self::NOT_FOUND_XPATH, 'a');
     }
 
@@ -251,7 +256,7 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->keyDown(self::NOT_FOUND_XPATH, 'a');
     }
 
@@ -259,27 +264,8 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->expectNotFoundException();
+        $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->keyUp(self::NOT_FOUND_XPATH, 'a');
     }
 
-    private function expectNotFoundException()
-    {
-        if (method_exists($this, 'expectException')) {
-            $this->expectException(self::NOT_FOUND_EXCEPTION);
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
-        }
-    }
-
-    private function expectInvalidException()
-    {
-        if (method_exists($this, 'expectException')) {
-            $this->expectException(self::INVALID_EXCEPTION);
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException(self::INVALID_EXCEPTION);
-        }
-    }
 }

@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class HeaderTest extends TestCase
 {
+    use AssertStringContains;
+
     /**
      * test referrer.
      *
@@ -25,7 +28,7 @@ class HeaderTest extends TestCase
         $this->getSession()->setRequestHeader('Accept-Language', 'fr');
         $this->getSession()->visit($this->pathTo('/headers.php'));
 
-        $this->assertContains('HTTP_ACCEPT_LANGUAGE = `fr`', $this->getSession()->getPage()->getContent());
+        $this->assertStringContainsString('HTTP_ACCEPT_LANGUAGE = `fr`', $this->getSession()->getPage()->getContent());
     }
 
     public function testSetUserAgent()
@@ -34,7 +37,7 @@ class HeaderTest extends TestCase
 
         $session->setRequestHeader('user-agent', 'foo bar');
         $session->visit($this->pathTo('/headers.php'));
-        $this->assertContains('HTTP_USER_AGENT = `foo bar`', $session->getPage()->getContent());
+        $this->assertStringContainsString('HTTP_USER_AGENT = `foo bar`', $session->getPage()->getContent());
     }
 
     public function testResetHeaders()
@@ -44,21 +47,19 @@ class HeaderTest extends TestCase
         $session->setRequestHeader('X-Mink-Test', 'test');
         $session->visit($this->pathTo('/headers.php'));
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'HTTP_X_MINK_TEST = `test`',
             $session->getPage()->getContent(),
-            'The custom header should be sent',
-            true
+            'The custom header should be sent'
         );
 
         $session->reset();
         $session->visit($this->pathTo('/headers.php'));
 
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             'HTTP_X_MINK_TEST = `test`',
             $session->getPage()->getContent(),
-            'The custom header should not be sent after resetting',
-            true
+            'The custom header should not be sent after resetting'
         );
     }
 

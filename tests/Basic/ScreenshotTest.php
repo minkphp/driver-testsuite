@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertIsType;
 
 class ScreenshotTest extends TestCase
 {
+    use AssertIsType;
+
     public function testScreenshot()
     {
         if (!extension_loaded('gd')) {
@@ -16,7 +19,7 @@ class ScreenshotTest extends TestCase
 
         $screenShot = $this->getSession()->getScreenshot();
 
-        $this->assertInternalType('string', $screenShot);
+        $this->assertIsString($screenShot);
         $this->assertFalse(base64_decode($screenShot, true), 'The returned screenshot should not be base64-encoded');
 
         $img = imagecreatefromstring($screenShot);

@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class Html5Test extends TestCase
 {
+    use AssertStringContains;
+
     public function testHtml5FormInputAttribute()
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
@@ -28,8 +31,8 @@ class Html5Test extends TestCase
   first_name = `John`,
   last_name = `Doe`,
 OUT;
-            $this->assertContains($out, $page->getContent());
-            $this->assertNotContains('other_field', $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
+            $this->assertStringNotContainsString('other_field', $page->getContent());
         }
     }
 
@@ -54,7 +57,7 @@ OUT;
         $out = <<<'OUT'
   sex = `m`,
 OUT;
-        $this->assertContains($out, $page->getContent());
+        $this->assertStringContainsString($out, $page->getContent());
     }
 
     public function testHtml5FormButtonAttribute()
@@ -77,7 +80,7 @@ OUT;
   last_name = `Doe`,
   submit_button = `test`,
 OUT;
-            $this->assertContains($out, $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
         }
     }
 
@@ -94,8 +97,8 @@ OUT;
             $out = <<<'OUT'
   other_field = `hello`,
 OUT;
-            $this->assertContains($out, $page->getContent());
-            $this->assertNotContains('first_name', $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
+            $this->assertStringNotContainsString('first_name', $page->getContent());
         }
     }
 
@@ -125,7 +128,7 @@ OUT;
   url = `http://mink.behat.org/`,
 OUT;
 
-        $this->assertContains($out, $page->getContent());
+        $this->assertStringContainsString($out, $page->getContent());
     }
 
     public function testHtml5FormAction()
@@ -137,8 +140,8 @@ OUT;
         $page->pressButton('Submit to basic form');
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $this->assertContains('<title>Basic Form Saving</title>', $page->getContent());
-            $this->assertContains('Firstname: Jimmy', $page->getContent());
+            $this->assertStringContainsString('<title>Basic Form Saving</title>', $page->getContent());
+            $this->assertStringContainsString('Firstname: Jimmy', $page->getContent());
         }
     }
 
