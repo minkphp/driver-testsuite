@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class JavascriptTest extends TestCase
 {
+    use AssertStringContains;
+
     public function testAriaRoles()
     {
         $this->getSession()->visit($this->pathTo('/aria_roles.html'));
@@ -37,6 +40,6 @@ class JavascriptTest extends TestCase
         $this->getSession()->getPage()->pressButton('Créer un compte');
         $this->getSession()->wait(5000, '$("#panel").text() != ""');
 
-        $this->assertContains('OH AIH!', $this->getSession()->getPage()->getText());
+        $this->assertStringContainsString('OH AIH!', $this->getSession()->getPage()->getText());
     }
 }

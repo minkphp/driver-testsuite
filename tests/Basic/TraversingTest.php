@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertionRenames;
 
 class TraversingTest extends TestCase
 {
+    use AssertionRenames;
+
     /**
      * find by label.
      *
@@ -122,7 +125,7 @@ class TraversingTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $this->assertRegExp('/some_url$/', $subUrl->getAttribute('href'));
+        $this->assertMatchesRegularExpression('/some_url$/', $subUrl->getAttribute('href'));
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
 

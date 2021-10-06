@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class GeneralTest extends TestCase
 {
+    use AssertStringContains;
+
     // test multiple submit buttons
     public function testIssue212()
     {
@@ -142,7 +145,7 @@ class GeneralTest extends TestCase
 
         $page->pressButton('Register');
 
-        $this->assertContains('no file', $page->getContent());
+        $this->assertStringContainsString('no file', $page->getContent());
 
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -217,7 +220,7 @@ array(
 some_file.txt
 1 uploaded file
 OUT;
-            $this->assertContains($out, $page->getContent());
+            $this->assertStringContainsString($out, $page->getContent());
         }
     }
 
@@ -303,7 +306,7 @@ OUT;
     2 = `tag3`,
   ),
 OUT;
-        $this->assertContains($out, $page->getContent());
+        $this->assertStringContainsString($out, $page->getContent());
     }
 
     public function testAdvancedFormSecondSubmit()
@@ -324,7 +327,7 @@ OUT;
         $pageContent = $page->getContent();
 
         foreach ($toSearch as $searchString) {
-            $this->assertContains($searchString, $pageContent);
+            $this->assertStringContainsString($searchString, $pageContent);
         }
     }
 
@@ -344,7 +347,7 @@ OUT;
         $pageContent = $page->getContent();
 
         foreach ($toSearch as $searchString) {
-            $this->assertContains($searchString, $pageContent);
+            $this->assertStringContainsString($searchString, $pageContent);
         }
     }
 }

@@ -22,9 +22,9 @@ abstract class TestCase extends SkippingUnsupportedTestCase
     private static $config;
 
     /**
-     * Initializes the test case.
+     * @beforeClass
      */
-    public static function setUpBeforeClass()
+    public static function prepareSession()
     {
         if (null === self::$mink) {
             $session = new Session(self::getConfig()->createDriver());
@@ -50,16 +50,20 @@ abstract class TestCase extends SkippingUnsupportedTestCase
         return self::$config;
     }
 
-    protected function setUp()
+    /**
+     * @before
+     */
+    protected function checkSkippedTest()
     {
         if (null !== $message = self::getConfig()->skipMessage(get_class($this), $this->getName(false))) {
             $this->markTestSkipped($message);
         }
-
-        parent::setUp();
     }
 
-    protected function tearDown()
+    /**
+     * @after
+     */
+    protected function resetSessions()
     {
         if (null !== self::$mink) {
             self::$mink->resetSessions();

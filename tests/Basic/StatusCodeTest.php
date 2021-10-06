@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class StatusCodeTest extends TestCase
 {
+    use AssertStringContains;
+
     public function testStatuses()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
@@ -17,6 +20,6 @@ class StatusCodeTest extends TestCase
 
         $this->assertEquals($this->pathTo('/404.php'), $this->getSession()->getCurrentUrl());
         $this->assertEquals(404, $this->getSession()->getStatusCode());
-        $this->assertContains('Sorry, page not found', $this->getSession()->getPage()->getContent());
+        $this->assertStringContainsString('Sorry, page not found', $this->getSession()->getPage()->getContent());
     }
 }
