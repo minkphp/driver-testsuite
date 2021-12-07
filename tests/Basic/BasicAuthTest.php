@@ -38,12 +38,12 @@ class BasicAuthTest extends TestCase
         $url = $this->pathTo('/basic_auth.php');
         $url = str_replace('://', '://mink-user:mink-password@', $url);
         $session->visit($url);
-        $this->assertContains('is authenticated', $session->getPage()->getContent());
+        $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
 
         $url = $this->pathTo('/basic_auth.php');
         $url = str_replace('://', '://mink-user:wrong@', $url);
         $session->visit($url);
-        $this->assertContains('is not authenticated', $session->getPage()->getContent());
+        $this->assertStringContainsString('is not authenticated', $session->getPage()->getContent());
     }
 
     public function testResetBasicAuth()
