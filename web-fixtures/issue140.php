@@ -2,7 +2,7 @@
 require_once 'utils.php';
 
 if (!empty($_POST)) {
-    setcookie("tc", $_POST['cookie_value'], null, '/');
+    setcookie("tc", $_POST['cookie_value'], 0, '/');
 } elseif (isset($_GET["show_value"])) {
     echo html_escape_value($_COOKIE["tc"]);
     die();

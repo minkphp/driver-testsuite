@@ -1,7 +1,7 @@
 <?php
 
 $hasCookie = isset($_COOKIE['foo']);
-setcookie('foo', 'bar', 0, '/', null, false, true);
+setcookie('foo', 'bar', 0, '/', '', false, true);
 
 ?>
 <!DOCTYPE html>

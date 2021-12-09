@@ -7,7 +7,7 @@ if (!isset($cookieValue)) {
     $cookieValue = 'srv_var_is_set';
 }
 
-setcookie('srvr_cookie', $cookieValue, null, $cookieAtRootPath ? '/' : null);
+setcookie('srvr_cookie', $cookieValue, 0, $cookieAtRootPath ? '/' : '');
 ?>
 <!DOCTYPE html>
 <html>
