@@ -12,6 +12,9 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FixturesKernel implements HttpKernelInterface
 {
+    /**
+     * @return Response
+     */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         $this->prepareSession($request);
