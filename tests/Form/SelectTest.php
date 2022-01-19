@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class SelectTest extends TestCase
 {
-    use AssertStringContains;
-
     public function testMultiselect()
     {
         $this->getSession()->visit($this->pathTo('/multiselect_form.html'));

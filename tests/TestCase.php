@@ -6,8 +6,9 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
 use Behat\Mink\Session;
 use Behat\Mink\WebAssert;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-abstract class TestCase extends SkippingUnsupportedTestCase
+abstract class TestCase extends BaseTestCase
 {
     /**
      * Mink session manager.
@@ -68,6 +69,15 @@ abstract class TestCase extends SkippingUnsupportedTestCase
         if (null !== self::$mink) {
             self::$mink->resetSessions();
         }
+    }
+
+    protected function onNotSuccessfulTest(\Throwable $e): void
+    {
+        if ($e instanceof UnsupportedDriverActionException) {
+            $this->markTestSkipped($e->getMessage());
+        }
+
+        parent::onNotSuccessfulTest($e);
     }
 
     /**
