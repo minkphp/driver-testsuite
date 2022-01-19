@@ -1,11 +1,7 @@
 <?php
     $resp = new Symfony\Component\HttpFoundation\Response();
     $cookiePath = dirname($request->server->get('REQUEST_URI')) . '/';
-    if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
-        $cookie = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set', 0, $cookiePath);
-    } else {
-        $cookie = new Symfony\Component\HttpFoundation\Cookie('srvr_cookie', 'srv_var_is_set', 0, $cookiePath);
-    }
+    $cookie = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set', 0, $cookiePath);
     $resp->headers->setCookie($cookie);
 ?>
 <!DOCTYPE html>

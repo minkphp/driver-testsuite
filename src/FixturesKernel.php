@@ -2,7 +2,6 @@
 
 namespace Behat\Mink\Tests\Driver\Util;
 
-
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,10 +11,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FixturesKernel implements HttpKernelInterface
 {
-    /**
-     * @return Response
-     */
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true): Response
     {
         $this->prepareSession($request);
 
@@ -27,7 +23,7 @@ class FixturesKernel implements HttpKernelInterface
         return $response;
     }
 
-    private function handleFixtureRequest(Request $request)
+    private function handleFixtureRequest(Request $request): Response
     {
         $fixturesDir = realpath(__DIR__.'/../web-fixtures');
         $overwriteDir = realpath(__DIR__.'/../http-kernel-fixtures');
@@ -71,17 +67,17 @@ class FixturesKernel implements HttpKernelInterface
 
     private function saveSession(Request $request, Response $response)
     {
+        if (!$request->hasSession()) {
+            return;
+        }
+
         $session = $request->getSession();
-        if ($session && $session->isStarted()) {
+        if ($session->isStarted()) {
             $session->save();
 
             $params = session_get_cookie_params();
 
-            if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
-                $cookie = Cookie::create($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-            } else {
-                $cookie = new Cookie($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-            }
+            $cookie = Cookie::create($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 
             $response->headers->setCookie($cookie);
         }
