@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class GeneralTest extends TestCase
 {
-    use AssertStringContains;
-
     // test multiple submit buttons
     public function testIssue212()
     {

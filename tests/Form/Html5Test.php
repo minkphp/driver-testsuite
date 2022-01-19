@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class Html5Test extends TestCase
 {
-    use AssertStringContains;
-
     public function testHtml5FormInputAttribute()
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));

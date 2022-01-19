@@ -3,17 +3,12 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 /**
  * @group slow
  */
 class ErrorHandlingTest extends TestCase
 {
-    use AssertStringContains;
-    use ExpectException;
-
     const NOT_FOUND_XPATH = '//html/./invalid';
 
     const NOT_FOUND_EXCEPTION = 'Exception';
@@ -267,5 +262,4 @@ class ErrorHandlingTest extends TestCase
         $this->expectException(self::NOT_FOUND_EXCEPTION);
         $this->getSession()->getDriver()->keyUp(self::NOT_FOUND_XPATH, 'a');
     }
-
 }

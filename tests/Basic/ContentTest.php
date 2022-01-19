@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class ContentTest extends TestCase
 {
-    use AssertStringContains;
-
     public function testOuterHtml()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));

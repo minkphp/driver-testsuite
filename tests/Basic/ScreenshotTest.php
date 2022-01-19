@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertIsType;
 
 class ScreenshotTest extends TestCase
 {
-    use AssertIsType;
-
     public function testScreenshot()
     {
         if (!extension_loaded('gd')) {

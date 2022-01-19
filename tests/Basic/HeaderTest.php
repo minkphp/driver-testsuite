@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class HeaderTest extends TestCase
 {
-    use AssertStringContains;
-
     /**
      * test referrer.
      *

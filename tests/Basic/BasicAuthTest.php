@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertStringContains;
 
 class BasicAuthTest extends TestCase
 {
-    use AssertStringContains;
-
     /**
      * @dataProvider setBasicAuthDataProvider
      */
