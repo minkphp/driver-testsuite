@@ -8,12 +8,11 @@ use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class RadioTest extends TestCase
 {
-    use SetUpTearDownTrait, OnNotSuccessfulTrait;
-
-    protected function doSetUp()
+    /**
+     * @before
+     */
+    protected function visitPage()
     {
-        parent::doSetUp();
-
         $this->getSession()->visit($this->pathTo('radio.html'));
     }
 

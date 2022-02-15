@@ -28,6 +28,21 @@ class BasicAuthTest extends TestCase
         );
     }
 
+    public function testBasicAuthInUrl()
+    {
+        $session = $this->getSession();
+
+        $url = $this->pathTo('/basic_auth.php');
+        $url = str_replace('://', '://mink-user:mink-password@', $url);
+        $session->visit($url);
+        $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
+
+        $url = $this->pathTo('/basic_auth.php');
+        $url = str_replace('://', '://mink-user:wrong@', $url);
+        $session->visit($url);
+        $this->assertStringContainsString('is not authenticated', $session->getPage()->getContent());
+    }
+
     public function testResetBasicAuth()
     {
         $session = $this->getSession();

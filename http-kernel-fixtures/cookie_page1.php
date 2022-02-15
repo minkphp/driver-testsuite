@@ -1,10 +1,6 @@
 <?php
     $resp = new Symfony\Component\HttpFoundation\Response();
-    if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
-        $cook = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set', 0, '/');
-    } else {
-        $cook = new Symfony\Component\HttpFoundation\Cookie('srvr_cookie', 'srv_var_is_set', 0, '/');
-    }
+    $cook = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set', 0, '/');
     $resp->headers->setCookie($cook);
 ?>
 <!doctype html public "-//w3c//dtd xhtml 1.1//en" "http://www.w3.org/tr/xhtml11/dtd/xhtml11.dtd">

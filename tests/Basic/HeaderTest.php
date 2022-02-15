@@ -52,8 +52,7 @@ class HeaderTest extends TestCase
         $this->assertStringContainsString(
             'HTTP_X_MINK_TEST = `test`',
             $session->getPage()->getContent(),
-            'The custom header should be sent',
-            true
+            'The custom header should be sent'
         );
 
         $session->reset();
@@ -62,8 +61,7 @@ class HeaderTest extends TestCase
         $this->assertStringNotContainsString(
             'HTTP_X_MINK_TEST = `test`',
             $session->getPage()->getContent(),
-            'The custom header should not be sent after resetting',
-            true
+            'The custom header should not be sent after resetting'
         );
     }
 

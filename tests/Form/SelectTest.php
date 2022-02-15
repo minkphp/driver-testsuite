@@ -61,7 +61,6 @@ class SelectTest extends TestCase
   ),
   select_number = `30`,
 OUT;
-        $out = str_replace(["\r", "\r\n", "\n"], \PHP_EOL, $out);
         $this->assertStringContainsString($out, $page->getContent());
     }
 

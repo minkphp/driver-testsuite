@@ -11,11 +11,12 @@ The testsuite of a driver should be based as follow:
 ```json
 {
     "require": {
-        "behat/mink": "~1.7"
+        "behat/mink": "^1.9"
     },
 
     "require-dev": {
-        "mink/driver-testsuite": "dev-master"
+        "mink/driver-testsuite": "dev-master",
+        "phpunit/phpunit": "^8.5.22 || ^9.5.11"
     },
 
     "autoload-dev": {
@@ -51,6 +52,10 @@ The PHPUnit config should look like this:
             <directory>./src</directory>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
 </phpunit>
 ```
 
@@ -109,12 +114,14 @@ To stop the server at the end of tests, cancel the command.
 > This command also requires PHP 5.4+ to be able to use the builtin webserver. If the PHP version available
 > in the PATH is a different one, use the `MINK_PHP_BIN` env variable to select a different PHP runtime.
 
-You can now run tests for your driver with `phpunit`.
+You can now run tests for your driver with `vendor/bin/phpunit`.
 This package installs PHPUnit as a dependency to ensure that a version of PHPUnit compatible with the testsuite is used.
 
 Adding Driver-specific Tests
 ----------------------------
 
 When adding extra test cases specific to the driver, either use your own namespace or put them in the
-``Behat\Mink\Tests\Driver\Custom`` subnamespace to ensure that you will not create conflicts with test cases
+`Behat\Mink\Tests\Driver\Custom` subnamespace to ensure that you will not create conflicts with test cases
 added in the driver testsuite in the future.
+When the driver has its own tests, it is recommended to add the dev requirement on `phpunit/phpunit` to
+ensure that the tests are compatible with phpunit even if driver-testsuite adds support for newer versions.

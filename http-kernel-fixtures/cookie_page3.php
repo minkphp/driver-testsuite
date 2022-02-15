@@ -2,11 +2,7 @@
 
 $hasCookie = $request->cookies->has('foo');
 $resp = new Symfony\Component\HttpFoundation\Response();
-if (method_exists('Symfony\Component\HttpFoundation\Cookie', 'create')) {
-    $cook = Symfony\Component\HttpFoundation\Cookie::create('foo', 'bar');
-} else {
-    $cook = new Symfony\Component\HttpFoundation\Cookie('foo', 'bar');
-}
+$cook = Symfony\Component\HttpFoundation\Cookie::create('foo', 'bar');
 $resp->headers->setCookie($cook);
 
 ?>

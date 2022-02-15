@@ -2,7 +2,6 @@
 
 namespace Behat\Mink\Tests\Driver\Util;
 
-
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +11,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FixturesKernel implements HttpKernelInterface
 {
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true): Response
     {
         $this->prepareSession($request);
 
@@ -73,21 +72,17 @@ class FixturesKernel implements HttpKernelInterface
 
     private function saveSession(Request $request, Response $response): void
     {
+        if (!$request->hasSession()) {
+            return;
+        }
+
         $session = $request->getSession();
-        if ($session && $session->isStarted()) {
+        if ($session->isStarted()) {
             $session->save();
 
             $params = session_get_cookie_params();
 
-            $cookie = new Cookie(
-                (string) $session->getName(),
-                $session->getId(),
-                $params['lifetime'] === 0 ? 0 : (time() + (int) $params['lifetime']),
-                (string) $params['path'],
-                (string) $params['domain'],
-                (bool) $params['secure'],
-                (bool) $params['httponly']
-            );
+            $cookie = Cookie::create($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 
             $response->headers->setCookie($cookie);
         }

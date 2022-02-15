@@ -21,13 +21,19 @@
     ],
     "require": {
         "php": ">=7.2",
-        "behat/mink": "^1.8"
+        "ext-json": "*",
+        "behat/mink": "^1.9",
+        "symfony/error-handler": "^4.4 || ^5.0 || ^6.0",
+        "symfony/phpunit-bridge": "^4.4 || ^5.4 || ^6.0",
+        "phpunit/phpunit": "^8.5.22 || ^9.5.11",
+        "yoast/phpunit-polyfills": "^1.0"
     },
     "require-dev": {
-        "symfony/http-kernel": "^2.7 | ^3.2 | ^4.0 | ^5.0 | ^6.0@dev",
-        "phpunit/phpunit": "^8.2",
-        "symfony/phpunit-bridge": "^5.2",
-        "vimeo/psalm": "^4.8"
+        "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0"
+    },
+    "conflict": {
+        "symfony/http-foundation": "<4.4 || >=7",
+        "symfony/http-kernel": "<4.4 || >=7"
     },
     "bin": [
         "bin/mink-test-server"
