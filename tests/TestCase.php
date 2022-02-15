@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use SetUpTearDownTrait, OnNotSuccessfulTrait;
+    use OnNotSuccessfulTrait;
 
     /**
      * Mink session manager.
