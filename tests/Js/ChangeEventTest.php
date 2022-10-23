@@ -60,8 +60,14 @@ class ChangeEventTest extends TestCase
 
     public function setValueChangeEventDataProvider()
     {
-        $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
-        $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
+        // paths must be canonical and reachable from browser
+        if (getenv('GITHUB_ACTION')) {
+            $file1 = '/etc/hosts.allow';
+            $file2 = '/etc/hosts.deny';
+        } else {
+            $file1 = realpath(__DIR__ . '/../../web-fixtures/file1.txt');
+            $file2 = realpath(__DIR__ . '/../../web-fixtures/file2.txt');
+        }
 
         return array(
             'input default' => array('the-input-default', 'from empty', 'from existing'),
