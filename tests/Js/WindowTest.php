@@ -14,19 +14,21 @@ class WindowTest extends TestCase
         $webAssert = $this->getAssertSession();
 
         $page->clickLink('Popup #1');
+        $popup1WindowHandle = array_slice($session->getDriver()->getWindowNames(), -1)[0];
         $session->switchToWindow(null);
 
         $page->clickLink('Popup #2');
+        $popup2WindowHandle = array_slice($session->getDriver()->getWindowNames(), -1)[0];
         $session->switchToWindow(null);
 
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
 
-        $session->switchToWindow('popup_1');
+        $session->switchToWindow($popup1WindowHandle);
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Popup#1 div text', $el->getText());
 
-        $session->switchToWindow('popup_2');
+        $session->switchToWindow($popup2WindowHandle);
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Popup#2 div text', $el->getText());
 
