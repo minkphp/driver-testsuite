@@ -14,7 +14,7 @@ class IFrameTest extends TestCase
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
 
-        $this->getSession()->switchToIFrame('subframe');
+        $this->getSession()->switchToIFrame(0);
 
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('iFrame div text', $el->getText());
