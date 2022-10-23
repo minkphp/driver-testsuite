@@ -10,6 +10,11 @@
             background:#ccc;
             opacity:0.5;
         }
+        #draggable2 {
+            width: 50px; height: 50px; position: absolute; padding: 0.5em; top: 150px; left: 220px;
+            background:#aaa;
+            opacity:0.5;
+        }
         #droppable {
             width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px;
             background:#eee;
@@ -32,7 +37,9 @@
         <div class="text-event"></div>
     </div>
 
-    <div id="draggable" class="ui-widget-content"></div>
+    <div id="draggable" class="ui-widget-content" data-name="left"></div>
+    
+    <div id="draggable2" class="ui-widget-content" data-name="small"></div>
 
     <div id="droppable" class="ui-widget-header">
         <p>Drop here</p>
@@ -85,9 +92,18 @@
             });
 
             $( "#draggable" ).draggable();
+            $( "#draggable2" ).draggable({
+                distance: 0,
+                start: function() {
+                    $( this ).css('visibility', 'hidden');
+                },
+                stop: function() {
+                    $( this ).css('visibility', '');
+                }
+            });
             $( "#droppable" ).droppable({
                 drop: function( event, ui ) {
-                    $( this ).find( "p" ).html( "Dropped!" );
+                    $( this ).find( "p" ).html( 'Dropped ' + ui.draggable.data('name') + '!' );
                 }
             });
 
