@@ -58,23 +58,6 @@ class BasicAuthTest extends TestCase
         $url = $this->pathTo('/basic_auth.php');
         $url = str_replace('://', '://mink-user:wrong@', $url);
         $session->visit($url);
-        $this->assertStringContainsString('is not authenticated', $session->getPage()->getContent());
-    }
-
-    public function testResetWithBasicAuth(): void
-    {
-        $session = $this->getSession();
-
-        $session->setBasicAuth('mink-user', 'mink-password');
-
-        $session->visit($this->pathTo('/basic_auth.php'));
-
-        $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
-
-        $session->reset();
-
-        $session->visit($this->pathTo('/headers.php'));
-
-        $this->assertStringNotContainsString('PHP_AUTH_USER', $session->getPage()->getContent());
+        $this->assertStringContainsString('<html><head></head><body></body></html>', $session->getPage()->getContent());
     }
 }
