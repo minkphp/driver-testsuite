@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertionRenames;
 
 class NavigationTest extends TestCase
 {
-    use AssertionRenames;
-
     public function testRedirect(): void
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));
