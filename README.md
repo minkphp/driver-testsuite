@@ -103,7 +103,7 @@ Before running tests, you need to start the webserver exposing the web fixtures 
 not perform real HTTP requests). This is done using this command:
 
 ```bash
-$ vendor/bin/mink-test-server
+vendor/bin/mink-test-server
 ```
 
 To stop the server at the end of tests, cancel the command.
@@ -121,7 +121,7 @@ Adding Driver-specific Tests
 ----------------------------
 
 When adding extra test cases specific to the driver, either use your own namespace or put them in the
-`Behat\Mink\Tests\Driver\Custom` subnamespace to ensure that you will not create conflicts with test cases
+`Behat\Mink\Tests\Driver\Custom` sub-namespace to ensure that you will not create conflicts with test cases
 added in the driver testsuite in the future.
 When the driver has its own tests, it is recommended to add the dev requirement on `phpunit/phpunit` to
 ensure that the tests are compatible with phpunit even if driver-testsuite adds support for newer versions.
