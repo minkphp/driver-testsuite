@@ -10,10 +10,10 @@ use Behat\Mink\Session;
 use Behat\Mink\Tests\Driver\Util\TestCaseInvalidStateException;
 use Behat\Mink\WebAssert;
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+
 abstract class TestCase extends BaseTestCase
 {
-    use SetUpTearDownTrait, OnNotSuccessfulTrait;
+    use OnNotSuccessfulTrait;
 
     /**
      * Mink session manager.
