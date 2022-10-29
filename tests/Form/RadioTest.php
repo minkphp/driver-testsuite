@@ -2,18 +2,16 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
-use Behat\Mink\Tests\Driver\OnNotSuccessfulTrait;
 use Behat\Mink\Tests\Driver\TestCase;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class RadioTest extends TestCase
 {
-    use SetUpTearDownTrait, OnNotSuccessfulTrait;
-
-    protected function doSetUp()
+    /**
+     * @before
+     */
+    protected function visitPage()
     {
-        parent::doSetUp();
-
         $this->getSession()->visit($this->pathTo('radio.html'));
     }
 

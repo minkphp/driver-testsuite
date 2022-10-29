@@ -72,7 +72,7 @@ class ContentTest extends TestCase
         );
     }
 
-    public function testHtmlDecodingNotPerformed(): void
+    public function testHtmlDecodingNotPerformed()
     {
         $session = $this->getSession();
         $webAssert = $this->getAssertSession();

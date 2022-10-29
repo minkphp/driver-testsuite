@@ -92,8 +92,8 @@ JS;
         $session->maximizeWindow();
         $session->wait(1000, 'false');
 
-        $script = 'return Math.abs(screen.availHeight - window.outerHeight) <= 100;';
+        $script = 'return Math.abs(screen.availHeight - window.outerHeight);';
 
-        $this->assertTrue($session->evaluateScript($script));
+        $this->assertLessThanOrEqual(100, $session->evaluateScript($script));
     }
 }

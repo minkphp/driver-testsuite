@@ -17,6 +17,7 @@ class ScreenshotTest extends TestCase
         $screenshot = $this->getSession()->getScreenshot();
         $this->assertNotEmpty($screenshot);
 
+        $this->assertIsString($screenshot);
         $this->assertFalse(base64_decode($screenshot, true), 'The returned screenshot should not be base64-encoded');
 
         $img = imagecreatefromstring($screenshot);

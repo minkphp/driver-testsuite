@@ -9,9 +9,9 @@ use Behat\Mink\Mink;
 use Behat\Mink\Session;
 use Behat\Mink\Tests\Driver\Util\TestCaseInvalidStateException;
 use Behat\Mink\WebAssert;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends BaseTestCase
 {
     use SetUpTearDownTrait, OnNotSuccessfulTrait;
 
@@ -29,9 +29,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * Inherited from SetUpTearDownTrait
+     * @beforeClass
      */
-    private static function doSetUpBeforeClass()
+    public static function prepareSession()
     {
         if (null === self::$mink) {
             $session = new Session(self::getConfig()->createDriver());
@@ -81,6 +81,35 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         }
 
         return self::$config;
+    }
+
+    /**
+     * @before
+     */
+    protected function checkSkippedTest()
+    {
+        if (null !== $message = self::getConfig()->skipMessage(get_class($this), $this->getName(false))) {
+            $this->markTestSkipped($message);
+        }
+    }
+
+    /**
+     * @after
+     */
+    protected function resetSessions()
+    {
+        if (null !== self::$mink) {
+            self::$mink->resetSessions();
+        }
+    }
+
+    protected function onNotSuccessfulTest(\Throwable $e): void
+    {
+        if ($e instanceof UnsupportedDriverActionException) {
+            $this->markTestSkipped($e->getMessage());
+        }
+
+        parent::onNotSuccessfulTest($e);
     }
 
     /**

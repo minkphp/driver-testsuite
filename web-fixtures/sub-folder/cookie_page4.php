@@ -4,7 +4,7 @@ if (!isset($cookieValue)) {
 }
 
 $cookiePath = dirname($_SERVER['REQUEST_URI']) . '/';
-setcookie('srvr_cookie', $cookieValue, null, $cookiePath);
+setcookie('srvr_cookie', $cookieValue, 0, $cookiePath);
 ?>
 <!DOCTYPE html>
 <html>
