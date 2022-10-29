@@ -14,11 +14,8 @@ class BasicAuthTest extends TestCase
     public function testSetBasicAuth(string $user, string $pass, string $pageText): void
     {
         $session = $this->getSession();
-
         $session->setBasicAuth($user, $pass);
-
         $session->visit($this->pathTo('/basic_auth.php'));
-
         $this->assertStringContainsString($pageText, $session->getPage()->getContent());
     }
 
@@ -32,17 +29,11 @@ class BasicAuthTest extends TestCase
     public function testResetBasicAuth(): void
     {
         $session = $this->getSession();
-
         $session->setBasicAuth('mink-user', 'mink-password');
-
         $session->visit($this->pathTo('/basic_auth.php'));
-
         $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
-
         $session->setBasicAuth(false);
-
         $session->visit($this->pathTo('/headers.php'));
-
         $this->assertStringNotContainsString('PHP_AUTH_USER', $session->getPage()->getContent());
     }
 
@@ -55,9 +46,18 @@ class BasicAuthTest extends TestCase
         $session->visit($url);
         $this->assertStringContainsString('is authenticated', $session->getPage()->getContent());
 
+        $session->stop();
+
         $url = $this->pathTo('/basic_auth.php');
         $url = str_replace('://', '://mink-user:wrong@', $url);
         $session->visit($url);
+
+        if (getenv('BROWSER_NAME') === 'firefox') {
+            $this->expectException('Facebook\WebDriver\Exception\UnexpectedAlertOpenException');
+            $this->expectExceptionMessage('Dismissed user prompt dialog: This site is asking you to sign in.');
+        }
+
+        // chrome can access dom when alert/confirm/basic auth
         $this->assertStringContainsString('<html><head></head><body></body></html>', $session->getPage()->getContent());
     }
 }
