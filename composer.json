@@ -36,7 +36,6 @@
         "symfony/http-kernel": "<4.4 || >=7"
     },
     "scripts": {
-        "bin": "bin/mink-test-server",
         "post-install-cmd": ["@composer bin all install --ansi"],
         "post-update-cmd": ["@composer bin all update --ansi"]
     },
