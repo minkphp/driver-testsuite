@@ -24,11 +24,12 @@
         "ext-json": "*",
         "behat/mink": "^1.9",
         "symfony/error-handler": "^4.4 || ^5.0 || ^6.0",
-        "symfony/phpunit-bridge": "^4.4 || ^5.4 || ^6.0",
-        "yoast/phpunit-polyfills": "^1.0"
+        "symfony/phpunit-bridge": "^4.4 || ^5.4 || ^6.0"
     },
     "require-dev": {
-        "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0"
+        "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
+        "roave/security-advisories": "dev-latest",
+        "bamarni/composer-bin-plugin": "^1.8"
     },
     "conflict": {
         "symfony/http-foundation": "<4.4 || >=7",
@@ -43,6 +44,11 @@
         "psr-4": {
             "Behat\\Mink\\Tests\\Driver\\Util\\": "src/",
             "Behat\\Mink\\Tests\\Driver\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
         }
     }
 }
