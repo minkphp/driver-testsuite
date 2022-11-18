@@ -104,6 +104,12 @@ class EventsTest extends TestCase
         $input2->keyPress('r', $modifier);
         $this->assertEquals('key pressed:114 / '.$eventProperties, $event->getText());
 
+        $input2->keyPress('R', $modifier);
+        $this->assertEquals('key pressed: 82 / ' . $eventProperties, $event->getText());
+
+        $input2->keyPress('0', $modifier);
+        $this->assertEquals('key pressed: 48 / ' . $eventProperties, $event->getText());
+
         $input3->keyUp(78, $modifier);
         $this->assertEquals('key upped:78 / '.$eventProperties, $event->getText());
     }
