@@ -73,15 +73,15 @@
             });
 
             $('.elements input.input.first').keydown(function(ev) {
-                $('.text-event').text('key downed: ' + (ev.keyCode || ev.charCode) + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
+                $('.text-event').text('key downed:' + (ev.keyCode || ev.charCode) + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
             });
 
             $('.elements input.input.second').keypress(function(ev) {
-                $('.text-event').text('key pressed: ' + (ev.keyCode || ev.charCode) + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
+                $('.text-event').text('key pressed:' + (ev.keyCode || ev.charCode) + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
             });
 
             $('.elements input.input.third').keyup(function(ev) {
-                $('.text-event').text('key upped: ' + (ev.keyCode || ev.charCode) + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
+                $('.text-event').text('key upped:' + (ev.keyCode || ev.charCode) + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
             });
 
             $( "#draggable" ).draggable();
