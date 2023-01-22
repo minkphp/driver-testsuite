@@ -125,3 +125,4 @@ When adding extra test cases specific to the driver, either use your own namespa
 added in the driver testsuite in the future.
 When the driver has its own tests, it is recommended to add the dev requirement on `phpunit/phpunit` to
 ensure that the tests are compatible with phpunit even if driver-testsuite adds support for newer versions.
+
