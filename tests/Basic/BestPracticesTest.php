@@ -40,7 +40,7 @@ final class BestPracticesTest extends TestCase
         $this->assertImplementMethod($method, $driver, 'The driver is unusable when this method is not implemented.');
     }
 
-    public function provideRequiredMethods()
+    public static function provideRequiredMethods()
     {
         return array(
             array('start'),

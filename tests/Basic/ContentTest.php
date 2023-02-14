@@ -46,7 +46,7 @@ final class ContentTest extends TestCase
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
     }
 
-    public function getAttributeDataProvider()
+    public static function getAttributeDataProvider()
     {
         return array(
             array('with-value', 'some-value'),

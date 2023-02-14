@@ -87,7 +87,7 @@ final class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
     }
 
-    public function cookieWithPathsDataProvider()
+    public static function cookieWithPathsDataProvider()
     {
         return array(
             array('session_reset'),
@@ -121,14 +121,6 @@ final class CookieTest extends TestCase
         // Cookie is removed>
         $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
-    }
-
-    public function cookieInSubPathProvider()
-    {
-        return array(
-            array('session_reset'),
-            array('cookie_delete'),
-        );
     }
 
     public function testReset()

@@ -20,7 +20,7 @@ final class BasicAuthTest extends TestCase
         $this->assertStringContainsString($pageText, $session->getPage()->getContent());
     }
 
-    public function setBasicAuthDataProvider()
+    public static function setBasicAuthDataProvider()
     {
         return array(
             array('mink-user', 'mink-password', 'is authenticated'),

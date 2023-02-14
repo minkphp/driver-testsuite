@@ -76,7 +76,7 @@ final class GeneralTest extends TestCase
         }
     }
 
-    public function formSubmitWaysDataProvider()
+    public static function formSubmitWaysDataProvider()
     {
         return array(
             array('Save'),

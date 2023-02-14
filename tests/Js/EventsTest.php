@@ -114,7 +114,7 @@ final class EventsTest extends TestCase
         $this->assertEquals('key upped:78 / '.$eventProperties, $event->getText());
     }
 
-    public function provideKeyboardEventsModifiers()
+    public static function provideKeyboardEventsModifiers()
     {
         return array(
             'none' => array(null, '0 / 0 / 0 / 0'),

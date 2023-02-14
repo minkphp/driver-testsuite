@@ -77,7 +77,7 @@ OUT;
         $this->assertTrue($option->isSelected());
     }
 
-    public function elementSelectedStateCheckDataProvider()
+    public static function elementSelectedStateCheckDataProvider()
     {
         return array(
             array('select_number', '30', 'thirty'),
