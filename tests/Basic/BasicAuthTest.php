@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class BasicAuthTest extends TestCase
+final class BasicAuthTest extends TestCase
 {
     /**
      * @dataProvider setBasicAuthDataProvider

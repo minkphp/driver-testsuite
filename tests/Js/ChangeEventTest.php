@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 /**
  * @group slow
  */
-class ChangeEventTest extends TestCase
+final class ChangeEventTest extends TestCase
 {
     /**
      * 'change' event should be fired after selecting an <option> in a <select>.

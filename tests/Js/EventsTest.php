@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class EventsTest extends TestCase
+final class EventsTest extends TestCase
 {
     /**
      * @group mouse-events

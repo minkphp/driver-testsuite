@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class SelectTest extends TestCase
+final class SelectTest extends TestCase
 {
     public function testMultiselect()
     {

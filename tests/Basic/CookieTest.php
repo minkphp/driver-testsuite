@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class CookieTest extends TestCase
+final class CookieTest extends TestCase
 {
     /**
      * test cookie decoding.

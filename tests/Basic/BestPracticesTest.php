@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 /**
  * This testcase ensures that the driver implementation follows recommended practices for drivers.
  */
-class BestPracticesTest extends TestCase
+final class BestPracticesTest extends TestCase
 {
     public function testExtendsCoreDriver()
     {

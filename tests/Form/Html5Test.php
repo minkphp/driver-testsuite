@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class Html5Test extends TestCase
+final class Html5Test extends TestCase
 {
     public function testHtml5FormInputAttribute()
     {

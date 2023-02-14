@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class VisibilityTest extends TestCase
+final class VisibilityTest extends TestCase
 {
     public function testVisibility()
     {

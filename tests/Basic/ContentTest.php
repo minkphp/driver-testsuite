@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class ContentTest extends TestCase
+final class ContentTest extends TestCase
 {
     public function testOuterHtml()
     {

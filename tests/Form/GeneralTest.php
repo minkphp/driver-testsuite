@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class GeneralTest extends TestCase
+final class GeneralTest extends TestCase
 {
     // test multiple submit buttons
     public function testIssue212()
