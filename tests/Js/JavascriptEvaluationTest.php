@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class JavascriptEvaluationTest extends TestCase
+final class JavascriptEvaluationTest extends TestCase
 {
     /**
      * Tests, that `wait` method returns check result after exit.
@@ -55,7 +55,7 @@ class JavascriptEvaluationTest extends TestCase
         $this->assertEquals('Hello world', $heading->getText());
     }
 
-    public function provideExecutedScript()
+    public static function provideExecutedScript()
     {
         return array(
             array('document.querySelector("h1").textContent = "Hello world"'),
@@ -77,7 +77,7 @@ class JavascriptEvaluationTest extends TestCase
         $this->assertSame(2, $this->getSession()->evaluateScript($script));
     }
 
-    public function provideEvaluatedScript()
+    public static function provideEvaluatedScript()
     {
         return array(
             array('1 + 1'),

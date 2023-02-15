@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class SelectTest extends TestCase
+final class SelectTest extends TestCase
 {
     public function testMultiselect()
     {
@@ -77,7 +77,7 @@ OUT;
         $this->assertTrue($option->isSelected());
     }
 
-    public function elementSelectedStateCheckDataProvider()
+    public static function elementSelectedStateCheckDataProvider()
     {
         return array(
             array('select_number', '30', 'thirty'),

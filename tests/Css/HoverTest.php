@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Css;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class HoverTest extends TestCase
+final class HoverTest extends TestCase
 {
     /**
      * @group mouse-events

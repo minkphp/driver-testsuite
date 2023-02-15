@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 /**
  * @group slow
  */
-class ChangeEventTest extends TestCase
+final class ChangeEventTest extends TestCase
 {
     /**
      * 'change' event should be fired after selecting an <option> in a <select>.
@@ -58,7 +58,7 @@ class ChangeEventTest extends TestCase
         }
     }
 
-    public function setValueChangeEventDataProvider()
+    public static function setValueChangeEventDataProvider()
     {
         $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
         $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
@@ -90,7 +90,7 @@ class ChangeEventTest extends TestCase
         $this->assertElementChangeCount($elementId);
     }
 
-    public function selectOptionChangeEventDataProvider()
+    public static function selectOptionChangeEventDataProvider()
     {
         return array(
             'select' => array('the-select', '30'),
@@ -140,7 +140,7 @@ class ChangeEventTest extends TestCase
         $this->assertElementChangeCount('the-checked-checkbox');
     }
 
-    public function checkboxTestWayDataProvider()
+    public static function checkboxTestWayDataProvider()
     {
         return array(
             array(true),

@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class EventsTest extends TestCase
+final class EventsTest extends TestCase
 {
     /**
      * @group mouse-events
@@ -114,7 +114,7 @@ class EventsTest extends TestCase
         $this->assertEquals('key upped:78 / '.$eventProperties, $event->getText());
     }
 
-    public function provideKeyboardEventsModifiers()
+    public static function provideKeyboardEventsModifiers()
     {
         return array(
             'none' => array(null, '0 / 0 / 0 / 0'),

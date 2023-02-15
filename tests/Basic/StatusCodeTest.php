@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class StatusCodeTest extends TestCase
+final class StatusCodeTest extends TestCase
 {
     public function testStatuses()
     {

@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class IFrameTest extends TestCase
+final class IFrameTest extends TestCase
 {
     public function testIFrame()
     {

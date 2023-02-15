@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class BasicAuthTest extends TestCase
+final class BasicAuthTest extends TestCase
 {
     /**
      * @dataProvider setBasicAuthDataProvider
@@ -20,7 +20,7 @@ class BasicAuthTest extends TestCase
         $this->assertStringContainsString($pageText, $session->getPage()->getContent());
     }
 
-    public function setBasicAuthDataProvider()
+    public static function setBasicAuthDataProvider()
     {
         return array(
             array('mink-user', 'mink-password', 'is authenticated'),

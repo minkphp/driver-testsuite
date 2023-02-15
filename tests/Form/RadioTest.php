@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class RadioTest extends TestCase
+final class RadioTest extends TestCase
 {
     /**
      * @before

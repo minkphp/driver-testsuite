@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 /**
  * This testcase ensures that the driver implementation follows recommended practices for drivers.
  */
-class BestPracticesTest extends TestCase
+final class BestPracticesTest extends TestCase
 {
     public function testExtendsCoreDriver()
     {
@@ -40,7 +40,7 @@ class BestPracticesTest extends TestCase
         $this->assertImplementMethod($method, $driver, 'The driver is unusable when this method is not implemented.');
     }
 
-    public function provideRequiredMethods()
+    public static function provideRequiredMethods()
     {
         return array(
             array('start'),

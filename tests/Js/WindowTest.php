@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class WindowTest extends TestCase
+final class WindowTest extends TestCase
 {
     public function testWindow()
     {

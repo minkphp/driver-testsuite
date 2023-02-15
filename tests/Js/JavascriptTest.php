@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class JavascriptTest extends TestCase
+final class JavascriptTest extends TestCase
 {
     public function testAriaRoles()
     {

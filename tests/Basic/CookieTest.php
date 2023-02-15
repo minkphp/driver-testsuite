@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class CookieTest extends TestCase
+final class CookieTest extends TestCase
 {
     /**
      * test cookie decoding.
@@ -87,7 +87,7 @@ class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
     }
 
-    public function cookieWithPathsDataProvider()
+    public static function cookieWithPathsDataProvider()
     {
         return array(
             array('session_reset'),
@@ -121,14 +121,6 @@ class CookieTest extends TestCase
         // Cookie is removed>
         $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
-    }
-
-    public function cookieInSubPathProvider()
-    {
-        return array(
-            array('session_reset'),
-            array('cookie_delete'),
-        );
     }
 
     public function testReset()
