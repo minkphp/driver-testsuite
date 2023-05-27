@@ -104,25 +104,25 @@ OUT;
         $this->getSession()->visit($this->pathTo('html5_types.html'));
         $page = $this->getSession()->getPage();
 
-        $page->fillField('url', 'http://mink.behat.org/');
+        $page->fillField('url', 'https://mink.behat.org/');
         $page->fillField('email', 'mink@example.org');
         $page->fillField('number', '6');
         $page->fillField('search', 'mink');
-        $page->fillField('date', '2014-05-19');
-        $page->fillField('time', '12:12');
+        $page->fillField('date', '1111-11-11');
+        $page->fillField('time', '14:12');
         $page->fillField('color', '#ff00aa');
 
         $page->pressButton('Submit');
 
         $out = <<<'OUT'
   color = `#ff00aa`,
-  date = `2014-05-19`,
+  date = `1111-11-11`,
   email = `mink@example.org`,
   number = `6`,
   search = `mink`,
   submit_button = `Submit`,
-  time = `12:12`,
-  url = `http://mink.behat.org/`,
+  time = `14:12`,
+  url = `https://mink.behat.org/`,
 OUT;
 
         $this->assertStringContainsString($out, $page->getContent());
