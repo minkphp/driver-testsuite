@@ -60,8 +60,8 @@ final class ChangeEventTest extends TestCase
 
     public static function setValueChangeEventDataProvider()
     {
-        $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
-        $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
+        $file1 = self::mapRemoteFilePath(__DIR__ . '/../../web-fixtures/file1.txt');
+        $file2 = self::mapRemoteFilePath(__DIR__ . '/../../web-fixtures/file2.txt');
 
         return array(
             'input default' => array('the-input-default', 'from empty', 'from existing'),
