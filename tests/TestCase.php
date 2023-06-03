@@ -130,7 +130,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return string
      */
-    protected static function mapRemoteFilePath($file)
+    protected function mapRemoteFilePath($file)
     {
         $realPath = realpath($file);
 

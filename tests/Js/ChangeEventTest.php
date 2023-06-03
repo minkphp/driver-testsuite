@@ -40,6 +40,11 @@ final class ChangeEventTest extends TestCase
      */
     public function testSetValueChangeEvent($elementId, $valueForEmpty, $valueForFilled = '')
     {
+        if ($elementId === 'the-file') {
+            $valueForEmpty = $this->mapRemoteFilePath($valueForEmpty);
+            $valueForFilled = $this->mapRemoteFilePath($valueForFilled);
+        }
+
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
@@ -60,8 +65,8 @@ final class ChangeEventTest extends TestCase
 
     public static function setValueChangeEventDataProvider()
     {
-        $file1 = self::mapRemoteFilePath(__DIR__ . '/../../web-fixtures/file1.txt');
-        $file2 = self::mapRemoteFilePath(__DIR__ . '/../../web-fixtures/file2.txt');
+        $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
+        $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
 
         return array(
             'input default' => array('the-input-default', 'from empty', 'from existing'),
