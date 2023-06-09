@@ -74,6 +74,7 @@ abstract class TestCase extends BaseTestCase
     protected function onNotSuccessfulTest(\Throwable $e): void
     {
         if ($e instanceof UnsupportedDriverActionException) {
+            @trigger_error(sprintf('Relying on catching "UnsupportedDriverActionException" to mark tests as skipped is deprecated. The test "%s::%s" should be marked as skipped through the test config.', get_class($this), $this->getName(false)), E_USER_DEPRECATED);
             $this->markTestSkipped($e->getMessage());
         }
 
