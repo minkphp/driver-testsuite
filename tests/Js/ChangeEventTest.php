@@ -40,6 +40,11 @@ final class ChangeEventTest extends TestCase
      */
     public function testSetValueChangeEvent($elementId, $valueForEmpty, $valueForFilled = '')
     {
+        if ($elementId === 'the-file') {
+            $valueForEmpty = $this->mapRemoteFilePath($valueForEmpty);
+            $valueForFilled = $this->mapRemoteFilePath($valueForFilled);
+        }
+
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
