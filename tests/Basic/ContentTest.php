@@ -36,7 +36,7 @@ final class ContentTest extends TestCase
     /**
      * @dataProvider getAttributeDataProvider
      */
-    public function testGetAttribute($attributeName, $attributeValue)
+    public function testGetAttribute(string $attributeName, ?string $attributeValue)
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 

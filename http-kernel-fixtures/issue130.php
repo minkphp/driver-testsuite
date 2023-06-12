@@ -5,10 +5,11 @@
 <html>
 <body>
     <?php
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
     if ('1' === $request->query->get('p')) {
         echo '<a href="/issue130.php?p=2">Go to 2</a>';
     } else {
-        echo '<strong>'.html_escape_value($request->headers->get('referer')).'</strong>';
+        echo '<strong>'.html_escape_value($request->headers->get('referer') ?? '').'</strong>';
     }
     ?>
 </body>

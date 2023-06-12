@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver;
 
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
 use Behat\Mink\Session;
@@ -24,6 +25,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @beforeClass
+     *
+     * @return void
      */
     public static function prepareSession()
     {
@@ -53,6 +56,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @before
+     *
+     * @return void
      */
     protected function checkSkippedTest()
     {
@@ -63,6 +68,7 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @after
+     * @return void
      */
     protected function resetSessions()
     {
@@ -104,7 +110,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * @param string $id
      *
-     * @return \Behat\Mink\Element\NodeElement
+     * @return NodeElement
      */
     protected function findById($id)
     {

@@ -29,7 +29,7 @@ abstract class AbstractConfig
         $pattern = '/^'.preg_quote($_SERVER['TEST_MACHINE_BASE_PATH'], '/').'/';
         $basePath = $_SERVER['DRIVER_MACHINE_BASE_PATH'];
 
-        return preg_replace($pattern, $basePath, $file, 1);
+        return preg_replace($pattern, $basePath, $file, 1) ?? $file;
     }
 
     /**

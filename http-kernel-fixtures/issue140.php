@@ -5,12 +5,13 @@
 <html>
 <body>
 <?php
+/** @var \Symfony\Component\HttpFoundation\Request $request */
 if ($request->isMethod('POST')) {
     $resp = new Symfony\Component\HttpFoundation\Response();
-    $cook = Symfony\Component\HttpFoundation\Cookie::create('tc', $request->request->get('cookie_value'));
+    $cook = Symfony\Component\HttpFoundation\Cookie::create('tc', (string) $request->request->get('cookie_value'));
     $resp->headers->setCookie($cook);
 } elseif ($request->query->has('show_value')) {
-    echo html_escape_value($request->cookies->get('tc'));
+    echo html_escape_value($request->cookies->get('tc') ?? '');
     return;
 }
 ?>

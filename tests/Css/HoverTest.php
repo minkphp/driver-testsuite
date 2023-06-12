@@ -65,7 +65,7 @@ final class HoverTest extends TestCase
         $this->assertActionSquareHeight(200);
     }
 
-    private function assertActionSquareHeight($expected)
+    private function assertActionSquareHeight(int $expected): void
     {
         $this->assertEquals(
             $expected,

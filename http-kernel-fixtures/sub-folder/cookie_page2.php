@@ -8,6 +8,7 @@
 </head>
 <body>
     Previous cookie: <?php
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
     if ($request->cookies->has('srvr_cookie')) {
         echo $request->cookies->get('srvr_cookie');
     } else {

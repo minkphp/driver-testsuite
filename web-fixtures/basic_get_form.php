@@ -10,7 +10,7 @@
     <div id="serach">
         <?php
             require_once 'utils.php';
-            echo isset($_GET['q']) && $_GET['q'] ? html_escape_value($_GET['q']) : 'No search query';
+            echo isset($_GET['q']) && $_GET['q'] && \is_string($_GET['q']) ? html_escape_value($_GET['q']) : 'No search query';
         ?>
     </div>
 

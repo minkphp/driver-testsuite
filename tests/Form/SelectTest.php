@@ -63,7 +63,7 @@ OUT;
     /**
      * @dataProvider elementSelectedStateCheckDataProvider
      */
-    public function testElementSelectedStateCheck($selectName, $optionValue, $optionText)
+    public function testElementSelectedStateCheck(string $selectName, string $optionValue, string $optionText)
     {
         $session = $this->getSession();
         $webAssert = $this->getAssertSession();
@@ -133,6 +133,9 @@ OUT;
 
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
 
-        $this->assertEquals('1', $page->findField('foobar')->getValue());
+        $field = $page->findField('foobar');
+
+        $this->assertNotNull($field);
+        $this->assertEquals('1', $field->getValue());
     }
 }

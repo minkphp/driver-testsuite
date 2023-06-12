@@ -33,7 +33,7 @@ final class BestPracticesTest extends TestCase
     /**
      * @dataProvider provideRequiredMethods
      */
-    public function testImplementBasicApi($method)
+    public function testImplementBasicApi(string $method)
     {
         $driver = $this->createDriver();
 
@@ -54,7 +54,7 @@ final class BestPracticesTest extends TestCase
         );
     }
 
-    private function assertImplementMethod($method, $object, $reason = '')
+    private function assertImplementMethod(string $method, object $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);
@@ -68,7 +68,7 @@ final class BestPracticesTest extends TestCase
         $this->assertNotSame('Behat\Mink\Driver\CoreDriver', $refMethod->getDeclaringClass()->name, $message);
     }
 
-    private function assertNotImplementMethod($method, $object, $reason = '')
+    private function assertNotImplementMethod(string $method, object $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);

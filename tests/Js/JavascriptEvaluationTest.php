@@ -43,7 +43,7 @@ final class JavascriptEvaluationTest extends TestCase
     /**
      * @dataProvider provideExecutedScript
      */
-    public function testExecuteScript($script)
+    public function testExecuteScript(string $script)
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -70,7 +70,7 @@ final class JavascriptEvaluationTest extends TestCase
     /**
      * @dataProvider provideEvaluatedScript
      */
-    public function testEvaluateJavascript($script)
+    public function testEvaluateJavascript(string $script)
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 

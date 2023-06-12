@@ -7,6 +7,7 @@
 <body>
 <pre>
     <?php
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
     $cookies = $request->cookies->all();
     unset($cookies['MOCKSESSID']);
 

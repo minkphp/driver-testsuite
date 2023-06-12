@@ -37,7 +37,7 @@ final class GeneralTest extends TestCase
         $this->assertEquals('Konstantin', $firstname->getValue());
         $this->assertEquals('Kudryashov', $lastname->getValue());
 
-        $page->findButton('Reset')->click();
+        $page->pressButton('Reset');
 
         $this->assertEquals('Firstname', $firstname->getValue());
         $this->assertEquals('Lastname', $lastname->getValue());
@@ -45,7 +45,7 @@ final class GeneralTest extends TestCase
         $firstname->setValue('Konstantin');
         $page->fillField('last_name', 'Kudryashov');
 
-        $page->findButton('Save')->click();
+        $page->pressButton('Save');
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
@@ -57,7 +57,7 @@ final class GeneralTest extends TestCase
     /**
      * @dataProvider formSubmitWaysDataProvider
      */
-    public function testFormSubmitWays($submitVia)
+    public function testFormSubmitWays(string $submitVia)
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
@@ -67,7 +67,7 @@ final class GeneralTest extends TestCase
         $firstname = $webAssert->fieldExists('first_name');
         $firstname->setValue('Konstantin');
 
-        $page->findButton($submitVia)->click();
+        $page->pressButton($submitVia);
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
