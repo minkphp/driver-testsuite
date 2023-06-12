@@ -88,7 +88,7 @@ final class EventsTest extends TestCase
     /**
      * @dataProvider provideKeyboardEventsModifiers
      */
-    public function testKeyboardEvents($modifier, $eventProperties)
+    public function testKeyboardEvents(string $modifier, string $eventProperties)
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $webAssert = $this->getAssertSession();

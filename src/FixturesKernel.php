@@ -34,11 +34,13 @@ class FixturesKernel implements HttpKernelInterface
 
         $path = file_exists($overwriteDir.$file) ? $overwriteDir.$file : $fixturesDir.$file;
 
+        /** @var Response|null $resp */
         $resp = null;
 
         ob_start();
         require $path;
         $content = ob_get_clean();
+        \assert($content !== false);
 
         if ($resp instanceof Response) {
             if ('' === $resp->getContent()) {
@@ -51,7 +53,7 @@ class FixturesKernel implements HttpKernelInterface
         return new Response($content);
     }
 
-    private function prepareSession(Request $request)
+    private function prepareSession(Request $request): void
     {
         $session = new Session(new MockFileSessionStorage());
         $request->setSession($session);
@@ -65,7 +67,7 @@ class FixturesKernel implements HttpKernelInterface
         }
     }
 
-    private function saveSession(Request $request, Response $response)
+    private function saveSession(Request $request, Response $response): void
     {
         if (!$request->hasSession()) {
             return;

@@ -125,13 +125,17 @@ final class TraversingTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $this->assertMatchesRegularExpression('/some_url$/', $subUrl->getAttribute('href'));
+        $href = $subUrl->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/some_url$/', $href);
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
 
         $this->assertTrue($subUrl->has('css', 'strong'));
         $this->assertFalse($subUrl->has('css', 'em'));
-        $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
+        $strong = $subUrl->find('css', 'strong');
+        $this->assertNotNull($strong);
+        $this->assertEquals('deep', $strong->getText());
     }
 
     public function testFindingChild()

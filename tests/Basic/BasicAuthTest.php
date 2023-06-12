@@ -9,7 +9,7 @@ final class BasicAuthTest extends TestCase
     /**
      * @dataProvider setBasicAuthDataProvider
      */
-    public function testSetBasicAuth($user, $pass, $pageText)
+    public function testSetBasicAuth(string $user, string $pass, string $pageText)
     {
         $session = $this->getSession();
 

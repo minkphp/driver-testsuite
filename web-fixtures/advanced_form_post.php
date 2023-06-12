@@ -16,7 +16,7 @@ ksort($_POST);
 echo html_escape_value(mink_dump($_POST)) . "\n";
 if (isset($_FILES['about']) && file_exists($_FILES['about']['tmp_name'])) {
     echo html_escape_value($_FILES['about']['name']) . "\n";
-    echo html_escape_value(file_get_contents($_FILES['about']['tmp_name']));
+    echo html_escape_value(file_get_contents($_FILES['about']['tmp_name']) ?: '');
 } else {
     echo "no file";
 }

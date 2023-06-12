@@ -9,7 +9,7 @@ final class RadioTest extends TestCase
     /**
      * @before
      */
-    protected function visitPage()
+    protected function visitPage(): void
     {
         $this->getSession()->visit($this->pathTo('radio.html'));
     }

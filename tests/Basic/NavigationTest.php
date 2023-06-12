@@ -44,7 +44,9 @@ final class NavigationTest extends TestCase
         $link = $page->findLink('Redirect me to');
 
         $this->assertNotNull($link);
-        $this->assertMatchesRegularExpression('/redirector\.php$/', $link->getAttribute('href'));
+        $href = $link->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/redirector\.php$/', $href);
         $link->click();
 
         $this->assertEquals($this->pathTo('/redirect_destination.html'), $this->getSession()->getCurrentUrl());
@@ -54,7 +56,9 @@ final class NavigationTest extends TestCase
         $link = $page->findLink('basic form image');
 
         $this->assertNotNull($link);
-        $this->assertMatchesRegularExpression('/basic_form\.html$/', $link->getAttribute('href'));
+        $href = $link->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/basic_form\.html$/', $href);
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.html'), $this->getSession()->getCurrentUrl());
@@ -64,7 +68,9 @@ final class NavigationTest extends TestCase
         $link = $page->findLink('Link with a ');
 
         $this->assertNotNull($link);
-        $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $link->getAttribute('href'));
+        $href = $link->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $href);
         $link->click();
 
         $this->assertEquals($this->pathTo('/links.html?quoted'), $this->getSession()->getCurrentUrl());

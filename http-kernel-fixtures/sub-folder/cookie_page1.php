@@ -1,4 +1,5 @@
 <?php
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
     $requestUri = $request->server->get('REQUEST_URI');
     $resp = new Symfony\Component\HttpFoundation\Response();
     $cook = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set_sub_folder', 0, dirname($requestUri));

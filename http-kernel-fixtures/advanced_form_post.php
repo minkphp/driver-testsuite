@@ -8,6 +8,7 @@
 <pre>
 <?php
 error_reporting(0);
+/** @var \Symfony\Component\HttpFoundation\Request $request */
 
 $POST = $request->request->all();
 $FILES = $request->files->all();
@@ -19,7 +20,7 @@ ksort($POST);
 echo html_escape_value(mink_dump($POST)) . "\n";
 if (isset($FILES['about']) && file_exists($FILES['about']->getPathname())) {
     echo html_escape_value($FILES['about']->getClientOriginalName()) . "\n";
-    echo html_escape_value(file_get_contents($FILES['about']->getPathname()));
+    echo html_escape_value(file_get_contents($FILES['about']->getPathname()) ?: '');
 } else {
     echo "no file";
 }

@@ -38,7 +38,7 @@ final class ChangeEventTest extends TestCase
      * @dataProvider setValueChangeEventDataProvider
      * @group change-event-detector
      */
-    public function testSetValueChangeEvent($elementId, $valueForEmpty, $valueForFilled = '')
+    public function testSetValueChangeEvent(string $elementId, string $valueForEmpty, string $valueForFilled = '')
     {
         if ($elementId === 'the-file') {
             $valueForEmpty = $this->mapRemoteFilePath($valueForEmpty);
@@ -83,7 +83,7 @@ final class ChangeEventTest extends TestCase
      * @dataProvider selectOptionChangeEventDataProvider
      * @group change-event-detector
      */
-    public function testSelectOptionChangeEvent($elementId, $elementValue)
+    public function testSelectOptionChangeEvent(string $elementId, string $elementValue)
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -107,7 +107,7 @@ final class ChangeEventTest extends TestCase
      * @dataProvider checkboxTestWayDataProvider
      * @group change-event-detector
      */
-    public function testCheckChangeEvent($useSetValue)
+    public function testCheckChangeEvent(bool $useSetValue)
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -128,7 +128,7 @@ final class ChangeEventTest extends TestCase
      * @dataProvider checkboxTestWayDataProvider
      * @group change-event-detector
      */
-    public function testUncheckChangeEvent($useSetValue)
+    public function testUncheckChangeEvent(bool $useSetValue)
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -153,7 +153,7 @@ final class ChangeEventTest extends TestCase
         );
     }
 
-    private function assertElementChangeCount($elementId, $message = '')
+    private function assertElementChangeCount(string $elementId, string $message = ''): void
     {
         $counterElement = $this->getSession()->getPage()->findById($elementId.'-result');
         $actualCount = null === $counterElement ? 0 : $counterElement->getText();

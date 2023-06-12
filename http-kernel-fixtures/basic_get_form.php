@@ -9,8 +9,9 @@
 
     <div id="serach">
         <?php
+        /** @var \Symfony\Component\HttpFoundation\Request $request */
         $GET = $request->query->all();
-        echo isset($GET['q']) && $GET['q'] ? html_escape_value($GET['q']) : 'No search query'
+        echo isset($GET['q']) && $GET['q'] && \is_string($GET['q']) ? html_escape_value($GET['q']) : 'No search query'
         ?>
     </div>
 

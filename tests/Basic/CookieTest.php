@@ -59,7 +59,7 @@ final class CookieTest extends TestCase
     /**
      * @dataProvider cookieWithPathsDataProvider
      */
-    public function testCookieWithPaths($cookieRemovalMode)
+    public function testCookieWithPaths(string $cookieRemovalMode)
     {
         // start clean
         $session = $this->getSession();
@@ -98,7 +98,7 @@ final class CookieTest extends TestCase
     /**
      * @dataProvider cookieWithPathsDataProvider
      */
-    public function testCookieInSubPath($cookieRemovalMode)
+    public function testCookieInSubPath(string $cookieRemovalMode)
     {
         // Start clean.
         // The cookie is set when viewing the page.
