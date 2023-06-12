@@ -11,10 +11,6 @@ error_reporting(0);
 
 require_once 'utils.php';
 
-if (isset($_POST['select_multiple_numbers']) && false !== strpos($_POST['select_multiple_numbers'][0], ',')) {
-    $_POST['select_multiple_numbers'] = explode(',', $_POST['select_multiple_numbers'][0]);
-}
-
 $_POST['agreement'] = isset($_POST['agreement']) ? 'on' : 'off';
 ksort($_POST);
 echo html_escape_value(mink_dump($_POST)) . "\n";
