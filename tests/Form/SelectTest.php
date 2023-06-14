@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
 final class SelectTest extends TestCase
@@ -103,6 +104,25 @@ OUT;
 
         $select->setValue(array('1', '2'));
         $this->assertEquals(array('1', '2'), $select->getValue());
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValue(bool $value)
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $select = $this->getAssertSession()->fieldExists('select_number');
+
+        $this->expectException(DriverException::class);
+        $select->setValue($value);
+    }
+
+    public static function provideBooleanValues()
+    {
+        yield [true];
+        yield [false];
     }
 
     /**

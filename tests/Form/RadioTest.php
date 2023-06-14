@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
 final class RadioTest extends TestCase
@@ -90,5 +91,30 @@ final class RadioTest extends TestCase
 
         $sex->setValue('m');
         $this->assertEquals('m', $sex->getValue(), 'no double xpath escaping during radio button value change');
+    }
+
+    public function testSetArrayValue()
+    {
+        $option = $this->findById('first');
+
+        $this->expectException(DriverException::class);
+        $option->setValue(array('bad'));
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValue(bool $value)
+    {
+        $option = $this->findById('first');
+
+        $this->expectException(DriverException::class);
+        $option->setValue($value);
+    }
+
+    public static function provideBooleanValues()
+    {
+        yield [true];
+        yield [false];
     }
 }
