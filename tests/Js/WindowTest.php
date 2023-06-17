@@ -98,12 +98,29 @@ JS;
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
+        $popupName = 'testPopup';
+        $createWindowJs = "window.open('about:blank', '$popupName', 'left=20,top=40,width=300,height=200')";
+        $getWindowPosJs = '
+            return {
+                top: window.screenY,
+                left: window.screenX,
+                right: window.screenX + window.innerWidth,
+                bottom: window.screenX + window.innerHeight
+            }
+        ';
+        $session->executeScript($createWindowJs);
+        $session->switchToWindow($popupName);
+        $oldDim = (array)$session->evaluateScript($getWindowPosJs);
 
-        $session->maximizeWindow();
-        $session->wait(1000, 'false');
+        $session->maximizeWindow($popupName);
+        $newDim = (array)$session->evaluateScript($getWindowPosJs);
 
-        $script = 'return Math.abs(screen.availHeight - window.outerHeight);';
-
-        $this->assertLessThanOrEqual(100, $session->evaluateScript($script));
+        foreach (array_keys($oldDim) as $name) {
+            $this->assertNotEquals(
+                $oldDim[$name],
+                $newDim[$name],
+                "The popup's $name position should not be the same after maximizing"
+            );
+        }
     }
 }
