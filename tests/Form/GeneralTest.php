@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
 final class GeneralTest extends TestCase
@@ -346,5 +347,16 @@ OUT;
         foreach ($toSearch as $searchString) {
             $this->assertStringContainsString($searchString, $pageContent);
         }
+    }
+
+    public function testButtonValueNotSettable(): void
+    {
+        $this->getSession()->visit($this->pathTo('/empty_textarea.html'));
+        $page = $this->getSession()->getPage();
+        $button = $page->findButton('Save');
+
+        $this->expectException(DriverException::class);
+
+        $button->setValue('Update');
     }
 }
