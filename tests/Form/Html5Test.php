@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
 final class Html5Test extends TestCase
@@ -159,4 +160,45 @@ OUT;
         }
     }
 
+    /**
+     * @dataProvider provideInvalidValues
+     *
+     * @param mixed $value
+     */
+    public function testSetInvalidValueInField(string $field, $value): void
+    {
+        $this->getSession()->visit($this->pathTo('/html5_types.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $color = $webAssert->fieldExists($field);
+
+        $this->expectException(DriverException::class);
+        $color->setValue($value);
+    }
+
+    public static function provideInvalidValues(): iterable
+    {
+        $nullValue = ['null', null];
+        $trueValue = ['true', true];
+        $falseValue = ['false', false];
+        $arrayValue = ['empty array', []];
+
+        $scenarios = [
+            // field type, name or id, list of values to check
+            ['url', 'url', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['email', 'email', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['number', 'number', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['search', 'search', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['color', 'color', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['date', 'date', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['time', 'time', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+        ];
+
+        foreach ($scenarios as [$fieldType, $fieldNameOrId, $values]) {
+            foreach ($values as [$valueDesc, $actualValue]) {
+                yield "$fieldType field with $valueDesc" => [$fieldNameOrId, $actualValue];
+            }
+        }
+    }
 }
