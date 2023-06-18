@@ -442,6 +442,7 @@ OUT;
         $page = $this->getSession()->getPage();
         $button = $page->findButton('Save');
 
+        $this->assertNotNull($button);
         $this->expectException(DriverException::class);
 
         $button->setValue('Update');
