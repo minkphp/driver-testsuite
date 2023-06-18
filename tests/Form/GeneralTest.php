@@ -262,6 +262,93 @@ OUT;
         }
     }
 
+    public function testSetArrayValueInTextInput()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $firstname = $webAssert->fieldExists('first_name');
+
+        $this->expectException(DriverException::class);
+        $firstname->setValue(array('bad'));
+    }
+
+    public function testSetArrayValueInTextarea()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $notes = $webAssert->fieldExists('notes');
+
+        $this->expectException(DriverException::class);
+        $notes->setValue(array('bad'));
+    }
+
+    public function testSetArrayValueInFileInput()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $about = $webAssert->fieldExists('about');
+
+        $this->expectException(DriverException::class);
+        $about->setValue(array('bad'));
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValueInTextInput(bool $value)
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $firstname = $webAssert->fieldExists('first_name');
+
+        $this->expectException(DriverException::class);
+        $firstname->setValue($value);
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValueInTextarea(bool $value)
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $notes = $webAssert->fieldExists('notes');
+
+        $this->expectException(DriverException::class);
+        $notes->setValue($value);
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValueInFileInput(bool $value)
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $about = $webAssert->fieldExists('about');
+
+        $this->expectException(DriverException::class);
+        $about->setValue($value);
+    }
+
+    public static function provideBooleanValues()
+    {
+        yield [true];
+        yield [false];
+    }
+
     public function testMultiInput()
     {
         $this->getSession()->visit($this->pathTo('/multi_input_form.html'));
