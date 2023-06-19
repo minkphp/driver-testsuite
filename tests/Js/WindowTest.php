@@ -35,6 +35,18 @@ final class WindowTest extends TestCase
         $this->assertSame('Main window div text', $el->getText());
     }
 
+    public function testWindowName(): void
+    {
+        $this->getSession()->visit($this->pathTo('/window.html'));
+        $windowNames = $this->getSession()->getWindowNames();
+        $this->assertArrayHasKey(0, $windowNames);
+
+        $windowName = $this->getSession()->getWindowName();
+
+        $this->assertIsString($windowName);
+        $this->assertContains($windowName, $windowNames, 'The current window name should be one of the available window names.');
+    }
+
     public function testGetWindowNames()
     {
         $this->getSession()->visit($this->pathTo('/window.html'));
