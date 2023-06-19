@@ -262,6 +262,18 @@ OUT;
         }
     }
 
+    public function testSetNumericValueInTextInput()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $firstname = $webAssert->fieldExists('first_name');
+
+        $firstname->setValue(123);
+        $this->assertEquals('123', $firstname->getValue());
+    }
+
     public function testSetArrayValueInTextInput()
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
