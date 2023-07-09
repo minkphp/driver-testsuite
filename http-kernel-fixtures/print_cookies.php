@@ -18,9 +18,6 @@
         $cookies['srvr_cookie'] = $srvrCookie;
     }
 
-    foreach ($cookies as $name => $val) {
-        $cookies[$name] = (string)$val;
-    }
     echo html_escape_value(mink_dump($cookies));
     ?>
 </pre>
