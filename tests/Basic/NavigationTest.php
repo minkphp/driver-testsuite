@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class NavigationTest extends TestCase
+final class NavigationTest extends TestCase
 {
     public function testRedirect(): void
     {
@@ -46,8 +46,9 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Redirect me to');
 
         $this->assertNotNull($link);
-        $attrValue = (string) $link->getAttribute('href');
-        $this->assertMatchesRegularExpression('/redirector\.php$/', $attrValue);
+        $href = $link->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/redirector\.php$/', $href);
         $link->click();
 
         // usleep is required for firefox
@@ -61,8 +62,9 @@ class NavigationTest extends TestCase
         $link = $page->findLink('basic form image');
 
         $this->assertNotNull($link);
-        $attrValue = (string) $link->getAttribute('href');
-        $this->assertMatchesRegularExpression('/basic_form\.html$/', $attrValue);
+        $href = $link->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/basic_form\.html$/', $href);
         $link->click();
 
         // usleep is required for firefox
@@ -94,8 +96,9 @@ class NavigationTest extends TestCase
         $link = $page->findLink('Link in a block element');
 
         $this->assertNotNull($link);
-        $attrValue = (string) $link->getAttribute('href');
-        $this->assertMatchesRegularExpression('/basic_form\.html$/', $attrValue);
+        $href = $link->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $href);
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.html'), $this->getSession()->getCurrentUrl());

@@ -6,7 +6,10 @@
 </head>
 <body>
 <pre>
-    <?php echo html_escape_value(mink_dump($request->server->all())); ?>
+    <?php
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
+    echo html_escape_value(mink_dump($request->server->all()));
+    ?>
 </pre>
 </body>
 </html>

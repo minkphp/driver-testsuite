@@ -8,7 +8,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 use Facebook\WebDriver\WebDriverKeys;
 use Generator;
 
-class EventsTest extends TestCase
+final class EventsTest extends TestCase
 {
     /**
      * @group mouse-events
@@ -139,7 +139,7 @@ class EventsTest extends TestCase
      *
      * @psalm-return Generator<int, array{0: WebDriverKeys::*, 1: string}, mixed, void>
      */
-    public function provideKeyboardEventsModifiers(): Generator
+    public static function provideKeyboardEventsModifiers(): Generator
     {
         yield [
             WebDriverKeys::LEFT_ALT,

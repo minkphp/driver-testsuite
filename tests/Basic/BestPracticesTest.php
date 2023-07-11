@@ -8,7 +8,7 @@ use Behat\Mink\Driver\CoreDriver;
 /**
  * This testcase ensures that the driver implementation follows recommended practices for drivers.
  */
-class BestPracticesTest extends TestCase
+final class BestPracticesTest extends TestCase
 {
     public function testExtendsCoreDriver(): \Behat\Mink\Driver\DriverInterface
     {
@@ -50,7 +50,7 @@ class BestPracticesTest extends TestCase
      *
      * @psalm-return array{0: array{0: 'start'}, 1: array{0: 'isStarted'}, 2: array{0: 'stop'}, 3: array{0: 'reset'}, 4: array{0: 'visit'}, 5: array{0: 'getCurrentUrl'}, 6: array{0: 'getContent'}, 7: array{0: 'click'}}
      */
-    public function provideRequiredMethods(): array
+    public static function provideRequiredMethods(): array
     {
         return array(
             array('start'),
@@ -64,7 +64,7 @@ class BestPracticesTest extends TestCase
         );
     }
 
-    private function assertImplementMethod(string $method, \Behat\Mink\Driver\DriverInterface $object, string $reason = ''): void
+    private function assertImplementMethod(string $method, object $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);
@@ -78,7 +78,7 @@ class BestPracticesTest extends TestCase
         $this->assertNotSame('Behat\Mink\Driver\CoreDriver', $refMethod->getDeclaringClass()->name, $message);
     }
 
-    private function assertNotImplementMethod(string $method, \Behat\Mink\Driver\DriverInterface $object, string $reason = ''): void
+    private function assertNotImplementMethod(string $method, object $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);

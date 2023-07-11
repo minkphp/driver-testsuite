@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class WindowTest extends TestCase
+final class WindowTest extends TestCase
 {
     public function testWindow(): void
     {
@@ -33,6 +33,18 @@ class WindowTest extends TestCase
         $session->switchToWindow(null);
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
+    }
+
+    public function testWindowName(): void
+    {
+        $this->getSession()->visit($this->pathTo('/window.html'));
+        $windowNames = $this->getSession()->getWindowNames();
+        $this->assertArrayHasKey(0, $windowNames);
+
+        $windowName = $this->getSession()->getWindowName();
+
+        $this->assertIsString($windowName);
+        $this->assertContains($windowName, $windowNames, 'The current window name should be one of the available window names.');
     }
 
     public function testGetWindowNames(): void

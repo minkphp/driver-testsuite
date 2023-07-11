@@ -1,10 +1,10 @@
 <?php
 
-namespace Behat\Mink\Tests\Driver\Basic;
+namespace Behat\Mink\Tests\Driver\Css;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class VisibilityTest extends TestCase
+final class VisibilityTest extends TestCase
 {
     public function testVisibility(): void
     {

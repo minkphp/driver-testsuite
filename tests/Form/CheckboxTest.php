@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class CheckboxTest extends TestCase
+final class CheckboxTest extends TestCase
 {
     public function testManipulate(): void
     {

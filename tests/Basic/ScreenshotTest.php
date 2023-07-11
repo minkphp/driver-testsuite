@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class ScreenshotTest extends TestCase
+final class ScreenshotTest extends TestCase
 {
     public function testScreenshot(): void
     {

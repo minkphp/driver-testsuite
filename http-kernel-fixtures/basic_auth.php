@@ -1,4 +1,5 @@
 <?php
+/** @var \Symfony\Component\HttpFoundation\Request $request */
 $SERVER = $request->server->all();
 
 $username = isset($SERVER['PHP_AUTH_USER']) ? $SERVER['PHP_AUTH_USER'] : false;

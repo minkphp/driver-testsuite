@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class ContentTest extends TestCase
+final class ContentTest extends TestCase
 {
     public function testOuterHtml(): void
     {
@@ -53,7 +53,7 @@ class ContentTest extends TestCase
      *
      * @psalm-return array{0: array{0: 'with-value', 1: 'some-value'}, 1: array{0: 'without-value', 1: ''}, 2: array{0: 'with-empty-value', 1: ''}, 3: array{0: 'with-missing', 1: null}}
      */
-    public function getAttributeDataProvider(): array
+    public static function getAttributeDataProvider(): array
     {
         return array(
             array('with-value', 'some-value'),

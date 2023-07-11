@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 /**
  * @group slow
  */
-class ChangeEventTest extends TestCase
+final class ChangeEventTest extends TestCase
 {
     /**
      * 'change' event should be fired after selecting an <option> in a <select>.
@@ -45,6 +45,11 @@ class ChangeEventTest extends TestCase
      */
     public function testSetValueChangeEvent(string $elementId, string $valueForEmpty, string $valueForFilled = ''): void
     {
+        if ($elementId === 'the-file') {
+            $valueForEmpty = $this->mapRemoteFilePath($valueForEmpty);
+            $valueForFilled = $this->mapRemoteFilePath($valueForFilled);
+        }
+
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
@@ -68,7 +73,7 @@ class ChangeEventTest extends TestCase
      *
      * @psalm-return array{'input default': array{0: 'the-input-default', 1: 'from empty', 2: 'from existing'}, 'input text': array{0: 'the-input-text', 1: 'from empty', 2: 'from existing'}, 'input email': array{0: 'the-email', 1: 'from empty', 2: 'from existing'}, textarea: array{0: 'the-textarea', 1: 'from empty', 2: 'from existing'}, file: array{0: 'the-file', 1: string, 2: string}, select: array{0: 'the-select', 1: '30'}, radio: array{0: 'the-radio-m', 1: 'm'}}
      */
-    public function setValueChangeEventDataProvider(): array
+    public static function setValueChangeEventDataProvider(): array
     {
         $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
         $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
@@ -108,7 +113,7 @@ class ChangeEventTest extends TestCase
      *
      * @psalm-return array{select: array{0: 'the-select', 1: '30'}, radio: array{0: 'the-radio-m', 1: 'm'}}
      */
-    public function selectOptionChangeEventDataProvider(): array
+    public static function selectOptionChangeEventDataProvider(): array
     {
         return array(
             'select' => array('the-select', '30'),
@@ -165,7 +170,7 @@ class ChangeEventTest extends TestCase
     }
 
     /** @psalm-return \Generator<int, array{0: bool}, mixed, void> */
-    public function checkboxTestWayDataProvider(): \Generator
+    public static function checkboxTestWayDataProvider(): \Generator
     {
         yield [true];
         yield [false];

@@ -8,13 +8,10 @@
 <pre>
 <?php
 error_reporting(0);
+/** @var \Symfony\Component\HttpFoundation\Request $request */
 
 $POST = $request->request->all();
 $FILES = $request->files->all();
-
-if (isset($POST['select_multiple_numbers']) && false !== strpos($POST['select_multiple_numbers'][0], ',')) {
-    $POST['select_multiple_numbers'] = explode(',', $POST['select_multiple_numbers'][0]);
-}
 
 // checkbox can have any value and will be successful in case "on"
 // http://www.w3.org/TR/html401/interact/forms.html#checkbox
@@ -23,7 +20,7 @@ ksort($POST);
 echo html_escape_value(mink_dump($POST)) . "\n";
 if (isset($FILES['about']) && file_exists($FILES['about']->getPathname())) {
     echo html_escape_value($FILES['about']->getClientOriginalName()) . "\n";
-    echo html_escape_value(file_get_contents($FILES['about']->getPathname()));
+    echo html_escape_value(file_get_contents($FILES['about']->getPathname()) ?: '');
 } else {
     echo "no file";
 }

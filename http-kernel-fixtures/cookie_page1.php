@@ -1,4 +1,5 @@
 <?php
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
     $resp = new Symfony\Component\HttpFoundation\Response();
     $cook = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set', 0, '/');
     $resp->headers->setCookie($cook);

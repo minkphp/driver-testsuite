@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class HeaderTest extends TestCase
+final class HeaderTest extends TestCase
 {
     /**
      * test referrer.

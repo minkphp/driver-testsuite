@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 /**
  * @group slow
  */
-class ErrorHandlingTest extends TestCase
+final class ErrorHandlingTest extends TestCase
 {
     const NOT_FOUND_XPATH = '//html/./invalid';
 

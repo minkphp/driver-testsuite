@@ -1,4 +1,5 @@
 <?php
+/** @var \Symfony\Component\HttpFoundation\Request $request */
 $session = $request->getSession();
 
 if ($request->query->has('login')) {

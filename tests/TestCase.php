@@ -2,7 +2,6 @@
 
 namespace Behat\Mink\Tests\Driver;
 
-use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
@@ -30,6 +29,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @beforeClass
+     *
+     * @return void
      */
     public static function prepareSession()
     {
@@ -85,6 +86,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @before
+     *
+     * @return void
      */
     protected function checkSkippedTest()
     {
@@ -95,6 +98,7 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @after
+     * @return void
      */
     protected function resetSessions()
     {
@@ -106,6 +110,7 @@ abstract class TestCase extends BaseTestCase
     protected function onNotSuccessfulTest(\Throwable $e): void
     {
         if ($e instanceof UnsupportedDriverActionException) {
+            @trigger_error(sprintf('Relying on catching "UnsupportedDriverActionException" to mark tests as skipped is deprecated. The test "%s::%s" should be marked as skipped through the test config.', get_class($this), $this->getName(false)), E_USER_DEPRECATED);
             $this->markTestSkipped($e->getMessage());
         }
 

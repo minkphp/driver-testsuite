@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class JavascriptEvaluationTest extends TestCase
+final class JavascriptEvaluationTest extends TestCase
 {
     /**
      * Tests, that `wait` method returns check result after exit.
@@ -64,7 +64,7 @@ class JavascriptEvaluationTest extends TestCase
      *
      * @psalm-return array{0: array{0: 'document.querySelector("h1").textContent = "Hello world"'}, 1: array{0: 'document.querySelector("h1").textContent = "Hello world";'}, 2: array{0: 'function () {document.querySelector("h1").textContent = "Hello world";}()'}, 3: array{0: 'function () {document.querySelector("h1").textContent = "Hello world";}();'}, 4: array{0: '(function () {document.querySelector("h1").textContent = "Hello world";})()'}, 5: array{0: '(function () {document.querySelector("h1").textContent = "Hello world";})();'}}
      */
-    public function provideExecutedScript(): array
+    public static function provideExecutedScript(): array
     {
         return [
             ['document.querySelector("h1").textContent = "Hello world"'],
@@ -92,7 +92,7 @@ class JavascriptEvaluationTest extends TestCase
      * @psalm-return \Generator<int, array<int, string>>
      * @return \Generator
      */
-    public function provideEvaluatedScript(): \Generator
+    public static function provideEvaluatedScript(): \Generator
     {
         yield ['1 + 1'];
         yield ['1 + 1;'];

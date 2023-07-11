@@ -1,55 +1,35 @@
+name: CI
+
 on:
   push:
-    branches:
-      - master
-  pull_request: ~
+  pull_request:
+  workflow_dispatch:
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  tests:
+  check_composer:
+    name: Check composer.json
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        php: [ 8.0 ]
-        symfony: [ "^3.4", "^4.4", "^5.3", "^5.4@dev" ]
-    timeout-minutes: 10
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@2.12.0
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
           coverage: none
-          extensions: zip, :xdebug
-          tools: composer
+          php-version: '8.2'
+      - run: composer validate --strict --no-check-lock
 
-      - name: Determine composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=directory::$(composer config cache-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2.1.6
-        with:
-          path: ${{ steps.composer-cache.outputs.directory }}
-          key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ matrix.php }}-composer-
-
-      - name: Install dependencies
-        run: |
-          echo "::group::composer require"
-          composer require symfony/http-kernel:${{ matrix.symfony }} --no-update
-          echo "::endgroup::"
-
-          echo "::group::composer update"
-          composer update --no-interaction --prefer-dist
-          echo "::endgroup::"
-
-      - name: Run psalm
-        run: |
-          ./vendor/bin/psalm --output-format=github
+  static_analysis:
+      name: Static analysis
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v3
+          - uses: shivammathur/setup-php@v2
+            with:
+                coverage: none
+                php-version: '8.2'
+          - name: Install dependencies
+            run: composer update --ansi --no-progress --prefer-dist --no-interaction
+          - run: vendor/bin/phpstan analyze

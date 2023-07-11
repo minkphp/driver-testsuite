@@ -2,9 +2,10 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
-class SelectTest extends TestCase
+final class SelectTest extends TestCase
 {
     public function testMultiselect(): void
     {
@@ -89,7 +90,7 @@ OUT;
      *
      * @psalm-return array{0: array{0: 'select_number', 1: '30', 2: 'thirty'}, 1: array{0: 'select_multiple_numbers[]', 1: '2', 2: 'two'}}
      */
-    public function elementSelectedStateCheckDataProvider(): array
+    public static function elementSelectedStateCheckDataProvider(): array
     {
         return array(
             array('select_number', '30', 'thirty'),
@@ -115,6 +116,25 @@ OUT;
 
         $select->setValue(array('1', '2'));
         $this->assertEquals(array('1', '2'), $select->getValue());
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValue(bool $value)
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $select = $this->getAssertSession()->fieldExists('select_number');
+
+        $this->expectException(DriverException::class);
+        $select->setValue($value);
+    }
+
+    public static function provideBooleanValues()
+    {
+        yield [true];
+        yield [false];
     }
 
     /**
@@ -149,9 +169,9 @@ OUT;
 
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
 
-        $nodeElement = $page->findField('foobar');
-        $this->assertNotNull($nodeElement);
+        $field = $page->findField('foobar');
 
-        $this->assertEquals('1', $nodeElement->getValue());
+        $this->assertNotNull($field);
+        $this->assertEquals('1', $field->getValue());
     }
 }

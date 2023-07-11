@@ -1,4 +1,5 @@
 <?php
+/** @var \Symfony\Component\HttpFoundation\Request $request */
 
 $hasCookie = $request->cookies->has('foo');
 $resp = new Symfony\Component\HttpFoundation\Response();

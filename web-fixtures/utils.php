@@ -1,6 +1,6 @@
 <?php
 
-function html_escape_value($data)
+function html_escape_value(string $data): string
 {
     return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
 }

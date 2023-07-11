@@ -5,7 +5,7 @@ namespace Behat\Mink\Tests\Driver\Basic;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Tests\Driver\TestCase;
 
-class TraversingTest extends TestCase
+final class TraversingTest extends TestCase
 {
     /**
      * find by label.
@@ -129,17 +129,17 @@ class TraversingTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $attrValue = (string) $subUrl->getAttribute('href');
-        $this->assertMatchesRegularExpression('/some_url$/', $attrValue);
+        $href = $subUrl->getAttribute('href');
+        $this->assertNotNull($href);
+        $this->assertMatchesRegularExpression('/some_url$/', $href);
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
 
         $this->assertTrue($subUrl->has('css', 'strong'));
         $this->assertFalse($subUrl->has('css', 'em'));
-        $nodeElement = $subUrl->find('css', 'strong');
-        $this->assertNotNull($nodeElement);
-
-        $this->assertEquals('deep', $nodeElement->getText());
+        $strong = $subUrl->find('css', 'strong');
+        $this->assertNotNull($strong);
+        $this->assertEquals('deep', $strong->getText());
     }
 
     public function testFindingChild(): void

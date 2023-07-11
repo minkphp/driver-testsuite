@@ -2,9 +2,10 @@
 
 namespace Behat\Mink\Tests\Driver\Form;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
-class GeneralTest extends TestCase
+final class GeneralTest extends TestCase
 {
     // test multiple submit buttons
     public function testIssue212(): void
@@ -37,10 +38,7 @@ class GeneralTest extends TestCase
         $this->assertEquals('Konstantin', $firstname->getValue());
         $this->assertEquals('Kudryashov', $lastname->getValue());
 
-        $resetBtnElement = $page->findButton('Reset');
-        $this->assertNotNull($resetBtnElement);
-
-        $resetBtnElement->click();
+        $page->pressButton('Reset');
 
         $this->assertEquals('Firstname', $firstname->getValue());
         $this->assertEquals('Lastname', $lastname->getValue());
@@ -48,10 +46,7 @@ class GeneralTest extends TestCase
         $firstname->setValue('Konstantin');
         $page->fillField('last_name', 'Kudryashov');
 
-        $saveBtnElement = $page->findButton('Save');
-        $this->assertNotNull($saveBtnElement);
-
-        $saveBtnElement->click();
+        $page->pressButton('Save');
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
@@ -75,10 +70,7 @@ class GeneralTest extends TestCase
         $firstname = $webAssert->fieldExists('first_name');
         $firstname->setValue('Konstantin');
 
-        $btnElement = $page->findButton($submitVia);
-        $this->assertNotNull($btnElement);
-
-        $btnElement->click();
+        $page->pressButton($submitVia);
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
@@ -88,7 +80,7 @@ class GeneralTest extends TestCase
     }
 
     /** @psalm-return \Generator<int, array{0: string}, mixed, void> */
-    public function formSubmitWaysDataProvider(): \Generator
+    public static function formSubmitWaysDataProvider(): \Generator
     {
         yield ['Save'];
         yield ['input-type-image'];
@@ -289,6 +281,93 @@ OUT;
 
             $this->assertThat($page->getContent(), $this->logicalOr($this->stringContains($out), $this->stringContains($minEscapedOut)));
         }
+    }
+
+    public function testSetArrayValueInTextInput()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $firstname = $webAssert->fieldExists('first_name');
+
+        $this->expectException(DriverException::class);
+        $firstname->setValue(array('bad'));
+    }
+
+    public function testSetArrayValueInTextarea()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $notes = $webAssert->fieldExists('notes');
+
+        $this->expectException(DriverException::class);
+        $notes->setValue(array('bad'));
+    }
+
+    public function testSetArrayValueInFileInput()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $about = $webAssert->fieldExists('about');
+
+        $this->expectException(DriverException::class);
+        $about->setValue(array('bad'));
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValueInTextInput(bool $value)
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $firstname = $webAssert->fieldExists('first_name');
+
+        $this->expectException(DriverException::class);
+        $firstname->setValue($value);
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValueInTextarea(bool $value)
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $notes = $webAssert->fieldExists('notes');
+
+        $this->expectException(DriverException::class);
+        $notes->setValue($value);
+    }
+
+    /**
+     * @dataProvider provideBooleanValues
+     */
+    public function testSetBooleanValueInFileInput(bool $value)
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $about = $webAssert->fieldExists('about');
+
+        $this->expectException(DriverException::class);
+        $about->setValue($value);
+    }
+
+    public static function provideBooleanValues()
+    {
+        yield [true];
+        yield [false];
     }
 
     public function testMultiInput(): void
