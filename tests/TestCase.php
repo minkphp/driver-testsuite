@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver;
 
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
