@@ -98,7 +98,7 @@ final class NavigationTest extends TestCase
         $this->assertNotNull($link);
         $href = $link->getAttribute('href');
         $this->assertNotNull($href);
-        $this->assertMatchesRegularExpression('/links\.html\?quoted$/', $href);
+        $this->assertMatchesRegularExpression('/basic_form.html/', $href);
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.html'), $this->getSession()->getCurrentUrl());
