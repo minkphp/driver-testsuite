@@ -360,7 +360,7 @@ OUT;
 
         $webAssert = $this->getAssertSession();
 
-        $color = $webAssert->elementExists('named', ['id_or_name', $field]);
+        $color = $webAssert->elementExists('named', array('id_or_name', $field));
 
         $this->expectException(DriverException::class);
         $color->setValue($value);
@@ -368,16 +368,23 @@ OUT;
 
     public static function provideInvalidValues(): iterable
     {
+        $nullValue = ['null', null];
+        $trueValue = ['true', true];
+        $falseValue = ['false', false];
+        $arrayValue = ['array', ['bad']];
+        $stringValue = ['string', 'updated'];
+
         $scenarios = [
-            'about' => [null, true, false, ['bad']],
-            'notes' => [null, true, false, ['bad']],
-            'first_name' => [null, true, false, ['bad']],
-            'submit' => [null, true, false, ['bad'], 'update'],
+            // field type, name or id, list of values to check
+            ['file', 'about', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['textarea', 'notes', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['text', 'first_name', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['button', 'submit', [$nullValue, $trueValue, $falseValue, $arrayValue, $stringValue]],
         ];
 
-        foreach ($scenarios as $field => $values) {
-            foreach ($values as $value) {
-                yield "$field field with " . var_export($value, true) => [$field, $value];
+        foreach ($scenarios as [$fieldType, $fieldNameOrId, $values]) {
+            foreach ($values as [$valueDesc, $actualValue]) {
+                yield "$fieldType field with $valueDesc" => [$fieldNameOrId, $actualValue];
             }
         }
     }
