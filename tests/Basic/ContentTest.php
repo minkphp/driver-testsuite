@@ -6,22 +6,22 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class ContentTest extends TestCase
 {
-    public function testOuterHtml()
+    public function testOuterHtml(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
         $element = $this->getAssertSession()->elementExists('css', '.travers');
 
         $this->assertEquals(
-            "<div class=\"travers\">\n            <div class=\"sub\">el1</div>\n".
-            "            <div class=\"sub\">el2</div>\n            <div class=\"sub\">\n".
-            "                <a href=\"some_url\">some <strong>deep</strong> url</a>\n".
+            "<div class=\"travers\">\n            <div class=\"sub\">el1</div>\n" .
+            "            <div class=\"sub\">el2</div>\n            <div class=\"sub\">\n" .
+            "                <a href=\"some_url\">some <strong>deep</strong> url</a>\n" .
             "            </div>\n        </div>",
             $element->getOuterHtml()
         );
     }
 
-    public function testDumpingEmptyElements()
+    public function testDumpingEmptyElements(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -36,27 +36,27 @@ final class ContentTest extends TestCase
     /**
      * @dataProvider getAttributeDataProvider
      */
-    public function testGetAttribute(string $attributeName, ?string $attributeValue)
+    public function testGetAttribute(string $attributeName, ?string $attributeValue): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $element = $this->getSession()->getPage()->findById('attr-elem['.$attributeName.']');
+        $element = $this->getSession()->getPage()->findById('attr-elem[' . $attributeName . ']');
 
         $this->assertNotNull($element);
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
     }
 
-    public static function getAttributeDataProvider()
+    public static function getAttributeDataProvider(): iterable
     {
-        return array(
-            array('with-value', 'some-value'),
-            array('without-value', ''),
-            array('with-empty-value', ''),
-            array('with-missing', null),
-        );
+        return [
+            ['with-value', 'some-value'],
+            ['without-value', ''],
+            ['with-empty-value', ''],
+            ['with-missing', null],
+        ];
     }
 
-    public function testHtmlDecodingNotPerformed()
+    public function testHtmlDecodingNotPerformed(): void
     {
         $session = $this->getSession();
         $webAssert = $this->getAssertSession();

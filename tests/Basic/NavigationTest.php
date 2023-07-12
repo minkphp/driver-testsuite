@@ -9,13 +9,13 @@ final class NavigationTest extends TestCase
 {
     use AssertionRenames;
 
-    public function testRedirect()
+    public function testRedirect(): void
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));
         $this->assertEquals($this->pathTo('/redirect_destination.html'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testPageControls()
+    public function testPageControls(): void
     {
         $this->getSession()->visit($this->pathTo('/randomizer.php'));
         $number1 = $this->getAssertSession()->elementExists('css', '#number')->getText();
@@ -37,7 +37,7 @@ final class NavigationTest extends TestCase
         $this->assertEquals($this->pathTo('/randomizer.php'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testLinks()
+    public function testLinks(): void
     {
         $this->getSession()->visit($this->pathTo('/links.html'));
         $page = $this->getSession()->getPage();

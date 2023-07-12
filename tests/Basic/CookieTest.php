@@ -11,7 +11,7 @@ final class CookieTest extends TestCase
      *
      * @group issue140
      */
-    public function testIssue140()
+    public function testIssue140(): void
     {
         $this->getSession()->visit($this->pathTo('/issue140.php'));
 
@@ -23,7 +23,7 @@ final class CookieTest extends TestCase
         $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
     }
 
-    public function testCookie()
+    public function testCookie(): void
     {
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
         $this->assertStringContainsString('Previous cookie: NO', $this->getSession()->getPage()->getText());
@@ -47,7 +47,7 @@ final class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $this->getSession()->getPage()->getText());
     }
 
-    public function testCookieWithSemicolon()
+    public function testCookieWithSemicolon(): void
     {
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
         $this->getSession()->setCookie('srvr_cookie', 'foo;bar;baz');
@@ -59,7 +59,7 @@ final class CookieTest extends TestCase
     /**
      * @dataProvider cookieWithPathsDataProvider
      */
-    public function testCookieWithPaths(string $cookieRemovalMode)
+    public function testCookieWithPaths(string $cookieRemovalMode): void
     {
         // start clean
         $session = $this->getSession();
@@ -76,9 +76,9 @@ final class CookieTest extends TestCase
         $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
         $this->assertStringContainsString('Previous cookie: srv_var_is_set_sub_folder', $session->getPage()->getText());
 
-        if ($cookieRemovalMode == 'session_reset') {
+        if ($cookieRemovalMode === 'session_reset') {
             $session->reset();
-        } elseif ($cookieRemovalMode == 'cookie_delete') {
+        } elseif ($cookieRemovalMode === 'cookie_delete') {
             $session->setCookie('srvr_cookie', null);
         }
 
@@ -87,18 +87,18 @@ final class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
     }
 
-    public static function cookieWithPathsDataProvider()
+    public static function cookieWithPathsDataProvider(): iterable
     {
-        return array(
-            array('session_reset'),
-            array('cookie_delete'),
-        );
+        return [
+            ['session_reset'],
+            ['cookie_delete'],
+        ];
     }
 
     /**
      * @dataProvider cookieWithPathsDataProvider
      */
-    public function testCookieInSubPath(string $cookieRemovalMode)
+    public function testCookieInSubPath(string $cookieRemovalMode): void
     {
         // Start clean.
         // The cookie is set when viewing the page.
@@ -112,9 +112,9 @@ final class CookieTest extends TestCase
         $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
         $this->assertStringContainsString('Previous cookie: srv_var_is_set', $session->getPage()->getText());
 
-        if ($cookieRemovalMode == 'session_reset') {
+        if ($cookieRemovalMode === 'session_reset') {
             $session->reset();
-        } elseif ($cookieRemovalMode == 'cookie_delete') {
+        } elseif ($cookieRemovalMode === 'cookie_delete') {
             $session->setCookie('srvr_cookie', null);
         }
 
@@ -123,7 +123,7 @@ final class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
     }
 
-    public function testReset()
+    public function testReset(): void
     {
         $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
@@ -169,7 +169,7 @@ final class CookieTest extends TestCase
         $this->assertStringContainsString('array()', $this->getSession()->getPage()->getText());
     }
 
-    public function testHttpOnlyCookieIsDeleted()
+    public function testHttpOnlyCookieIsDeleted(): void
     {
         $this->getSession()->restart();
         $this->getSession()->visit($this->pathTo('/cookie_page3.php'));
@@ -183,7 +183,7 @@ final class CookieTest extends TestCase
         $this->assertEquals('Has Cookie: false', $this->findById('cookie-status')->getText());
     }
 
-    public function testSessionPersistsBetweenRequests()
+    public function testSessionPersistsBetweenRequests(): void
     {
         $this->getSession()->visit($this->pathTo('/session_test.php'));
         $webAssert = $this->getAssertSession();

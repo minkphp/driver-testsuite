@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class WindowTest extends TestCase
 {
-    public function testWindow()
+    public function testWindow(): void
     {
         $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
@@ -47,7 +47,7 @@ final class WindowTest extends TestCase
         $this->assertContains($windowName, $windowNames, 'The current window name should be one of the available window names.');
     }
 
-    public function testGetWindowNames()
+    public function testGetWindowNames(): void
     {
         $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
@@ -67,7 +67,7 @@ final class WindowTest extends TestCase
         $this->assertNotNull($windowNames[2]);
     }
 
-    public function testResizeWindow()
+    public function testResizeWindow(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
@@ -94,7 +94,7 @@ JS;
         $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
     }
 
-    public function testWindowMaximize()
+    public function testWindowMaximize(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();

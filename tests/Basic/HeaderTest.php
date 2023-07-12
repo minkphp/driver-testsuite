@@ -11,7 +11,7 @@ final class HeaderTest extends TestCase
      *
      * @group issue130
      */
-    public function testIssue130()
+    public function testIssue130(): void
     {
         $this->getSession()->visit($this->pathTo('/issue130.php?p=1'));
         $page = $this->getSession()->getPage();
@@ -20,7 +20,7 @@ final class HeaderTest extends TestCase
         $this->assertEquals($this->pathTo('/issue130.php?p=1'), $page->getText());
     }
 
-    public function testHeaders()
+    public function testHeaders(): void
     {
         $this->getSession()->setRequestHeader('Accept-Language', 'fr');
         $this->getSession()->visit($this->pathTo('/headers.php'));
@@ -28,7 +28,7 @@ final class HeaderTest extends TestCase
         $this->assertStringContainsString('HTTP_ACCEPT_LANGUAGE = `fr`', $this->getSession()->getPage()->getContent());
     }
 
-    public function testSetUserAgent()
+    public function testSetUserAgent(): void
     {
         $session = $this->getSession();
 
@@ -37,7 +37,7 @@ final class HeaderTest extends TestCase
         $this->assertStringContainsString('HTTP_USER_AGENT = `foo bar`', $session->getPage()->getContent());
     }
 
-    public function testResetHeaders()
+    public function testResetHeaders(): void
     {
         $session = $this->getSession();
 
@@ -60,13 +60,13 @@ final class HeaderTest extends TestCase
         );
     }
 
-    public function testResponseHeaders()
+    public function testResponseHeaders(): void
     {
         $this->getSession()->visit($this->pathTo('/response_headers.php'));
 
         $headers = $this->getSession()->getResponseHeaders();
 
-        $lowercasedHeaders = array();
+        $lowercasedHeaders = [];
         foreach ($headers as $name => $value) {
             $lowercasedHeaders[str_replace('_', '-', strtolower($name))] = $value;
         }

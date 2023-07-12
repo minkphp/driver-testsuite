@@ -8,7 +8,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 final class GeneralTest extends TestCase
 {
     // test multiple submit buttons
-    public function testIssue212()
+    public function testIssue212(): void
     {
         $session = $this->getSession();
 
@@ -18,7 +18,7 @@ final class GeneralTest extends TestCase
         $this->assertEquals('poney', $field->getValue());
     }
 
-    public function testBasicForm()
+    public function testBasicForm(): void
     {
         $this->getSession()->visit($this->pathTo('/basic_form.html'));
 
@@ -58,7 +58,7 @@ final class GeneralTest extends TestCase
     /**
      * @dataProvider formSubmitWaysDataProvider
      */
-    public function testFormSubmitWays(string $submitVia)
+    public function testFormSubmitWays(string $submitVia): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
@@ -77,17 +77,17 @@ final class GeneralTest extends TestCase
         }
     }
 
-    public static function formSubmitWaysDataProvider()
+    public static function formSubmitWaysDataProvider(): iterable
     {
-        return array(
-            array('Save'),
-            array('input-type-image'),
-            array('button-without-type'),
-            array('button-type-submit'),
-        );
+        return [
+            ['Save'],
+            ['input-type-image'],
+            ['button-without-type'],
+            ['button-type-submit'],
+        ];
     }
 
-    public function testFormSubmit()
+    public function testFormSubmit(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
@@ -102,7 +102,7 @@ final class GeneralTest extends TestCase
         }
     }
 
-    public function testFormSubmitWithoutButton()
+    public function testFormSubmitWithoutButton(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/form_without_button.html'));
@@ -117,7 +117,7 @@ final class GeneralTest extends TestCase
         }
     }
 
-    public function testBasicGetForm()
+    public function testBasicGetForm(): void
     {
         $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
         $webAssert = $this->getAssertSession();
@@ -133,7 +133,7 @@ final class GeneralTest extends TestCase
         $this->assertEquals('some#query', $div->getText());
     }
 
-    public function testAdvancedForm()
+    public function testAdvancedForm(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
         $page = $this->getSession()->getPage();
@@ -222,7 +222,7 @@ OUT;
         }
     }
 
-    public function testQuoteInValue()
+    public function testQuoteInValue(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -262,7 +262,7 @@ OUT;
         }
     }
 
-    public function testSetArrayValueInTextInput()
+    public function testSetArrayValueInTextInput(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -271,10 +271,10 @@ OUT;
         $firstname = $webAssert->fieldExists('first_name');
 
         $this->expectException(DriverException::class);
-        $firstname->setValue(array('bad'));
+        $firstname->setValue(['bad']);
     }
 
-    public function testSetArrayValueInTextarea()
+    public function testSetArrayValueInTextarea(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -283,10 +283,10 @@ OUT;
         $notes = $webAssert->fieldExists('notes');
 
         $this->expectException(DriverException::class);
-        $notes->setValue(array('bad'));
+        $notes->setValue(['bad']);
     }
 
-    public function testSetArrayValueInFileInput()
+    public function testSetArrayValueInFileInput(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -295,13 +295,13 @@ OUT;
         $about = $webAssert->fieldExists('about');
 
         $this->expectException(DriverException::class);
-        $about->setValue(array('bad'));
+        $about->setValue(['bad']);
     }
 
     /**
      * @dataProvider provideBooleanValues
      */
-    public function testSetBooleanValueInTextInput(bool $value)
+    public function testSetBooleanValueInTextInput(bool $value): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -316,7 +316,7 @@ OUT;
     /**
      * @dataProvider provideBooleanValues
      */
-    public function testSetBooleanValueInTextarea(bool $value)
+    public function testSetBooleanValueInTextarea(bool $value): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -331,7 +331,7 @@ OUT;
     /**
      * @dataProvider provideBooleanValues
      */
-    public function testSetBooleanValueInFileInput(bool $value)
+    public function testSetBooleanValueInFileInput(bool $value): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
@@ -343,13 +343,13 @@ OUT;
         $about->setValue($value);
     }
 
-    public static function provideBooleanValues()
+    public static function provideBooleanValues(): iterable
     {
         yield [true];
         yield [false];
     }
 
-    public function testMultiInput()
+    public function testMultiInput(): void
     {
         $this->getSession()->visit($this->pathTo('/multi_input_form.html'));
         $page = $this->getSession()->getPage();
@@ -394,7 +394,7 @@ OUT;
         $this->assertStringContainsString($out, $page->getContent());
     }
 
-    public function testAdvancedFormSecondSubmit()
+    public function testAdvancedFormSecondSubmit(): void
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
         $page = $this->getSession()->getPage();
@@ -403,11 +403,11 @@ OUT;
         $this->assertNotNull($button);
         $button->press();
 
-        $toSearch = array(
+        $toSearch = [
             'agreement = `off`,',
             'submit = `Login`,',
             'no file',
-        );
+        ];
 
         $pageContent = $page->getContent();
 
@@ -416,18 +416,18 @@ OUT;
         }
     }
 
-    public function testSubmitEmptyTextarea()
+    public function testSubmitEmptyTextarea(): void
     {
         $this->getSession()->visit($this->pathTo('/empty_textarea.html'));
         $page = $this->getSession()->getPage();
 
         $page->pressButton('Save');
 
-        $toSearch = array(
+        $toSearch = [
             'textarea = ``,',
             'submit = `Save`,',
             'no file',
-        );
+        ];
 
         $pageContent = $page->getContent();
 

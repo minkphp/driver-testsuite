@@ -9,7 +9,7 @@ final class BasicAuthTest extends TestCase
     /**
      * @dataProvider setBasicAuthDataProvider
      */
-    public function testSetBasicAuth(string $user, string $pass, string $pageText)
+    public function testSetBasicAuth(string $user, string $pass, string $pageText): void
     {
         $session = $this->getSession();
 
@@ -20,15 +20,15 @@ final class BasicAuthTest extends TestCase
         $this->assertStringContainsString($pageText, $session->getPage()->getContent());
     }
 
-    public static function setBasicAuthDataProvider()
+    public static function setBasicAuthDataProvider(): iterable
     {
-        return array(
-            array('mink-user', 'mink-password', 'is authenticated'),
-            array('', '', 'is not authenticated'),
-        );
+        return [
+            ['mink-user', 'mink-password', 'is authenticated'],
+            ['', '', 'is not authenticated'],
+        ];
     }
 
-    public function testBasicAuthInUrl()
+    public function testBasicAuthInUrl(): void
     {
         $session = $this->getSession();
 
@@ -43,7 +43,7 @@ final class BasicAuthTest extends TestCase
         $this->assertStringContainsString('is not authenticated', $session->getPage()->getContent());
     }
 
-    public function testResetBasicAuth()
+    public function testResetBasicAuth(): void
     {
         $session = $this->getSession();
 
@@ -60,7 +60,7 @@ final class BasicAuthTest extends TestCase
         $this->assertStringNotContainsString('PHP_AUTH_USER', $session->getPage()->getContent());
     }
 
-    public function testResetWithBasicAuth()
+    public function testResetWithBasicAuth(): void
     {
         $session = $this->getSession();
 

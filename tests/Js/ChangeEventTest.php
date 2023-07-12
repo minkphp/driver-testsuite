@@ -14,18 +14,18 @@ final class ChangeEventTest extends TestCase
      *
      * TODO check whether this test is redundant with other change event tests.
      */
-    public function testIssue255()
+    public function testIssue255(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/issue255.html'));
 
         $session->getPage()->selectFieldOption('foo_select', 'Option 3');
 
-        $session->wait(2000, '$("#output_foo_select").text() != ""');
+        $session->wait(2000, '$("#output_foo_select").text() !== ""');
         $this->assertEquals('onChangeSelect', $this->getAssertSession()->elementExists('css', '#output_foo_select')->getText());
     }
 
-    public function testIssue178()
+    public function testIssue178(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/issue178.html'));
@@ -38,7 +38,7 @@ final class ChangeEventTest extends TestCase
      * @dataProvider setValueChangeEventDataProvider
      * @group change-event-detector
      */
-    public function testSetValueChangeEvent(string $elementId, string $valueForEmpty, string $valueForFilled = '')
+    public function testSetValueChangeEvent(string $elementId, string $valueForEmpty, string $valueForFilled = ''): void
     {
         if ($elementId === 'the-file') {
             $valueForEmpty = $this->mapRemoteFilePath($valueForEmpty);
@@ -49,7 +49,7 @@ final class ChangeEventTest extends TestCase
         $page = $this->getSession()->getPage();
 
         $input = $this->findById($elementId);
-        $this->assertNull($page->findById($elementId.'-result'));
+        $this->assertNull($page->findById($elementId . '-result'));
 
         // Verify setting value, when control is initially empty.
         $input->setValue($valueForEmpty);
@@ -63,51 +63,51 @@ final class ChangeEventTest extends TestCase
         }
     }
 
-    public static function setValueChangeEventDataProvider()
+    public static function setValueChangeEventDataProvider(): iterable
     {
         $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
         $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
 
-        return array(
-            'input default' => array('the-input-default', 'from empty', 'from existing'),
-            'input text' => array('the-input-text', 'from empty', 'from existing'),
-            'input email' => array('the-email', 'from empty', 'from existing'),
-            'textarea' => array('the-textarea', 'from empty', 'from existing'),
-            'file' => array('the-file', $file1, $file2),
-            'select' => array('the-select', '30'),
-            'radio' => array('the-radio-m', 'm'),
-        );
+        return [
+            'input default' => ['the-input-default', 'from empty', 'from existing'],
+            'input text' => ['the-input-text', 'from empty', 'from existing'],
+            'input email' => ['the-email', 'from empty', 'from existing'],
+            'textarea' => ['the-textarea', 'from empty', 'from existing'],
+            'file' => ['the-file', $file1, $file2],
+            'select' => ['the-select', '30'],
+            'radio' => ['the-radio-m', 'm'],
+        ];
     }
 
     /**
      * @dataProvider selectOptionChangeEventDataProvider
      * @group change-event-detector
      */
-    public function testSelectOptionChangeEvent(string $elementId, string $elementValue)
+    public function testSelectOptionChangeEvent(string $elementId, string $elementValue): void
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
         $input = $this->findById($elementId);
-        $this->assertNull($page->findById($elementId.'-result'));
+        $this->assertNull($page->findById($elementId . '-result'));
 
         $input->selectOption($elementValue);
         $this->assertElementChangeCount($elementId);
     }
 
-    public static function selectOptionChangeEventDataProvider()
+    public static function selectOptionChangeEventDataProvider(): iterable
     {
-        return array(
-            'select' => array('the-select', '30'),
-            'radio' => array('the-radio-m', 'm'),
-        );
+        return [
+            'select' => ['the-select', '30'],
+            'radio' => ['the-radio-m', 'm'],
+        ];
     }
 
     /**
      * @dataProvider checkboxTestWayDataProvider
      * @group change-event-detector
      */
-    public function testCheckChangeEvent(bool $useSetValue)
+    public function testCheckChangeEvent(bool $useSetValue): void
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -128,7 +128,7 @@ final class ChangeEventTest extends TestCase
      * @dataProvider checkboxTestWayDataProvider
      * @group change-event-detector
      */
-    public function testUncheckChangeEvent(bool $useSetValue)
+    public function testUncheckChangeEvent(bool $useSetValue): void
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -145,17 +145,17 @@ final class ChangeEventTest extends TestCase
         $this->assertElementChangeCount('the-checked-checkbox');
     }
 
-    public static function checkboxTestWayDataProvider()
+    public static function checkboxTestWayDataProvider(): iterable
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return [
+            [true],
+            [false],
+        ];
     }
 
     private function assertElementChangeCount(string $elementId, string $message = ''): void
     {
-        $counterElement = $this->getSession()->getPage()->findById($elementId.'-result');
+        $counterElement = $this->getSession()->getPage()->findById($elementId . '-result');
         $actualCount = null === $counterElement ? 0 : $counterElement->getText();
 
         $this->assertEquals('1', $actualCount, $message);

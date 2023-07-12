@@ -6,10 +6,6 @@ parameters:
         - http-kernel-fixtures
         - web-fixtures
     checkMissingIterableValueType: false
-    ignoreErrors:
-        - '#^Method Behat\\Mink\\Tests\\Driver\\[^:]+Test(Case)?\:\:test\w*\(\) has no return type specified\.$#'
-        - '#^Method Behat\\Mink\\Tests\\Driver\\[^:]+Test(Case)?\:\:provide\w*\(\) has no return type specified\.$#'
-        - '#^Method Behat\\Mink\\Tests\\Driver\\[^:]+Test(Case)?\:\:\w*DataProvider\(\) has no return type specified\.$#'
 
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon

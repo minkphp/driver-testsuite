@@ -9,13 +9,13 @@ use Behat\Mink\Tests\Driver\TestCase;
  */
 final class ErrorHandlingTest extends TestCase
 {
-    const NOT_FOUND_XPATH = '//html/./invalid';
+    private const NOT_FOUND_XPATH = '//html/./invalid';
 
-    const NOT_FOUND_EXCEPTION = 'Exception';
+    private const NOT_FOUND_EXCEPTION = 'Exception';
 
-    const INVALID_EXCEPTION = 'Exception';
+    private const INVALID_EXCEPTION = 'Exception';
 
-    public function testVisitErrorPage()
+    public function testVisitErrorPage(): void
     {
         $this->getSession()->visit($this->pathTo('/500.php'));
 
@@ -26,7 +26,7 @@ final class ErrorHandlingTest extends TestCase
         );
     }
 
-    public function testCheckInvalidElement()
+    public function testCheckInvalidElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
@@ -35,7 +35,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->check($element->getXpath());
     }
 
-    public function testCheckNotFoundElement()
+    public function testCheckNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -43,7 +43,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->check(self::NOT_FOUND_XPATH);
     }
 
-    public function testUncheckInvalidElement()
+    public function testUncheckInvalidElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
@@ -52,7 +52,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->uncheck($element->getXpath());
     }
 
-    public function testUncheckNotFoundElement()
+    public function testUncheckNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -60,7 +60,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->uncheck(self::NOT_FOUND_XPATH);
     }
 
-    public function testSelectOptionInvalidElement()
+    public function testSelectOptionInvalidElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
@@ -69,7 +69,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->selectOption($element->getXpath(), 'test');
     }
 
-    public function testSelectOptionNotFoundElement()
+    public function testSelectOptionNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -77,7 +77,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->selectOption(self::NOT_FOUND_XPATH, 'test');
     }
 
-    public function testAttachFileInvalidElement()
+    public function testAttachFileInvalidElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('user-name');
@@ -86,7 +86,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->attachFile($element->getXpath(), __FILE__);
     }
 
-    public function testAttachFileNotFoundElement()
+    public function testAttachFileNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -94,7 +94,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->attachFile(self::NOT_FOUND_XPATH, __FILE__);
     }
 
-    public function testSubmitFormInvalidElement()
+    public function testSubmitFormInvalidElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->findById('core');
@@ -103,7 +103,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->submitForm($element->getXpath());
     }
 
-    public function testSubmitFormNotFoundElement()
+    public function testSubmitFormNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -111,7 +111,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->submitForm(self::NOT_FOUND_XPATH);
     }
 
-    public function testGetTagNameNotFoundElement()
+    public function testGetTagNameNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -119,7 +119,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getTagName(self::NOT_FOUND_XPATH);
     }
 
-    public function testGetTextNotFoundElement()
+    public function testGetTextNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -127,7 +127,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getText(self::NOT_FOUND_XPATH);
     }
 
-    public function testGetHtmlNotFoundElement()
+    public function testGetHtmlNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -135,7 +135,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getHtml(self::NOT_FOUND_XPATH);
     }
 
-    public function testGetOuterHtmlNotFoundElement()
+    public function testGetOuterHtmlNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -143,7 +143,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getOuterHtml(self::NOT_FOUND_XPATH);
     }
 
-    public function testGetValueNotFoundElement()
+    public function testGetValueNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -151,7 +151,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getValue(self::NOT_FOUND_XPATH);
     }
 
-    public function testSetValueNotFoundElement()
+    public function testSetValueNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -159,7 +159,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->setValue(self::NOT_FOUND_XPATH, 'test');
     }
 
-    public function testIsSelectedNotFoundElement()
+    public function testIsSelectedNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -167,7 +167,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->isSelected(self::NOT_FOUND_XPATH);
     }
 
-    public function testIsCheckedNotFoundElement()
+    public function testIsCheckedNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -175,7 +175,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->isChecked(self::NOT_FOUND_XPATH);
     }
 
-    public function testIsVisibleNotFoundElement()
+    public function testIsVisibleNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -183,7 +183,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->isVisible(self::NOT_FOUND_XPATH);
     }
 
-    public function testClickNotFoundElement()
+    public function testClickNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -191,7 +191,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->click(self::NOT_FOUND_XPATH);
     }
 
-    public function testDoubleClickNotFoundElement()
+    public function testDoubleClickNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -199,7 +199,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->doubleClick(self::NOT_FOUND_XPATH);
     }
 
-    public function testRightClickNotFoundElement()
+    public function testRightClickNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -207,7 +207,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->rightClick(self::NOT_FOUND_XPATH);
     }
 
-    public function testGetAttributeNotFoundElement()
+    public function testGetAttributeNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -215,7 +215,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getAttribute(self::NOT_FOUND_XPATH, 'id');
     }
 
-    public function testMouseOverNotFoundElement()
+    public function testMouseOverNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -223,7 +223,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->mouseOver(self::NOT_FOUND_XPATH);
     }
 
-    public function testFocusNotFoundElement()
+    public function testFocusNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -231,7 +231,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->focus(self::NOT_FOUND_XPATH);
     }
 
-    public function testBlurNotFoundElement()
+    public function testBlurNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -239,7 +239,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->blur(self::NOT_FOUND_XPATH);
     }
 
-    public function testKeyPressNotFoundElement()
+    public function testKeyPressNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -247,7 +247,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->keyPress(self::NOT_FOUND_XPATH, 'a');
     }
 
-    public function testKeyDownNotFoundElement()
+    public function testKeyDownNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -255,7 +255,7 @@ final class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->keyDown(self::NOT_FOUND_XPATH, 'a');
     }
 
-    public function testKeyUpNotFoundElement()
+    public function testKeyUpNotFoundElement(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
