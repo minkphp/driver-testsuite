@@ -9,15 +9,15 @@ final class JavascriptEvaluationTest extends TestCase
     /**
      * Tests, that `wait` method returns check result after exit.
      */
-    public function testWaitReturnValue()
+    public function testWaitReturnValue(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
-        $found = $this->getSession()->wait(5000, '$("#draggable").length == 1');
+        $found = $this->getSession()->wait(5000, '$("#draggable").length === 1');
         $this->assertTrue($found);
     }
 
-    public function testWaitReturnValueAlwaysBoolean()
+    public function testWaitReturnValueAlwaysBoolean(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
@@ -25,7 +25,7 @@ final class JavascriptEvaluationTest extends TestCase
         $this->assertTrue($found);
     }
 
-    public function testWait()
+    public function testWait(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
@@ -43,7 +43,7 @@ final class JavascriptEvaluationTest extends TestCase
     /**
      * @dataProvider provideExecutedScript
      */
-    public function testExecuteScript(string $script)
+    public function testExecuteScript(string $script): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -55,39 +55,39 @@ final class JavascriptEvaluationTest extends TestCase
         $this->assertEquals('Hello world', $heading->getText());
     }
 
-    public static function provideExecutedScript()
+    public static function provideExecutedScript(): iterable
     {
-        return array(
-            array('document.querySelector("h1").textContent = "Hello world"'),
-            array('document.querySelector("h1").textContent = "Hello world";'),
-            array('function () {document.querySelector("h1").textContent = "Hello world";}()'),
-            array('function () {document.querySelector("h1").textContent = "Hello world";}();'),
-            array('(function () {document.querySelector("h1").textContent = "Hello world";})()'),
-            array('(function () {document.querySelector("h1").textContent = "Hello world";})();'),
-        );
+        return [
+            ['document.querySelector("h1").textContent = "Hello world"'],
+            ['document.querySelector("h1").textContent = "Hello world";'],
+            ['function () {document.querySelector("h1").textContent = "Hello world";}()'],
+            ['function () {document.querySelector("h1").textContent = "Hello world";}();'],
+            ['(function () {document.querySelector("h1").textContent = "Hello world";})()'],
+            ['(function () {document.querySelector("h1").textContent = "Hello world";})();'],
+        ];
     }
 
     /**
      * @dataProvider provideEvaluatedScript
      */
-    public function testEvaluateJavascript(string $script)
+    public function testEvaluateJavascript(string $script): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->assertSame(2, $this->getSession()->evaluateScript($script));
     }
 
-    public static function provideEvaluatedScript()
+    public static function provideEvaluatedScript(): iterable
     {
-        return array(
-            array('1 + 1'),
-            array('1 + 1;'),
-            array('return 1 + 1'),
-            array('return 1 + 1;'),
-            array('function () {return 1+1;}()'),
-            array('(function () {return 1+1;})()'),
-            array('return function () { return 1+1;}()'),
-            array('return (function () {return 1+1;})()'),
-        );
+        return [
+            ['1 + 1'],
+            ['1 + 1;'],
+            ['return 1 + 1'],
+            ['return 1 + 1;'],
+            ['function () {return 1+1;}()'],
+            ['(function () {return 1+1;})()'],
+            ['return function () { return 1+1;}()'],
+            ['return (function () {return 1+1;})()'],
+        ];
     }
 }

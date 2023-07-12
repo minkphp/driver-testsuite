@@ -14,7 +14,7 @@ final class TraversingTest extends TestCase
      *
      * @group issue211
      */
-    public function testIssue211()
+    public function testIssue211(): void
     {
         $this->getSession()->visit($this->pathTo('/issue211.html'));
         $field = $this->getSession()->getPage()->findField('Téléphone');
@@ -22,7 +22,7 @@ final class TraversingTest extends TestCase
         $this->assertNotNull($field);
     }
 
-    public function testElementsTraversing()
+    public function testElementsTraversing(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -56,7 +56,7 @@ final class TraversingTest extends TestCase
         $this->assertNotNull($element);
         $this->assertEquals('some very interesting text', $element->getText());
         $this->assertEquals(
-            "\n            some <div>very\n            </div>\n".
+            "\n            some <div>very\n            </div>\n" .
             "<em>interesting</em>      text\n        ",
             $element->getHtml()
         );
@@ -68,7 +68,7 @@ final class TraversingTest extends TestCase
         $this->assertEquals('div', $element->getTagName());
     }
 
-    public function testVeryDeepElementsTraversing()
+    public function testVeryDeepElementsTraversing(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -109,7 +109,7 @@ final class TraversingTest extends TestCase
         $this->assertEquals('username', $profileFormInput->getAttribute('name'));
     }
 
-    public function testDeepTraversing()
+    public function testDeepTraversing(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -138,7 +138,7 @@ final class TraversingTest extends TestCase
         $this->assertEquals('deep', $strong->getText());
     }
 
-    public function testFindingChild()
+    public function testFindingChild(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 

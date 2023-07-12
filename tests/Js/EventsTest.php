@@ -9,7 +9,7 @@ final class EventsTest extends TestCase
     /**
      * @group mouse-events
      */
-    public function testClick()
+    public function testClick(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
@@ -22,7 +22,7 @@ final class EventsTest extends TestCase
     /**
      * @group mouse-events
      */
-    public function testDoubleClick()
+    public function testDoubleClick(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
@@ -35,7 +35,7 @@ final class EventsTest extends TestCase
     /**
      * @group mouse-events
      */
-    public function testRightClick()
+    public function testRightClick(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
@@ -48,7 +48,7 @@ final class EventsTest extends TestCase
     /**
      * @group mouse-events
      */
-    public function testFocus()
+    public function testFocus(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
@@ -62,7 +62,7 @@ final class EventsTest extends TestCase
      * @group mouse-events
      * @depends testFocus
      */
-    public function testBlur()
+    public function testBlur(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
@@ -75,7 +75,7 @@ final class EventsTest extends TestCase
     /**
      * @group mouse-events
      */
-    public function testMouseOver()
+    public function testMouseOver(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $mouseOverDetector = $this->getAssertSession()->elementExists('css', '.elements div#mouseover-detector');
@@ -88,7 +88,7 @@ final class EventsTest extends TestCase
     /**
      * @dataProvider provideKeyboardEventsModifiers
      */
-    public function testKeyboardEvents(?string $modifier, string $eventProperties)
+    public function testKeyboardEvents(?string $modifier, string $eventProperties): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $webAssert = $this->getAssertSession();
@@ -99,10 +99,10 @@ final class EventsTest extends TestCase
         $event = $webAssert->elementExists('css', '.elements .text-event');
 
         $input1->keyDown('u', $modifier);
-        $this->assertEquals('key downed:'.$eventProperties, $event->getText());
+        $this->assertEquals('key downed:' . $eventProperties, $event->getText());
 
         $input2->keyPress('r', $modifier);
-        $this->assertEquals('key pressed:114 / '.$eventProperties, $event->getText());
+        $this->assertEquals('key pressed:114 / ' . $eventProperties, $event->getText());
 
         $input2->keyPress('R', $modifier);
         $this->assertEquals('key pressed:82 / ' . $eventProperties, $event->getText());
@@ -111,18 +111,18 @@ final class EventsTest extends TestCase
         $this->assertEquals('key pressed:48 / ' . $eventProperties, $event->getText());
 
         $input3->keyUp(78, $modifier);
-        $this->assertEquals('key upped:78 / '.$eventProperties, $event->getText());
+        $this->assertEquals('key upped:78 / ' . $eventProperties, $event->getText());
     }
 
-    public static function provideKeyboardEventsModifiers()
+    public static function provideKeyboardEventsModifiers(): iterable
     {
-        return array(
-            'none' => array(null, '0 / 0 / 0 / 0'),
-            'alt' => array('alt', '1 / 0 / 0 / 0'),
-             // jQuery considers ctrl as being a metaKey in the normalized event
-            'ctrl' => array('ctrl', '0 / 1 / 0 / 1'),
-            'shift' => array('shift', '0 / 0 / 1 / 0'),
-            'meta' => array('meta', '0 / 0 / 0 / 1'),
-        );
+        return [
+            'none' => [null, '0 / 0 / 0 / 0'],
+            'alt' => ['alt', '1 / 0 / 0 / 0'],
+            // jQuery considers ctrl as being a metaKey in the normalized event
+            'ctrl' => ['ctrl', '0 / 1 / 0 / 1'],
+            'shift' => ['shift', '0 / 0 / 1 / 0'],
+            'meta' => ['meta', '0 / 0 / 0 / 1'],
+        ];
     }
 }

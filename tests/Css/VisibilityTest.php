@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class VisibilityTest extends TestCase
 {
-    public function testVisibility()
+    public function testVisibility(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $webAssert = $this->getAssertSession();

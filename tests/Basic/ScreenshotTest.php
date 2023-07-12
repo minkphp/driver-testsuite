@@ -6,7 +6,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class ScreenshotTest extends TestCase
 {
-    public function testScreenshot()
+    public function testScreenshot(): void
     {
         if (!extension_loaded('gd')) {
             $this->markTestSkipped('Testing screenshots requires the GD extension');

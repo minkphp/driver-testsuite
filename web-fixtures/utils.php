@@ -39,7 +39,7 @@ function mink_dump($value)
             return 'array()';
         }
 
-        $output = array('array(');
+        $output = ['array('];
 
         foreach ($value as $k => $v) {
             $output[] = sprintf('%s = %s,', $k, str_replace("\n", "\n  ", mink_dump($v)));

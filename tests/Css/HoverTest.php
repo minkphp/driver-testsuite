@@ -9,7 +9,7 @@ final class HoverTest extends TestCase
     /**
      * @group mouse-events
      */
-    public function testMouseOverHover()
+    public function testMouseOverHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -24,7 +24,7 @@ final class HoverTest extends TestCase
      * @group mouse-events
      * @depends testMouseOverHover
      */
-    public function testClickHover()
+    public function testClickHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -39,7 +39,7 @@ final class HoverTest extends TestCase
      * @group mouse-events
      * @depends testMouseOverHover
      */
-    public function testDoubleClickHover()
+    public function testDoubleClickHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 
@@ -54,7 +54,7 @@ final class HoverTest extends TestCase
      * @group mouse-events
      * @depends testMouseOverHover
      */
-    public function testRightClickHover()
+    public function testRightClickHover(): void
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
 

@@ -7,7 +7,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class SelectTest extends TestCase
 {
-    public function testMultiselect()
+    public function testMultiselect(): void
     {
         $this->getSession()->visit($this->pathTo('/multiselect_form.html'));
         $webAssert = $this->getAssertSession();
@@ -25,22 +25,22 @@ final class SelectTest extends TestCase
         $secondMultiSelect = $webAssert->fieldExists('select_multiple_values[]');
 
         $this->assertEquals('20', $select->getValue());
-        $this->assertSame(array(), $multiSelect->getValue());
-        $this->assertSame(array('2', '3'), $secondMultiSelect->getValue());
+        $this->assertSame([], $multiSelect->getValue());
+        $this->assertSame(['2', '3'], $secondMultiSelect->getValue());
 
         $select->selectOption('thirty');
         $this->assertEquals('30', $select->getValue());
 
         $multiSelect->selectOption('one', true);
 
-        $this->assertSame(array('1'), $multiSelect->getValue());
+        $this->assertSame(['1'], $multiSelect->getValue());
 
         $multiSelect->selectOption('three', true);
 
-        $this->assertEquals(array('1', '3'), $multiSelect->getValue());
+        $this->assertEquals(['1', '3'], $multiSelect->getValue());
 
         $secondMultiSelect->selectOption('two');
-        $this->assertSame(array('2'), $secondMultiSelect->getValue());
+        $this->assertSame(['2'], $secondMultiSelect->getValue());
 
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
@@ -64,29 +64,29 @@ OUT;
     /**
      * @dataProvider elementSelectedStateCheckDataProvider
      */
-    public function testElementSelectedStateCheck(string $selectName, string $optionValue, string $optionText)
+    public function testElementSelectedStateCheck(string $selectName, string $optionValue, string $optionText): void
     {
         $session = $this->getSession();
         $webAssert = $this->getAssertSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $webAssert->fieldExists($selectName);
 
-        $option = $webAssert->elementExists('named', array('option', $optionValue), $select);
+        $option = $webAssert->elementExists('named', ['option', $optionValue], $select);
 
         $this->assertFalse($option->isSelected());
         $select->selectOption($optionText);
         $this->assertTrue($option->isSelected());
     }
 
-    public static function elementSelectedStateCheckDataProvider()
+    public static function elementSelectedStateCheckDataProvider(): iterable
     {
-        return array(
-            array('select_number', '30', 'thirty'),
-            array('select_multiple_numbers[]', '2', 'two'),
-        );
+        return [
+            ['select_number', '30', 'thirty'],
+            ['select_multiple_numbers[]', '2', 'two'],
+        ];
     }
 
-    public function testSetValueSingleSelect()
+    public function testSetValueSingleSelect(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
@@ -96,20 +96,20 @@ OUT;
         $this->assertEquals('10', $select->getValue());
     }
 
-    public function testSetValueMultiSelect()
+    public function testSetValueMultiSelect(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $this->getAssertSession()->fieldExists('select_multiple_values[]');
 
-        $select->setValue(array('1', '2'));
-        $this->assertEquals(array('1', '2'), $select->getValue());
+        $select->setValue(['1', '2']);
+        $this->assertEquals(['1', '2'], $select->getValue());
     }
 
     /**
      * @dataProvider provideBooleanValues
      */
-    public function testSetBooleanValue(bool $value)
+    public function testSetBooleanValue(bool $value): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
@@ -119,7 +119,7 @@ OUT;
         $select->setValue($value);
     }
 
-    public static function provideBooleanValues()
+    public static function provideBooleanValues(): iterable
     {
         yield [true];
         yield [false];
@@ -128,7 +128,7 @@ OUT;
     /**
      * @see https://github.com/Behat/Mink/issues/193
      */
-    public function testOptionWithoutValue()
+    public function testOptionWithoutValue(): void
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/issue193.html'));
@@ -146,7 +146,7 @@ OUT;
     /**
      * @see https://github.com/Behat/Mink/issues/131
      */
-    public function testAccentuatedOption()
+    public function testAccentuatedOption(): void
     {
         $this->getSession()->visit($this->pathTo('/issue131.html'));
         $page = $this->getSession()->getPage();

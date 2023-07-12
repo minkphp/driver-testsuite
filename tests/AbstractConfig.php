@@ -26,7 +26,7 @@ abstract class AbstractConfig
             return $file;
         }
 
-        $pattern = '/^'.preg_quote($_SERVER['TEST_MACHINE_BASE_PATH'], '/').'/';
+        $pattern = '/^' . preg_quote($_SERVER['TEST_MACHINE_BASE_PATH'], '/') . '/';
         $basePath = $_SERVER['DRIVER_MACHINE_BASE_PATH'];
 
         return preg_replace($pattern, $basePath, $file, 1) ?? $file;
@@ -48,7 +48,7 @@ abstract class AbstractConfig
 
     /**
      * @param string $testCase The name of the TestCase class
-     * @param string $test     The name of the test method
+     * @param string $test The name of the test method
      *
      * @return string|null A message explaining why the test should be skipped, or null to run the test
      */

@@ -25,14 +25,14 @@ class FixturesKernel implements HttpKernelInterface
 
     private function handleFixtureRequest(Request $request): Response
     {
-        $fixturesDir = realpath(__DIR__.'/../web-fixtures');
-        $overwriteDir = realpath(__DIR__.'/../http-kernel-fixtures');
+        $fixturesDir = realpath(__DIR__ . '/../web-fixtures');
+        $overwriteDir = realpath(__DIR__ . '/../http-kernel-fixtures');
 
         require_once $fixturesDir . '/utils.php';
 
         $file = $request->getPathInfo();
 
-        $path = file_exists($overwriteDir.$file) ? $overwriteDir.$file : $fixturesDir.$file;
+        $path = file_exists($overwriteDir . $file) ? $overwriteDir . $file : $fixturesDir . $file;
 
         /** @var Response|null $resp */
         $resp = null;
@@ -79,7 +79,17 @@ class FixturesKernel implements HttpKernelInterface
 
             $params = session_get_cookie_params();
 
-            $cookie = Cookie::create($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+            $cookie = Cookie::create(
+                $session->getName(),
+                $session->getId(),
+                0 === $params['lifetime']
+                    ? 0
+                    : time() + $params['lifetime'],
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
+            );
 
             $response->headers->setCookie($cookie);
         }
