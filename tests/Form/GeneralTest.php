@@ -262,93 +262,6 @@ OUT;
         }
     }
 
-    public function testSetArrayValueInTextInput(): void
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
-
-        $webAssert = $this->getAssertSession();
-
-        $firstname = $webAssert->fieldExists('first_name');
-
-        $this->expectException(DriverException::class);
-        $firstname->setValue(['bad']);
-    }
-
-    public function testSetArrayValueInTextarea(): void
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
-
-        $webAssert = $this->getAssertSession();
-
-        $notes = $webAssert->fieldExists('notes');
-
-        $this->expectException(DriverException::class);
-        $notes->setValue(['bad']);
-    }
-
-    public function testSetArrayValueInFileInput(): void
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
-
-        $webAssert = $this->getAssertSession();
-
-        $about = $webAssert->fieldExists('about');
-
-        $this->expectException(DriverException::class);
-        $about->setValue(['bad']);
-    }
-
-    /**
-     * @dataProvider provideBooleanValues
-     */
-    public function testSetBooleanValueInTextInput(bool $value): void
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
-
-        $webAssert = $this->getAssertSession();
-
-        $firstname = $webAssert->fieldExists('first_name');
-
-        $this->expectException(DriverException::class);
-        $firstname->setValue($value);
-    }
-
-    /**
-     * @dataProvider provideBooleanValues
-     */
-    public function testSetBooleanValueInTextarea(bool $value): void
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
-
-        $webAssert = $this->getAssertSession();
-
-        $notes = $webAssert->fieldExists('notes');
-
-        $this->expectException(DriverException::class);
-        $notes->setValue($value);
-    }
-
-    /**
-     * @dataProvider provideBooleanValues
-     */
-    public function testSetBooleanValueInFileInput(bool $value): void
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
-
-        $webAssert = $this->getAssertSession();
-
-        $about = $webAssert->fieldExists('about');
-
-        $this->expectException(DriverException::class);
-        $about->setValue($value);
-    }
-
-    public static function provideBooleanValues(): iterable
-    {
-        yield [true];
-        yield [false];
-    }
-
     public function testMultiInput(): void
     {
         $this->getSession()->visit($this->pathTo('/multi_input_form.html'));
@@ -433,6 +346,46 @@ OUT;
 
         foreach ($toSearch as $searchString) {
             $this->assertStringContainsString($searchString, $pageContent);
+        }
+    }
+
+    /**
+     * @dataProvider provideInvalidValues
+     *
+     * @param mixed $value
+     */
+    public function testSetInvalidValueInField(string $field, $value): void
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
+
+        $webAssert = $this->getAssertSession();
+
+        $color = $webAssert->elementExists('named', array('id_or_name', $field));
+
+        $this->expectException(DriverException::class);
+        $color->setValue($value);
+    }
+
+    public static function provideInvalidValues(): iterable
+    {
+        $nullValue = ['null', null];
+        $trueValue = ['true', true];
+        $falseValue = ['false', false];
+        $arrayValue = ['array', ['bad']];
+        $stringValue = ['string', 'updated'];
+
+        $scenarios = [
+            // field type, name or id, list of values to check
+            ['file', 'about', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['textarea', 'notes', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['text', 'first_name', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['button', 'submit', [$nullValue, $trueValue, $falseValue, $arrayValue, $stringValue]],
+        ];
+
+        foreach ($scenarios as [$fieldType, $fieldNameOrId, $values]) {
+            foreach ($values as [$valueDesc, $actualValue]) {
+                yield "$fieldType field with $valueDesc" => [$fieldNameOrId, $actualValue];
+            }
         }
     }
 }
