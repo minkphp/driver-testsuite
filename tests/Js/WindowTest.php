@@ -71,18 +71,18 @@ final class WindowTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
-        $testWidth = 640;
-        $testHeight = 480;
+        $expectedWidth = 640;
+        $expectedHeight = 480;
 
-        $session->resizeWindow($testWidth, $testHeight);
+        $session->resizeWindow($expectedWidth, $expectedHeight);
         $session->wait(1000, 'false');
+
         $jsWindowSizeScript = <<<"JS"
         (function () {
-            var check =
-                function(w, h){
-                    return Math.abs(w - $testWidth) <= 100
-                        && Math.abs(h - $testHeight) <= 100;
-                },
+            var check = function (actualWidth, actualHeight) {
+                    return Math.abs(actualWidth - $expectedWidth) <= 100
+                        && Math.abs(actualHeight - $expectedHeight) <= 100;
+                    },
                 htmlElem = document.documentElement,
                 bodyElem = document.getElementsByTagName('body')[0];
 
@@ -93,7 +93,6 @@ final class WindowTest extends TestCase
                 );
         })();
 JS;
-
         $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
     }
 
