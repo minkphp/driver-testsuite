@@ -71,26 +71,28 @@ final class WindowTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
+        $expectedWidth = 640;
+        $expectedHeight = 480;
 
-        $session->resizeWindow(400, 300);
+        $session->resizeWindow($expectedWidth, $expectedHeight);
         $session->wait(1000, 'false');
-        $jsWindowSizeScript = <<<'JS'
-        (function(){
-          var boolSizeCheck = Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;
-          if (boolSizeCheck){
-            return true;
-          }
-          var w = window,
-              d = document,
-              e = d.documentElement,
-              g = d.getElementsByTagName('body')[0],
-              x = w.innerWidth || e.clientWidth || g.clientWidth,
-              y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-          boolSizeCheck = Math.abs(y - 300) <= 100 && Math.abs(x - 400) <= 100;
-          return boolSizeCheck;
+
+        $jsWindowSizeScript = <<<"JS"
+        (function () {
+            var check = function (actualWidth, actualHeight) {
+                    return Math.abs(actualWidth - $expectedWidth) <= 100
+                        && Math.abs(actualHeight - $expectedHeight) <= 100;
+                    },
+                htmlElem = document.documentElement,
+                bodyElem = document.getElementsByTagName('body')[0];
+
+            return check(window.outerWidth, window.outerHeight)
+                || check(
+                    window.innerWidth || htmlElem.clientWidth || bodyElem.clientWidth,
+                    window.innerHeight || htmlElem.clientHeight || bodyElem.clientHeight
+                );
         })();
 JS;
-
         $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
     }
 
