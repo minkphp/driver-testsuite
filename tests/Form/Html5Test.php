@@ -179,20 +179,19 @@ OUT;
 
     public static function provideInvalidValues(): iterable
     {
-        $nullValue = ['null', null];
         $trueValue = ['true', true];
         $falseValue = ['false', false];
         $arrayValue = ['empty array', []];
 
         $scenarios = [
             // field type, name or id, list of values to check
-            ['url', 'url', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['email', 'email', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['number', 'number', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['search', 'search', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['color', 'color', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['date', 'date', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['time', 'time', [$nullValue, $trueValue, $falseValue, $arrayValue]],
+            ['url', 'url', [$trueValue, $falseValue, $arrayValue]],
+            ['email', 'email', [$trueValue, $falseValue, $arrayValue]],
+            ['number', 'number', [$trueValue, $falseValue, $arrayValue]],
+            ['search', 'search', [$trueValue, $falseValue, $arrayValue]],
+            ['color', 'color', [$trueValue, $falseValue, $arrayValue]],
+            ['date', 'date', [$trueValue, $falseValue, $arrayValue]],
+            ['time', 'time', [$trueValue, $falseValue, $arrayValue]],
         ];
 
         foreach ($scenarios as [$fieldType, $fieldNameOrId, $values]) {

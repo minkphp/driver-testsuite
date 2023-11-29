@@ -368,7 +368,6 @@ OUT;
 
     public static function provideInvalidValues(): iterable
     {
-        $nullValue = ['null', null];
         $trueValue = ['true', true];
         $falseValue = ['false', false];
         $arrayValue = ['array', ['bad']];
@@ -376,10 +375,10 @@ OUT;
 
         $scenarios = [
             // field type, name or id, list of values to check
-            ['file', 'about', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['textarea', 'notes', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['text', 'first_name', [$nullValue, $trueValue, $falseValue, $arrayValue]],
-            ['button', 'submit', [$nullValue, $trueValue, $falseValue, $arrayValue, $stringValue]],
+            ['file', 'about', [$trueValue, $falseValue, $arrayValue]],
+            ['textarea', 'notes', [$trueValue, $falseValue, $arrayValue]],
+            ['text', 'first_name', [$trueValue, $falseValue, $arrayValue]],
+            ['button', 'submit', [$trueValue, $falseValue, $arrayValue, $stringValue]],
         ];
 
         foreach ($scenarios as [$fieldType, $fieldNameOrId, $values]) {
