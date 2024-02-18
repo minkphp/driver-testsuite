@@ -6,7 +6,10 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class IFrameTest extends TestCase
 {
-    public function testIFrame(): void
+    /**
+     * @dataProvider iFrameDataProvider
+     */
+    public function testIFrame(string $iframeIdentifier, string $elementSelector, string $elementContent): void
     {
         $this->getSession()->visit($this->pathTo('/iframe.html'));
         $webAssert = $this->getAssertSession();
@@ -14,14 +17,25 @@ final class IFrameTest extends TestCase
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
 
-        $this->getSession()->switchToIFrame('subframe');
+        $this->getSession()->switchToIFrame($iframeIdentifier);
 
-        $el = $webAssert->elementExists('css', '#text');
-        $this->assertSame('iFrame div text', $el->getText());
+        $el = $webAssert->elementExists('css', $elementSelector);
+        $this->assertSame($elementContent, $el->getText());
 
         $this->getSession()->switchToIFrame();
 
         $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
+    }
+
+    /**
+     * @return array
+     */
+    public static function iFrameDataProvider()
+    {
+        return array(
+            'by name' => array('subframe_by_name', '#text', 'iFrame div text'),
+            'by id' => array('subframe_by_id', '#foobar', 'Some accentués characters'),
+        );
     }
 }
