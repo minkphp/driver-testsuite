@@ -65,8 +65,13 @@ final class ChangeEventTest extends TestCase
 
     public static function setValueChangeEventDataProvider(): iterable
     {
-        $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
-        $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
+        if (getenv('GITHUB_ACTION')) {
+            $file1 = '/etc/hosts.allow';
+            $file2 = '/etc/hosts.deny';
+        } else {
+            $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
+            $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
+        }
 
         return [
             'input default' => ['the-input-default', 'from empty', 'from existing'],
