@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Js;
 
+use Behat\Mink\KeyModifier;
 use Behat\Mink\Tests\Driver\TestCase;
 
 final class EventsTest extends TestCase
@@ -86,6 +87,8 @@ final class EventsTest extends TestCase
     }
 
     /**
+     * @param KeyModifier::*|null $modifier
+     *
      * @dataProvider provideKeyboardEventsModifiers
      */
     public function testKeyboardEvents(?string $modifier, string $eventProperties): void
@@ -118,11 +121,11 @@ final class EventsTest extends TestCase
     {
         return [
             'none' => [null, '0 / 0 / 0 / 0'],
-            'alt' => ['alt', '1 / 0 / 0 / 0'],
+            'alt' => [KeyModifier::ALT, '1 / 0 / 0 / 0'],
             // jQuery considers ctrl as being a metaKey in the normalized event
-            'ctrl' => ['ctrl', '0 / 1 / 0 / 1'],
-            'shift' => ['shift', '0 / 0 / 1 / 0'],
-            'meta' => ['meta', '0 / 0 / 0 / 1'],
+            'ctrl' => [KeyModifier::CTRL, '0 / 1 / 0 / 1'],
+            'shift' => [KeyModifier::SHIFT, '0 / 0 / 1 / 0'],
+            'meta' => [KeyModifier::META, '0 / 0 / 0 / 1'],
         ];
     }
 }
