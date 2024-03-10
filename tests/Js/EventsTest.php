@@ -57,6 +57,15 @@ final class EventsTest extends TestCase
 
         $focusBlurDetector->focus();
         $this->assertEquals('focused', $focusBlurDetector->getValue());
+
+        $focusableAnchor = $this->getAssertSession()->elementExists('css', '.elements a#focusable');
+        $this->assertEquals('no action detected', $focusableAnchor->getText());
+
+        $focusableAnchor->focus();
+        // checking that we're on same page
+        $this->getAssertSession()->addressEquals('/js_test.html');
+        $this->assertEquals('focused', $focusableAnchor->getText());
+
     }
 
     /**
@@ -69,6 +78,8 @@ final class EventsTest extends TestCase
         $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
+        // focusing before, because blur won't be triggered if HTMLElement is not focused
+        $focusBlurDetector->focus();
         $focusBlurDetector->blur();
         $this->assertEquals('blured', $focusBlurDetector->getValue());
     }
