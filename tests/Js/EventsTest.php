@@ -69,6 +69,7 @@ final class EventsTest extends TestCase
         $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
+        $focusBlurDetector->focus();
         $focusBlurDetector->blur();
         $this->assertEquals('blured', $focusBlurDetector->getValue());
     }
