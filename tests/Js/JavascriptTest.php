@@ -27,7 +27,20 @@ final class JavascriptTest extends TestCase
         $droppable = $webAssert->elementExists('css', '#droppable');
 
         $draggable->dragTo($droppable);
-        $this->assertEquals('Dropped!', $this->getAssertSession()->elementExists('css', 'p', $droppable)->getText());
+        $this->assertSame('Dropped left!', $webAssert->elementExists('css', 'p', $droppable)->getText());
+    }
+
+    // https://github.com/minkphp/MinkSelenium2Driver/pull/359
+    public function testDragDropOntoHiddenItself()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
+        $webAssert = $this->getAssertSession();
+
+        $draggable = $webAssert->elementExists('css', '#draggable2');
+        $droppable = $webAssert->elementExists('css', '#draggable2');
+
+        $draggable->dragTo($droppable);
+        $this->assertSame('Dropped small!', $webAssert->elementExists('css', '#droppable p')->getText());
     }
 
     // test accentuated char in button
