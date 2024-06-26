@@ -31,7 +31,7 @@ final class JavascriptTest extends TestCase
     }
 
     // https://github.com/minkphp/MinkSelenium2Driver/pull/359
-    public function testDragDropOntoHiddenItself()
+    public function testDragDropOntoHiddenItself():void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
         $webAssert = $this->getAssertSession();
