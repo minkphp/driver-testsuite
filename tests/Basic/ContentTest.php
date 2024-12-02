@@ -21,6 +21,21 @@ final class ContentTest extends TestCase
         );
     }
 
+    public function testGetText(): void
+    {
+        $this->getSession()->visit($this->pathTo('/index.html'));
+
+        $element = $this->getAssertSession()->elementExists('css', '.get-text-trim');
+
+        /*
+         * Tests, these things:
+         * - <br> gets replaced with a space
+         * - spaces around the text are trimmed
+         * - &nbsp; are replaced with " " (non-breakable space) and then with " " (regular space)
+         */
+        $this->assertEquals('line 2: text inside div line 3:', $element->getText());
+    }
+
     public function testDumpingEmptyElements(): void
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
