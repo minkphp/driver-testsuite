@@ -6,9 +6,6 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 final class JavascriptEvaluationTest extends TestCase
 {
-    /**
-     * Tests, that `wait` method returns check result after exit.
-     */
     public function testWaitReturnValue(): void
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
@@ -55,16 +52,17 @@ final class JavascriptEvaluationTest extends TestCase
         $this->assertEquals('Hello world', $heading->getText());
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public static function provideExecutedScript(): iterable
     {
-        return [
-            ['document.querySelector("h1").textContent = "Hello world"'],
-            ['document.querySelector("h1").textContent = "Hello world";'],
-            ['function () {document.querySelector("h1").textContent = "Hello world";}()'],
-            ['function () {document.querySelector("h1").textContent = "Hello world";}();'],
-            ['(function () {document.querySelector("h1").textContent = "Hello world";})()'],
-            ['(function () {document.querySelector("h1").textContent = "Hello world";})();'],
-        ];
+        yield ['document.querySelector("h1").textContent = "Hello world"'];
+        yield ['document.querySelector("h1").textContent = "Hello world";'];
+        yield ['function () {document.querySelector("h1").textContent = "Hello world";}()'];
+        yield ['function () {document.querySelector("h1").textContent = "Hello world";}();'];
+        yield ['(function () {document.querySelector("h1").textContent = "Hello world";})()'];
+        yield ['(function () {document.querySelector("h1").textContent = "Hello world";})();'];
     }
 
     /**
@@ -77,17 +75,18 @@ final class JavascriptEvaluationTest extends TestCase
         $this->assertSame(2, $this->getSession()->evaluateScript($script));
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public static function provideEvaluatedScript(): iterable
     {
-        return [
-            ['1 + 1'],
-            ['1 + 1;'],
-            ['return 1 + 1'],
-            ['return 1 + 1;'],
-            ['function () {return 1+1;}()'],
-            ['(function () {return 1+1;})()'],
-            ['return function () { return 1+1;}()'],
-            ['return (function () {return 1+1;})()'],
-        ];
+        yield ['1 + 1'];
+        yield ['1 + 1;'];
+        yield ['return 1 + 1'];
+        yield ['return 1 + 1;'];
+        yield ['function () {return 1+1;}()'];
+        yield ['(function () {return 1+1;})()'];
+        yield ['return function () { return 1+1;}()'];
+        yield ['return (function () {return 1+1;})()'];
     }
 }

@@ -11,6 +11,9 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FixturesKernel implements HttpKernelInterface
 {
+    public const WEB_FIXTURES_DIR = __DIR__ . '/../web-fixtures';
+    public const KERNEL_FIXTURES_DIR = __DIR__ . '/../http-kernel-fixtures';
+
     public function handle(Request $request, $type = 1 /* self::MAIN_REQUEST */ , $catch = true): Response
     {
         $this->prepareSession($request);
@@ -25,8 +28,8 @@ class FixturesKernel implements HttpKernelInterface
 
     private function handleFixtureRequest(Request $request): Response
     {
-        $fixturesDir = realpath(__DIR__ . '/../web-fixtures');
-        $overwriteDir = realpath(__DIR__ . '/../http-kernel-fixtures');
+        $fixturesDir = realpath(self::WEB_FIXTURES_DIR);
+        $overwriteDir = realpath(self::KERNEL_FIXTURES_DIR);
 
         require_once $fixturesDir . '/utils.php';
 
@@ -60,8 +63,9 @@ class FixturesKernel implements HttpKernelInterface
 
         $cookies = $request->cookies;
 
-        if ($cookies->has($session->getName())) {
-            $session->setId($cookies->get($session->getName()));
+        $value = $cookies->get($session->getName());
+        if ($value !== null) {
+            $session->setId($value);
         } else {
             $session->migrate(false);
         }

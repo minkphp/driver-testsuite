@@ -9,7 +9,7 @@
 <body>
     Previous cookie: <?php
         /** @var \Symfony\Component\HttpFoundation\Request $request */
-        echo $request->cookies->has('srvr_cookie') ? html_escape_value($request->cookies->get('srvr_cookie')) : 'NO';
+        echo $request->cookies->has('srvr_cookie') ? html_escape_value($request->cookies->get('srvr_cookie') ?? '') : 'NO';
     ?>
 </body>
 </html>

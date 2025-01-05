@@ -118,15 +118,16 @@ final class EventsTest extends TestCase
         $this->assertEquals('key upped:78 / ' . $eventProperties, $event->getText());
     }
 
+    /**
+     * @return iterable<string, array{KeyModifier::*|null, string}>
+     */
     public static function provideKeyboardEventsModifiers(): iterable
     {
-        return [
-            'none' => [null, '0 / 0 / 0 / 0'],
-            'alt' => [KeyModifier::ALT, '1 / 0 / 0 / 0'],
-            // jQuery considers ctrl as being a metaKey in the normalized event
-            'ctrl' => [KeyModifier::CTRL, '0 / 1 / 0 / 1'],
-            'shift' => [KeyModifier::SHIFT, '0 / 0 / 1 / 0'],
-            'meta' => [KeyModifier::META, '0 / 0 / 0 / 1'],
-        ];
+        yield 'none' => [null, '0 / 0 / 0 / 0'];
+        yield 'alt' => [KeyModifier::ALT, '1 / 0 / 0 / 0'];
+        // jQuery considers ctrl as being a metaKey in the normalized even
+        yield 'ctrl' => [KeyModifier::CTRL, '0 / 1 / 0 / 1'];
+        yield 'shift' => [KeyModifier::SHIFT, '0 / 0 / 1 / 0'];
+        yield 'meta' => [KeyModifier::META, '0 / 0 / 0 / 1'];
     }
 }

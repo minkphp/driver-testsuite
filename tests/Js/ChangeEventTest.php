@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
+use Behat\Mink\Tests\Driver\Util\FixturesKernel;
 
 /**
  * @group slow
@@ -63,20 +64,18 @@ final class ChangeEventTest extends TestCase
         }
     }
 
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
     public static function setValueChangeEventDataProvider(): iterable
     {
-        $file1 = __DIR__ . '/../../web-fixtures/file1.txt';
-        $file2 = __DIR__ . '/../../web-fixtures/file2.txt';
-
-        return [
-            'input default' => ['the-input-default', 'from empty', 'from existing'],
-            'input text' => ['the-input-text', 'from empty', 'from existing'],
-            'input email' => ['the-email', 'from empty', 'from existing'],
-            'textarea' => ['the-textarea', 'from empty', 'from existing'],
-            'file' => ['the-file', $file1, $file2],
-            'select' => ['the-select', '30'],
-            'radio' => ['the-radio-m', 'm'],
-        ];
+        yield 'input default' => ['the-input-default', 'from empty', 'from existing'];
+        yield 'input text' => ['the-input-text', 'from empty', 'from existing'];
+        yield 'input email' => ['the-email', 'from empty', 'from existing'];
+        yield 'textarea' => ['the-textarea', 'from empty', 'from existing'];
+        yield 'file' => ['the-file', FixturesKernel::WEB_FIXTURES_DIR . '/file1.txt', FixturesKernel::WEB_FIXTURES_DIR . '/file2.txt'];
+        yield 'select' => ['the-select', '30', ''];
+        yield 'radio' => ['the-radio-m', 'm', ''];
     }
 
     /**
@@ -95,12 +94,13 @@ final class ChangeEventTest extends TestCase
         $this->assertElementChangeCount($elementId);
     }
 
+    /**
+     * @return iterable<string, array{string, string}>
+     */
     public static function selectOptionChangeEventDataProvider(): iterable
     {
-        return [
-            'select' => ['the-select', '30'],
-            'radio' => ['the-radio-m', 'm'],
-        ];
+        yield 'select' => ['the-select', '30'];
+        yield 'radio' => ['the-radio-m', 'm'];
     }
 
     /**
@@ -145,12 +145,13 @@ final class ChangeEventTest extends TestCase
         $this->assertElementChangeCount('the-checked-checkbox');
     }
 
+    /**
+     * @return iterable<array{mixed}>
+     */
     public static function checkboxTestWayDataProvider(): iterable
     {
-        return [
-            [true],
-            [false],
-        ];
+        yield [true];
+        yield [false];
     }
 
     private function assertElementChangeCount(string $elementId, string $message = ''): void

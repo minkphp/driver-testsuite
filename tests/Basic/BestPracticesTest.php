@@ -24,9 +24,9 @@ final class BestPracticesTest extends TestCase
     {
         $driver = $this->createDriver();
 
-        $this->assertNotImplementMethod('find', $driver, 'The driver should overwrite `findElementXpaths` rather than `find` for forward compatibility with Mink 2.');
-        $this->assertImplementMethod('findElementXpaths', $driver, 'The driver must be able to find elements.');
-        $this->assertNotImplementMethod('setSession', $driver, 'The driver should not deal with the Session directly for forward compatibility with Mink 2.');
+        $this->assertMethodIsNotImplemented('find', $driver, 'The driver should overwrite `findElementXpaths` rather than `find` for forward compatibility with Mink 2.');
+        $this->assertMethodIsImplemented('findElementXpaths', $driver, 'The driver must be able to find elements.');
+        $this->assertMethodIsNotImplemented('setSession', $driver, 'The driver should not deal with the Session directly for forward compatibility with Mink 2.');
     }
 
     /**
@@ -36,9 +36,12 @@ final class BestPracticesTest extends TestCase
     {
         $driver = $this->createDriver();
 
-        $this->assertImplementMethod($method, $driver, 'The driver is unusable when this method is not implemented.');
+        $this->assertMethodIsImplemented($method, $driver, 'The driver is unusable when this method is not implemented.');
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public static function provideRequiredMethods(): iterable
     {
         return [
@@ -53,7 +56,7 @@ final class BestPracticesTest extends TestCase
         ];
     }
 
-    private function assertImplementMethod(string $method, object $object, string $reason = ''): void
+    private function assertMethodIsImplemented(string $method, object $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);
@@ -67,7 +70,7 @@ final class BestPracticesTest extends TestCase
         $this->assertNotSame(CoreDriver::class, $refMethod->getDeclaringClass()->name, $message);
     }
 
-    private function assertNotImplementMethod(string $method, object $object, string $reason = ''): void
+    private function assertMethodIsNotImplemented(string $method, object $object, string $reason = ''): void
     {
         $ref = new \ReflectionClass(get_class($object));
         $refMethod = $ref->getMethod($method);

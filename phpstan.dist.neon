@@ -5,7 +5,6 @@ parameters:
         - tests
         - http-kernel-fixtures
         - web-fixtures
-    checkMissingIterableValueType: false
 
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon

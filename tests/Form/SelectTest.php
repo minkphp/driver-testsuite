@@ -78,6 +78,9 @@ OUT;
         $this->assertTrue($option->isSelected());
     }
 
+    /**
+     * @return iterable<array{string, string, string}>
+     */
     public static function elementSelectedStateCheckDataProvider(): iterable
     {
         return [
@@ -119,6 +122,9 @@ OUT;
         $select->setValue($value);
     }
 
+    /**
+     * @return iterable<array{bool}>
+     */
     public static function provideBooleanValues(): iterable
     {
         yield [true];

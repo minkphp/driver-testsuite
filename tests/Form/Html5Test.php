@@ -177,6 +177,9 @@ OUT;
         $color->setValue($value);
     }
 
+    /**
+     * @return iterable<string, array{string, mixed}>
+     */
     public static function provideInvalidValues(): iterable
     {
         $trueValue = ['true', true];

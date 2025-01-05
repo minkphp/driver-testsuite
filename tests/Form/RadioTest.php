@@ -112,6 +112,9 @@ final class RadioTest extends TestCase
         $option->setValue($value);
     }
 
+    /**
+     * @return iterable<array{bool}>
+     */
     public static function provideBooleanValues(): iterable
     {
         yield [true];
