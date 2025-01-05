@@ -163,7 +163,7 @@ OUT;
     /**
      * @dataProvider provideInvalidValues
      *
-     * @param mixed $value
+     * @param array<array-key, mixed>|bool|string $value
      */
     public function testSetInvalidValueInField(string $field, $value): void
     {
