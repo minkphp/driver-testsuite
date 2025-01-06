@@ -21,12 +21,12 @@ abstract class TestCase extends BaseTestCase
      *
      * @var Mink|null
      */
-    private static $mink = null;
+    private static $mink;
 
     /**
      * @var AbstractConfig|null
      */
-    private static $config = null;
+    private static $config;
 
     /**
      * @beforeClass
