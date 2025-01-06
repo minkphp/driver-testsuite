@@ -91,7 +91,7 @@ final class CookieTest extends TestCase
     }
 
     /**
-     * @return iterable<array{TCookieRemovalMode}>
+     * @phpstan-return iterable<array{TCookieRemovalMode}>
      */
     public static function cookieWithPathsDataProvider(): iterable
     {
@@ -102,7 +102,7 @@ final class CookieTest extends TestCase
     }
 
     /**
-     * @param TCookieRemovalMode $cookieRemovalMode
+     * @phpstan-param TCookieRemovalMode $cookieRemovalMode
      * @dataProvider cookieWithPathsDataProvider
      */
     public function testCookieInSubPath(string $cookieRemovalMode): void
