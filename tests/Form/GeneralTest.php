@@ -191,7 +191,7 @@ final class GeneralTest extends TestCase
         $notes->setValue('new notes');
         $this->assertEquals('new notes', $notes->getValue());
 
-        $about->attachFile($this->mapRemoteFilePath(FixturesKernel::WEB_FIXTURES_DIR . '/some_file.txt'));
+        $about->attachFile($this->mapRemoteFilePath(self::WEB_FIXTURES_DIR . '/some_file.txt'));
 
         $button = $page->findButton('Register');
         $this->assertNotNull($button);

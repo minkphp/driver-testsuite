@@ -73,7 +73,7 @@ final class ChangeEventTest extends TestCase
         yield 'input text' => ['the-input-text', 'from empty', 'from existing'];
         yield 'input email' => ['the-email', 'from empty', 'from existing'];
         yield 'textarea' => ['the-textarea', 'from empty', 'from existing'];
-        yield 'file' => ['the-file', FixturesKernel::WEB_FIXTURES_DIR . '/file1.txt', FixturesKernel::WEB_FIXTURES_DIR . '/file2.txt'];
+        yield 'file' => ['the-file', self::WEB_FIXTURES_DIR . '/file1.txt', self::WEB_FIXTURES_DIR . '/file2.txt'];
         yield 'select' => ['the-select', '30', ''];
         yield 'radio' => ['the-radio-m', 'm', ''];
     }

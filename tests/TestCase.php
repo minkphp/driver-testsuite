@@ -11,6 +11,8 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    public const WEB_FIXTURES_DIR = __DIR__ . '/../web-fixtures';
+    public const KERNEL_FIXTURES_DIR = __DIR__ . '/../http-kernel-fixtures';
     private const DRIVER_CONFIG_FACTORY_KEY = 'driver_config_factory';
     private const MINK_SESSION_KEY = 'sess';
 
