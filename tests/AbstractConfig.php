@@ -22,7 +22,7 @@ abstract class AbstractConfig
      */
     public function mapRemoteFilePath($file)
     {
-        if (!isset($_SERVER['TEST_MACHINE_BASE_PATH']) || !isset($_SERVER['DRIVER_MACHINE_BASE_PATH'])) {
+        if (!isset($_SERVER['TEST_MACHINE_BASE_PATH'], $_SERVER['DRIVER_MACHINE_BASE_PATH'])) {
             return $file;
         }
 
