@@ -125,7 +125,7 @@ final class EventsTest extends TestCase
     {
         yield 'none' => [null, '0 / 0 / 0 / 0'];
         yield 'alt' => [KeyModifier::ALT, '1 / 0 / 0 / 0'];
-        // jQuery considers ctrl as being a metaKey in the normalized even
+        // jQuery considers ctrl as being a metaKey in the normalized event
         yield 'ctrl' => [KeyModifier::CTRL, '0 / 1 / 0 / 1'];
         yield 'shift' => [KeyModifier::SHIFT, '0 / 0 / 1 / 0'];
         yield 'meta' => [KeyModifier::META, '0 / 0 / 0 / 1'];
