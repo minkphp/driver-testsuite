@@ -4,7 +4,6 @@ namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
-use Behat\Mink\Tests\Driver\Util\FixturesKernel;
 
 final class GeneralTest extends TestCase
 {

@@ -3,7 +3,6 @@
 namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
-use Behat\Mink\Tests\Driver\Util\FixturesKernel;
 
 /**
  * @group slow

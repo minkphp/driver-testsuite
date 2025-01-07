@@ -4,7 +4,6 @@
     $requestUri = $request->server->get('REQUEST_URI');
     assert(is_string($requestUri));
     $cookiePath = dirname($requestUri) . '/';
-    assert(is_string($cookiePath));
     $cookie = Symfony\Component\HttpFoundation\Cookie::create('srvr_cookie', 'srv_var_is_set', 0, $cookiePath);
     $resp->headers->setCookie($cookie);
 ?>

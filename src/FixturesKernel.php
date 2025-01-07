@@ -63,7 +63,7 @@ class FixturesKernel implements HttpKernelInterface
 
         $value = $cookies->get($session->getName());
         if ($value !== null) {
-            $session->setId($value);
+            $session->setId((string) $value);
         } else {
             $session->migrate(false);
         }
