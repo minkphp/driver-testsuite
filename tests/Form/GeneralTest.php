@@ -379,6 +379,7 @@ OUT;
             ['textarea', 'notes', [$trueValue, $falseValue, $arrayValue]],
             ['text', 'first_name', [$trueValue, $falseValue, $arrayValue]],
             ['button', 'submit', [$trueValue, $falseValue, $arrayValue, $stringValue]],
+            ['checkbox', 'agreement', [$arrayValue, $stringValue]],
         ];
 
         foreach ($scenarios as [$fieldType, $fieldNameOrId, $values]) {
