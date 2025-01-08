@@ -33,11 +33,14 @@ jobs:
             setup: |
               mkdir ./logs
               ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
-              docker run --net host --name chrome zenika/alpine-chrome:latest "--remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless=new --disable-extensions --no-sandbox --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage" &> ./logs/chrome.log &
+              docker run --net host --name chrome --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures zenika/alpine-chrome:latest \
+                "--remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless=new --disable-extensions --no-sandbox --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage" &> ./logs/chrome.log &
               sed "s#http://localhost/#http://localhost:8002/#" phpunit.xml.dist > phpunit.xml
               while ! nc -z localhost 9222 </dev/null; do echo Waiting for chrome to start...; sleep 1; done
               while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
             test: |
+              export WEB_FIXTURES_BROWSER=chrome
+              export DRIVER_MACHINE_BASE_PATH=/fixtures/
               ./vendor/bin/phpunit --colors=always --testdox
 
           - name: Zombie
@@ -56,10 +59,13 @@ jobs:
             setup: |
               mkdir ./logs
               ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
-              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:4 &> ./logs/selenium.log &
+              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:3 &> ./logs/selenium.log &
               while ! nc -z localhost 4444 </dev/null; do echo Waiting for remote driver to start...; sleep 1; done
               while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
-            test: ./vendor/bin/phpunit --colors=always --testdox
+            test: |
+              export WEB_FIXTURES_BROWSER=firefox
+              export DRIVER_MACHINE_BASE_PATH=/fixtures/
+              ./vendor/bin/phpunit --colors=always --testdox
 
           - name: WebDriver-Classic
             repo: https://github.com/minkphp/webdriver-classic-driver.git
@@ -70,6 +76,7 @@ jobs:
               curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:4444/wd/hub/status
             test: |
               export WEB_FIXTURES_BROWSER=firefox
+              export DRIVER_MACHINE_BASE_PATH=/fixtures/
               ./vendor/bin/phpunit --colors=always --testdox
 
           # TODO Goutte, Sahi and Selenium PHP packages seem deprecated/abandoned without alternative - so nothing to test, right?
