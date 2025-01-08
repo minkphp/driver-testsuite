@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Js;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Tests\Driver\TestCase;
 
 final class WindowTest extends TestCase
@@ -107,5 +108,15 @@ JS;
         $script = 'return Math.abs(screen.availHeight - window.outerHeight);';
 
         $this->assertLessThanOrEqual(100, $session->evaluateScript($script));
+    }
+
+    public function testSwitchingToMissingWindow(): void
+    {
+        $this->getSession()->visit($this->pathTo('/window.html'));
+        $session = $this->getSession();
+
+        $this->expectException(DriverException::class);
+
+        $session->switchToWindow('inexistent_window');
     }
 }
