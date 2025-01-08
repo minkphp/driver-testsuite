@@ -1,0 +1,106 @@
+name: Smoke Test
+
+on:
+  workflow_dispatch:
+  pull_request: # TODO Temporary, but maybe we might keep it
+
+jobs:
+  test:
+    name: ${{ matrix.driver.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        driver:
+          - name: BrowserKit (http client)
+            repo: https://github.com/minkphp/MinkBrowserKitDriver.git
+            php: 7.2
+            setup: |
+              mkdir ./logs
+              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
+              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
+            test: ./vendor/bin/phpunit --colors=always --testdox --configuration ./phpunit.http_client.xml
+
+          - name: BrowserKit (http kernel)
+            repo: https://github.com/minkphp/MinkBrowserKitDriver.git
+            php: 7.2
+            setup:
+            test: ./vendor/bin/phpunit --colors=always --testdox
+
+          - name: Chrome
+            repo: https://gitlab.com/behat-chrome/chrome-mink-driver.git
+            php: 7.4
+            setup: |
+              mkdir ./logs
+              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
+              docker run --net host --name chrome zenika/alpine-chrome:latest "--remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless=new --disable-extensions --no-sandbox --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage" &> ./logs/chrome.log &
+              sed "s#http://localhost/#http://localhost:8002/#" phpunit.xml.dist > phpunit.xml
+              while ! nc -z localhost 9222 </dev/null; do echo Waiting for chrome to start...; sleep 1; done
+              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
+            test: |
+              ./vendor/bin/phpunit --colors=always --testdox
+
+          - name: Zombie
+            repo: https://github.com/minkphp/MinkZombieDriver.git
+            php: 7.2
+            setup: |
+              npm install zombie
+              mkdir ./logs
+              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
+              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
+            test: ./vendor/bin/phpunit --colors=always --testdox
+
+          - name: Selenium2
+            repo: https://github.com/minkphp/MinkSelenium2Driver.git
+            php: 7.2
+            setup: |
+              mkdir ./logs
+              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
+              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:4 &> ./logs/selenium.log &
+              while ! nc -z localhost 4444 </dev/null; do echo Waiting for remote driver to start...; sleep 1; done
+              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
+            test: ./vendor/bin/phpunit --colors=always --testdox
+
+          - name: WebDriver-Classic
+            repo: https://github.com/minkphp/webdriver-classic-driver.git
+            php: 7.4
+            setup: |
+              export SELENIUM_IMAGE=selenium/standalone-firefox:4
+              docker compose up --wait --quiet-pull
+              curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:4444/wd/hub/status
+            test: |
+              export WEB_FIXTURES_BROWSER=firefox
+              ./vendor/bin/phpunit --colors=always --testdox
+
+          # TODO Goutte, Sahi and Selenium PHP packages seem deprecated/abandoned without alternative - so nothing to test, right?
+
+    steps:
+      - name: Set up workspace for driver repo
+        run: git clone ${{ matrix.driver.repo }} .
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ matrix.driver.php }}
+
+      - name: Install driver dependencies
+        run: composer install --no-interaction --ansi --no-progress
+
+        # This is instead of `composer require "mink/driver-testsuite:dev-master#${{ github.sha }}"`, which works with forks
+      - name: Set up driver test suite as composer dependency
+        uses: actions/checkout@v4
+        with:
+          path: ./vendor/mink/driver-testsuite
+
+      - name: Set up test environment
+        run: eval "${{ matrix.driver.setup }}"
+
+      - name: Run tests
+        run: eval "${{ matrix.driver.test }}"
+
+      - name: Upload logs as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.driver.name }}-logs
+          path: ./logs
