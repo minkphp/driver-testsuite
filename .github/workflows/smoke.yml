@@ -58,7 +58,7 @@ jobs:
             test: |
               export WEB_FIXTURES_BROWSER=firefox
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
-              ./vendor/bin/phpunit --colors=always --testdox --bootstrap=./vendor/autoload.php
+              ./vendor/bin/phpunit --colors=always --testdox
 
     steps:
       - name: Set up workspace for driver repo
