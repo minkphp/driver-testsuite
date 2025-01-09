@@ -43,17 +43,6 @@ jobs:
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
               ./vendor/bin/phpunit --colors=always --testdox
 
-          - name: Zombie
-            repo: https://github.com/minkphp/MinkZombieDriver.git
-            php: 7.2
-            node: 10
-            setup: |
-              npm install zombie@^4.0
-              mkdir ./logs
-              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
-              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
-            test: ./vendor/bin/phpunit --colors=always --testdox
-
           - name: Selenium2
             repo: https://github.com/minkphp/MinkSelenium2Driver.git
             php: 7.2
@@ -90,11 +79,6 @@ jobs:
         with:
           coverage: none
           php-version: ${{ matrix.driver.php }}
-
-      - uses: actions/setup-node@v4
-        if: ${{ matrix.driver.node }}
-        with:
-          node-version: ${{ matrix.driver.node }}
 
       - name: Install driver dependencies
         run: composer install --no-interaction --ansi --no-progress
