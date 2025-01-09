@@ -47,7 +47,7 @@ jobs:
             repo: https://github.com/minkphp/MinkZombieDriver.git
             php: 7.2
             setup: |
-              npm install zombie
+              npm install zombie@^2.0
               mkdir ./logs
               ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
               while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
