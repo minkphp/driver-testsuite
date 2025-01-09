@@ -7,7 +7,7 @@ on:
 jobs:
   test:
     name: ${{ matrix.driver.name }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -46,7 +46,7 @@ jobs:
           - name: Zombie
             repo: https://github.com/minkphp/MinkZombieDriver.git
             php: 7.2
-            node: 10
+            node: 5
             setup: |
               npm install zombie@^2.0
               mkdir ./logs
