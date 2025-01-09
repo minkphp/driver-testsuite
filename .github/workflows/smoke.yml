@@ -46,6 +46,7 @@ jobs:
           - name: Zombie
             repo: https://github.com/minkphp/MinkZombieDriver.git
             php: 7.2
+            node: 10
             setup: |
               npm install zombie@^2.0
               mkdir ./logs
@@ -89,6 +90,11 @@ jobs:
         with:
           coverage: none
           php-version: ${{ matrix.driver.php }}
+
+      - uses: actions/setup-node@v4
+        if: ${{ matrix.driver.node }}
+        with:
+          node-version: ${{ matrix.driver.node }}
 
       - name: Install driver dependencies
         run: composer install --no-interaction --ansi --no-progress
