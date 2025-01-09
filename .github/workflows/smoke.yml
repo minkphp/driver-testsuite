@@ -15,10 +15,7 @@ jobs:
           - name: BrowserKit (http client)
             repo: https://github.com/minkphp/MinkBrowserKitDriver.git
             php: 7.2
-            setup: |
-              mkdir ./logs
-              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
-              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
+            setup:
             test: ./vendor/bin/phpunit --colors=always --testdox --configuration ./phpunit.http_client.xml
 
           - name: BrowserKit (http kernel)
@@ -31,13 +28,10 @@ jobs:
             repo: https://gitlab.com/behat-chrome/chrome-mink-driver.git
             php: 7.4
             setup: |
-              mkdir ./logs
-              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
               docker run --net host --name chrome --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures zenika/alpine-chrome:latest \
                 "--remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless=new --disable-extensions --no-sandbox --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage" &> ./logs/chrome.log &
               sed "s#http://localhost/#http://localhost:8002/#" phpunit.xml.dist > phpunit.xml
               while ! nc -z localhost 9222 </dev/null; do echo Waiting for chrome to start...; sleep 1; done
-              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
             test: |
               export WEB_FIXTURES_BROWSER=chrome
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
@@ -47,11 +41,8 @@ jobs:
             repo: https://github.com/minkphp/MinkSelenium2Driver.git
             php: 7.2
             setup: |
-              mkdir ./logs
-              ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
               docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:3 &> ./logs/selenium.log &
               while ! nc -z localhost 4444 </dev/null; do echo Waiting for remote driver to start...; sleep 1; done
-              while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
             test: |
               export WEB_FIXTURES_BROWSER=firefox
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
@@ -67,9 +58,7 @@ jobs:
             test: |
               export WEB_FIXTURES_BROWSER=firefox
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
-              ./vendor/bin/phpunit --colors=always --testdox
-
-          # TODO Goutte, Sahi and Selenium PHP packages seem deprecated/abandoned without alternative - so nothing to test, right?
+              ./vendor/bin/phpunit --colors=always --testdox --bootstrap=./vendor/autoload.php
 
     steps:
       - name: Set up workspace for driver repo
@@ -90,7 +79,11 @@ jobs:
           path: ./vendor/mink/driver-testsuite
 
       - name: Set up test environment
-        run: eval "${{ matrix.driver.setup }}"
+        run: |
+          mkdir ./logs
+          ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
+          eval "${{ matrix.driver.setup }}"
+          while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
 
       - name: Run tests
         run: eval "${{ matrix.driver.test }}"
