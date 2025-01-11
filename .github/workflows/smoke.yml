@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: ${{ matrix.driver.name }}
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
