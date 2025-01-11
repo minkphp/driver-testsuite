@@ -41,7 +41,7 @@ jobs:
             repo: https://github.com/minkphp/MinkSelenium2Driver.git
             php: 7.2
             setup: |
-              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:3 &> ./logs/selenium.log &
+              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:2 &> ./logs/selenium.log &
               while ! nc -z localhost 4444 </dev/null; do echo Waiting for remote driver to start...; sleep 1; done
             test: |
               export WEB_FIXTURES_BROWSER=firefox
