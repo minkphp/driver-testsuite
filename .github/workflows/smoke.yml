@@ -15,13 +15,11 @@ jobs:
           - name: BrowserKit (http client)
             repo: https://github.com/minkphp/MinkBrowserKitDriver.git
             php: 7.2
-            setup:
             test: ./vendor/bin/phpunit --colors=always --testdox --configuration ./phpunit.http_client.xml
 
           - name: BrowserKit (http kernel)
             repo: https://github.com/minkphp/MinkBrowserKitDriver.git
             php: 7.2
-            setup:
             test: ./vendor/bin/phpunit --colors=always --testdox
 
           - name: Chrome
@@ -41,8 +39,8 @@ jobs:
             repo: https://github.com/minkphp/MinkSelenium2Driver.git
             php: 7.2
             setup: |
-              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:2 &> ./logs/selenium.log &
-              while ! nc -z localhost 4444 </dev/null; do echo Waiting for remote driver to start...; sleep 1; done
+              docker run --net host --name selenium --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures selenium/standalone-firefox:2.53.1 &> ./logs/selenium.log &
+              curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:4444/wd/hub/status
             test: |
               export WEB_FIXTURES_BROWSER=firefox
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
@@ -83,7 +81,7 @@ jobs:
           mkdir ./logs
           ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
           eval "${{ matrix.driver.setup }}"
-          while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
+          curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:8002/
 
       - name: Run tests
         run: eval "${{ matrix.driver.test }}"
