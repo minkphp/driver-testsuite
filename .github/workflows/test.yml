@@ -1,0 +1,74 @@
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: Name of the driver test
+        required: true
+        type: string
+      driverRepoUrl:
+        description: Git URL of the driver repository
+        required: true
+        type: string
+      php:
+        description: PHP version for running tests
+        required: true
+        type: string
+      setUpCmd:
+        description: Command to run before test
+        required: false
+        type: string
+      testCmd:
+        description: Command that runs the test
+        required: true
+        type: string
+      tearDownCmd:
+        description: Command to run after test
+        required: false
+        type: string
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up workspace for driver repo
+        # language=bash
+        run: git clone ${{ inputs.driverRepoUrl }} .
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ inputs.php }}
+
+      - name: Install driver dependencies
+        # language=bash
+        run: composer install --no-interaction --ansi --no-progress
+
+      - name: Set up driver test suite as composer dependency
+        # This is instead of `composer require "mink/driver-testsuite:dev-master#${{ github.sha }}"`, which works with forks
+        uses: actions/checkout@v4
+        with:
+          path: ./vendor/mink/driver-testsuite
+
+      - name: Set up
+        # language=bash
+        run: |
+          mkdir ./logs
+          MINK_HOST=0.0.0.0:8002 ./vendor/bin/mink-test-server &> ./logs/mink-test-server.log &
+          eval "${{ inputs.setUpCmd }}"
+          curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:8002/
+
+      - name: Run tests
+        # language=bash
+        run: eval "${{ inputs.testCmd }}"
+
+      - name: Tear down
+        # language=bash
+        run: |
+          eval "${{ inputs.tearDownCmd }}"
+
+      - name: Upload logs as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ inputs.name }}-logs
+          path: ./logs

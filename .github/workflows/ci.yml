@@ -19,17 +19,113 @@ jobs:
         with:
           coverage: none
           php-version: '8.2'
-      - run: composer validate --strict --no-check-lock
+      - run: composer validate --strict --no-check-lock --ansi
 
   static_analysis:
-      name: Static analysis
-      runs-on: ubuntu-latest
-      steps:
-          - uses: actions/checkout@v4
-          - uses: shivammathur/setup-php@v2
-            with:
-                coverage: none
-                php-version: '8.2'
-          - name: Install dependencies
-            run: composer update --ansi --no-progress --prefer-dist --no-interaction
-          - run: vendor/bin/phpstan analyze
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: '8.2'
+      - run: composer update --ansi --no-progress --prefer-dist --no-interaction
+      - run: vendor/bin/phpstan analyze --ansi --no-progress
+
+  Official:
+    name: "🛡️ ${{ matrix.name }}"
+    uses: "./.github/workflows/test.yml"
+    with:
+      name: ${{ matrix.name }}
+      driverRepoUrl: ${{ matrix.driverRepoUrl }}
+      php: ${{ matrix.php }}
+      setUpCmd: ${{ matrix.setUpCmd }}
+      testCmd: ${{ matrix.testCmd }}
+      tearDownCmd: ${{ matrix.tearDownCmd }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "BrowserKit (http client)"
+            driverRepoUrl: "https://github.com/minkphp/MinkBrowserKitDriver.git"
+            php: "7.2"
+            # language=bash
+            testCmd: ./vendor/bin/phpunit --colors=always --testdox --configuration ./phpunit.http_client.xml
+
+          - name: "BrowserKit (http kernel)"
+            driverRepoUrl: "https://github.com/minkphp/MinkBrowserKitDriver.git"
+            php: "7.2"
+            # language=bash
+            testCmd: ./vendor/bin/phpunit --colors=always --testdox
+
+          - name: "Selenium2"
+            driverRepoUrl: "https://github.com/minkphp/MinkSelenium2Driver.git"
+            php: "7.2"
+            # language=bash
+            setUpCmd: |
+              export SELENIUM_IMAGE=selenium/standalone-firefox:2.53.1
+              docker compose up --wait --quiet-pull
+              curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:4444/wd/hub/status
+            # language=bash
+            testCmd: |
+              export WEB_FIXTURES_BROWSER=firefox
+              export DRIVER_MACHINE_BASE_PATH=/fixtures/
+              export WEB_FIXTURES_HOST=http://host.docker.internal:8002
+              ./vendor/bin/phpunit --colors=always --testdox
+            # language=bash
+            tearDownCmd: |
+              docker compose logs --no-color --no-log-prefix --timestamps selenium > ./logs/selenium.docker.log
+
+          - name: "WebDriver-Classic"
+            driverRepoUrl: "https://github.com/minkphp/webdriver-classic-driver.git"
+            php: "7.4"
+            # language=bash
+            setUpCmd: |
+              export SELENIUM_IMAGE=selenium/standalone-firefox:4
+              docker compose up --wait --quiet-pull
+              curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:4444/wd/hub/status
+            # language=bash
+            testCmd: |
+              export WEB_FIXTURES_BROWSER=firefox
+              export DRIVER_MACHINE_BASE_PATH=/fixtures/
+              export WEB_FIXTURES_HOST=http://host.docker.internal:8002
+              ./vendor/bin/phpunit --colors=always --testdox
+            # language=bash
+            tearDownCmd: |
+              docker compose logs --no-color --no-log-prefix --timestamps selenium > ./logs/selenium.docker.log
+
+  Unofficial:
+    name: "✨️ ${{ matrix.name }}"
+    uses: "./.github/workflows/test.yml"
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    with:
+      name: ${{ matrix.name }}
+      driverRepoUrl: ${{ matrix.driverRepoUrl }}
+      php: ${{ matrix.php }}
+      setUpCmd: ${{ matrix.setUpCmd }}
+      testCmd: ${{ matrix.testCmd }}
+      tearDownCmd: ${{ matrix.tearDownCmd }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Chrome"
+            driverRepoUrl: "https://gitlab.com/behat-chrome/chrome-mink-driver.git"
+            php: "7.4"
+            # language=bash
+            setUpCmd: |
+              docker run --detach --quiet --net host --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures \
+                         --name chrome zenika/alpine-chrome:latest \
+                         "--remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless=new --disable-extensions --no-sandbox --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage"
+              sed "s#http://localhost/#http://localhost:8002/#" phpunit.xml.dist > phpunit.xml
+              while ! nc -z localhost 9222 </dev/null; do echo Waiting for chrome to start...; sleep 1; done
+            # language=bash
+            testCmd: |
+              export WEB_FIXTURES_BROWSER=chrome
+              export DRIVER_MACHINE_BASE_PATH=/fixtures/
+              ./vendor/bin/phpunit --colors=always --testdox
+            # language=bash
+            tearDownCmd: |
+              docker logs chrome > ./logs/chrome.docker.log
+
