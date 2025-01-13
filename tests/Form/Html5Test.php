@@ -163,7 +163,7 @@ OUT;
     /**
      * @dataProvider provideInvalidValues
      *
-     * @param mixed $value
+     * @param array<array-key, mixed>|bool|string $value
      */
     public function testSetInvalidValueInField(string $field, $value): void
     {
@@ -177,6 +177,9 @@ OUT;
         $color->setValue($value);
     }
 
+    /**
+     * @return iterable<string, array{string, mixed}>
+     */
     public static function provideInvalidValues(): iterable
     {
         $trueValue = ['true', true];

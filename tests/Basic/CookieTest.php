@@ -4,6 +4,9 @@ namespace Behat\Mink\Tests\Driver\Basic;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
+/**
+ * @phpstan-type TCookieRemovalMode 'session_reset'|'cookie_delete'
+ */
 final class CookieTest extends TestCase
 {
     /**
@@ -87,6 +90,9 @@ final class CookieTest extends TestCase
         $this->assertStringContainsString('Previous cookie: NO', $session->getPage()->getText());
     }
 
+    /**
+     * @phpstan-return iterable<array{TCookieRemovalMode}>
+     */
     public static function cookieWithPathsDataProvider(): iterable
     {
         return [
@@ -96,6 +102,7 @@ final class CookieTest extends TestCase
     }
 
     /**
+     * @phpstan-param TCookieRemovalMode $cookieRemovalMode
      * @dataProvider cookieWithPathsDataProvider
      */
     public function testCookieInSubPath(string $cookieRemovalMode): void

@@ -29,13 +29,11 @@ final class IFrameTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return iterable<string, array{string, string, string}>
      */
-    public static function iFrameDataProvider()
+    public static function iFrameDataProvider(): iterable
     {
-        return array(
-            'by name' => array('subframe_by_name', '#text', 'iFrame div text'),
-            'by id' => array('subframe_by_id', '#foobar', 'Some accentués characters'),
-        );
+        yield 'by name' => ['subframe_by_name', '#text', 'iFrame div text'];
+        yield 'by id' => ['subframe_by_id', '#foobar', 'Some accentués characters'];
     }
 }

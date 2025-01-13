@@ -11,15 +11,20 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    public const WEB_FIXTURES_DIR = __DIR__ . '/../web-fixtures';
+    public const KERNEL_FIXTURES_DIR = __DIR__ . '/../http-kernel-fixtures';
+    private const DRIVER_CONFIG_FACTORY_KEY = 'driver_config_factory';
+    private const MINK_SESSION_KEY = 'sess';
+
     /**
      * Mink session manager.
      *
-     * @var Mink
+     * @var Mink|null
      */
     private static $mink;
 
     /**
-     * @var AbstractConfig
+     * @var AbstractConfig|null
      */
     private static $config;
 
@@ -32,26 +37,29 @@ abstract class TestCase extends BaseTestCase
     {
         if (null === self::$mink) {
             $session = new Session(self::getConfig()->createDriver());
-            self::$mink = new Mink(['sess' => $session]);
+            self::$mink = new Mink([self::MINK_SESSION_KEY => $session]);
         }
     }
 
     /**
-     * @return AbstractConfig
-     *
-     * @throws \UnexpectedValueException if the global driver_config_factory returns an invalid object
+     * @throws \UnexpectedValueException
      */
+    private static function createConfig(): AbstractConfig
+    {
+        $config = call_user_func($GLOBALS[self::DRIVER_CONFIG_FACTORY_KEY]);
+        if (!$config instanceof AbstractConfig) {
+            throw new \UnexpectedValueException(sprintf(
+                'The "%s" global variable must return a %s.',
+                self::DRIVER_CONFIG_FACTORY_KEY,
+                AbstractConfig::class
+            ));
+        }
+        return $config;
+    }
+
     private static function getConfig(): AbstractConfig
     {
-        if (null === self::$config) {
-            self::$config = call_user_func($GLOBALS['driver_config_factory']);
-
-            if (!self::$config instanceof AbstractConfig) {
-                throw new \UnexpectedValueException('The "driver_config_factory" global variable must return a \Behat\Mink\Tests\Driver\AbstractConfig.');
-            }
-        }
-
-        return self::$config;
+        return self::$config ?? (self::$config = self::createConfig());
     }
 
     /**
@@ -84,7 +92,8 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getSession()
     {
-        return self::$mink->getSession('sess');
+        assert(self::$mink !== null);
+        return self::$mink->getSession(self::MINK_SESSION_KEY);
     }
 
     /**
@@ -94,7 +103,8 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getAssertSession()
     {
-        return self::$mink->assertSession('sess');
+        assert(self::$mink !== null);
+        return self::$mink->assertSession(self::MINK_SESSION_KEY);
     }
 
     /**
@@ -145,13 +155,13 @@ abstract class TestCase extends BaseTestCase
      */
     protected function pathTo($path)
     {
-        return rtrim(self::getConfig()->getWebFixturesUrl(), '/').'/'.ltrim($path, '/');
+        return rtrim(self::getConfig()->getWebFixturesUrl(), '/') . '/' . ltrim($path, '/');
     }
 
     /**
      * Waits for a condition to be true, considering than it is successful for drivers not supporting wait().
      *
-     * @param int    $time
+     * @param int $time
      * @param string $condition A JS condition to evaluate
      *
      * @return bool

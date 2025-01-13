@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver\Util;
 
+use Behat\Mink\Tests\Driver\TestCase;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +26,8 @@ class FixturesKernel implements HttpKernelInterface
 
     private function handleFixtureRequest(Request $request): Response
     {
-        $fixturesDir = realpath(__DIR__ . '/../web-fixtures');
-        $overwriteDir = realpath(__DIR__ . '/../http-kernel-fixtures');
+        $fixturesDir = realpath(TestCase::WEB_FIXTURES_DIR);
+        $overwriteDir = realpath(TestCase::KERNEL_FIXTURES_DIR);
 
         require_once $fixturesDir . '/utils.php';
 
@@ -61,7 +62,7 @@ class FixturesKernel implements HttpKernelInterface
         $cookies = $request->cookies;
 
         if ($cookies->has($session->getName())) {
-            $session->setId($cookies->get($session->getName()));
+            $session->setId((string) $cookies->get($session->getName()));
         } else {
             $session->migrate(false);
         }

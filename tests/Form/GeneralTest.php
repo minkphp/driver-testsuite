@@ -77,14 +77,15 @@ final class GeneralTest extends TestCase
         }
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public static function formSubmitWaysDataProvider(): iterable
     {
-        return [
-            ['Save'],
-            ['input-type-image'],
-            ['button-without-type'],
-            ['button-type-submit'],
-        ];
+        yield ['Save'];
+        yield ['input-type-image'];
+        yield ['button-without-type'];
+        yield ['button-type-submit'];
     }
 
     public function testFormSubmit(): void
@@ -189,7 +190,7 @@ final class GeneralTest extends TestCase
         $notes->setValue('new notes');
         $this->assertEquals('new notes', $notes->getValue());
 
-        $about->attachFile($this->mapRemoteFilePath(__DIR__ . '/../../web-fixtures/some_file.txt'));
+        $about->attachFile($this->mapRemoteFilePath(self::WEB_FIXTURES_DIR . '/some_file.txt'));
 
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
@@ -352,7 +353,7 @@ OUT;
     /**
      * @dataProvider provideInvalidValues
      *
-     * @param mixed $value
+     * @param array<array-key, mixed>|bool|string $value
      */
     public function testSetInvalidValueInField(string $field, $value): void
     {
@@ -366,6 +367,9 @@ OUT;
         $color->setValue($value);
     }
 
+    /**
+     * @return iterable<string, array{string, mixed}>
+     */
     public static function provideInvalidValues(): iterable
     {
         $trueValue = ['true', true];

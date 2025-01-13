@@ -20,12 +20,13 @@ final class BasicAuthTest extends TestCase
         $this->assertStringContainsString($pageText, $session->getPage()->getContent());
     }
 
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
     public static function setBasicAuthDataProvider(): iterable
     {
-        return [
-            ['mink-user', 'mink-password', 'is authenticated'],
-            ['', '', 'is not authenticated'],
-        ];
+        yield 'valid credentials' => ['mink-user', 'mink-password', 'is authenticated'];
+        yield 'no credentials' => ['', '', 'is not authenticated'];
     }
 
     public function testBasicAuthInUrl(): void

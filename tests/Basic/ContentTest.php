@@ -61,6 +61,9 @@ final class ContentTest extends TestCase
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
     }
 
+    /**
+     * @return iterable<array{string, mixed}>
+     */
     public static function getAttributeDataProvider(): iterable
     {
         return [

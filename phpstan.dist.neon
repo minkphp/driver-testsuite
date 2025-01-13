@@ -1,11 +1,10 @@
 parameters:
-    level: 8
+    level: 9
     paths:
         - src
         - tests
         - http-kernel-fixtures
         - web-fixtures
-    checkMissingIterableValueType: false
 
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
