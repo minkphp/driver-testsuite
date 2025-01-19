@@ -39,6 +39,7 @@ jobs:
     with:
       name: ${{ matrix.name }}
       driverRepoUrl: ${{ matrix.driverRepoUrl }}
+      driverRepoBranch: ${{ matrix.driverRepoBranch }}
       php: ${{ matrix.php }}
       setUpCmd: ${{ matrix.setUpCmd }}
       testCmd: ${{ matrix.testCmd }}
@@ -49,18 +50,21 @@ jobs:
         include:
           - name: "BrowserKit (http client)"
             driverRepoUrl: "https://github.com/minkphp/MinkBrowserKitDriver.git"
+            driverRepoBranch: "master"
             php: "7.2"
             # language=bash
             testCmd: ./vendor/bin/phpunit --colors=always --testdox --configuration ./phpunit.http_client.xml
 
           - name: "BrowserKit (http kernel)"
             driverRepoUrl: "https://github.com/minkphp/MinkBrowserKitDriver.git"
+            driverRepoBranch: "master"
             php: "7.2"
             # language=bash
             testCmd: ./vendor/bin/phpunit --colors=always --testdox
 
           - name: "Selenium2"
             driverRepoUrl: "https://github.com/minkphp/MinkSelenium2Driver.git"
+            driverRepoBranch: "master"
             php: "7.2"
             # language=bash
             setUpCmd: |
@@ -70,6 +74,7 @@ jobs:
             # language=bash
             testCmd: |
               export WEB_FIXTURES_BROWSER=firefox
+              export SELENIUM_VERSION=2.53.1
               export DRIVER_MACHINE_BASE_PATH=/fixtures/
               export WEB_FIXTURES_HOST=http://host.docker.internal:8002
               ./vendor/bin/phpunit --colors=always --testdox
@@ -79,6 +84,7 @@ jobs:
 
           - name: "WebDriver-Classic"
             driverRepoUrl: "https://github.com/minkphp/webdriver-classic-driver.git"
+            driverRepoBranch: "main"
             php: "7.4"
             # language=bash
             setUpCmd: |
@@ -102,6 +108,7 @@ jobs:
     with:
       name: ${{ matrix.name }}
       driverRepoUrl: ${{ matrix.driverRepoUrl }}
+      driverRepoBranch: ${{ matrix.driverRepoBranch }}
       php: ${{ matrix.php }}
       setUpCmd: ${{ matrix.setUpCmd }}
       testCmd: ${{ matrix.testCmd }}
@@ -112,6 +119,7 @@ jobs:
         include:
           - name: "Chrome"
             driverRepoUrl: "https://gitlab.com/behat-chrome/chrome-mink-driver.git"
+            driverRepoBranch: "main"
             php: "7.4"
             # language=bash
             setUpCmd: |

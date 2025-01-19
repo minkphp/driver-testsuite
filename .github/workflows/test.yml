@@ -9,6 +9,10 @@ on:
         description: Git URL of the driver repository
         required: true
         type: string
+      driverRepoBranch:
+        description: Driver repository branch to check out
+        required: true
+        type: string
       php:
         description: PHP version for running tests
         required: true
@@ -32,7 +36,7 @@ jobs:
     steps:
       - name: Set up workspace for driver repo
         # language=bash
-        run: git clone ${{ inputs.driverRepoUrl }} .
+        run: git clone --single-branch --branch "${{ inputs.driverRepoBranch }}" "${{ inputs.driverRepoUrl }}" .
 
       - uses: shivammathur/setup-php@v2
         with:
