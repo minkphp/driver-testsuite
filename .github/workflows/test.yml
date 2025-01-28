@@ -66,6 +66,7 @@ jobs:
         run: eval "${{ inputs.testCmd }}"
 
       - name: Tear down
+        if: always()
         # language=bash
         run: |
           eval "${{ inputs.tearDownCmd }}"

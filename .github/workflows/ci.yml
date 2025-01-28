@@ -80,7 +80,7 @@ jobs:
               ./vendor/bin/phpunit --colors=always --testdox
             # language=bash
             tearDownCmd: |
-              docker compose logs --no-color --no-log-prefix --timestamps selenium > ./logs/selenium.docker.log
+              docker compose logs --no-color --no-log-prefix --timestamps selenium &> ./logs/selenium.docker.log
 
           - name: "WebDriver-Classic"
             driverRepoUrl: "https://github.com/minkphp/webdriver-classic-driver.git"
@@ -99,7 +99,7 @@ jobs:
               ./vendor/bin/phpunit --colors=always --testdox
             # language=bash
             tearDownCmd: |
-              docker compose logs --no-color --no-log-prefix --timestamps selenium > ./logs/selenium.docker.log
+              docker compose logs --no-color --no-log-prefix --timestamps selenium &> ./logs/selenium.docker.log
 
   Unofficial:
     name: "✨️ ${{ matrix.name }}"
@@ -120,14 +120,17 @@ jobs:
           - name: "Chrome"
             driverRepoUrl: "https://gitlab.com/behat-chrome/chrome-mink-driver.git"
             driverRepoBranch: "main"
-            php: "7.4"
+            php: "8.1"
             # language=bash
             setUpCmd: |
-              docker run --detach --quiet --net host --volume /dev/shm:/dev/shm --shm-size 2g --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures \
+              docker run --detach --quiet --network=host --shm-size=1g --entrypoint= \
+                         --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures \
                          --name chrome zenika/alpine-chrome:latest \
-                         "--remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless=new --disable-extensions --no-sandbox --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage"
-              sed "s#http://localhost/#http://localhost:8002/#" phpunit.xml.dist > phpunit.xml
-              while ! nc -z localhost 9222 </dev/null; do echo Waiting for chrome to start...; sleep 1; done
+                         chromium-browser --remote-debugging-address=127.0.0.1 --remote-debugging-port=9222 --enable-logging=stderr --v=1 \
+                                          --no-sandbox --enable-automation --headless=new --no-first-run --disable-background-networking \
+                                          --disable-gpu --disable-extensions --disable-web-security --disable-features=UseDbus
+              sed -e "s#http://localhost/#http://localhost:8002/#" -e "s#http://localhost:9222#http://127.0.0.1:9222#" phpunit.xml.dist > phpunit.xml
+              curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:9222/
             # language=bash
             testCmd: |
               export WEB_FIXTURES_BROWSER=chrome
@@ -135,5 +138,4 @@ jobs:
               ./vendor/bin/phpunit --colors=always --testdox
             # language=bash
             tearDownCmd: |
-              docker logs chrome > ./logs/chrome.docker.log
-
+              docker logs --timestamps chrome &> ./logs/chrome.docker.log
