@@ -9,7 +9,7 @@ defaults:
 
 jobs:
   run_tests:
-    name: "✨️ ${{ matrix.name }}"
+    name: ${{ matrix.name }}
     uses: "./.github/workflows/test.yml"
     with:
       name: ${{ matrix.name }}
