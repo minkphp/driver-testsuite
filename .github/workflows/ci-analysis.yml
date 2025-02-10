@@ -1,0 +1,34 @@
+name: Analysis
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check_composer:
+    name: Check composer.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: '8.2'
+      - run: composer validate --strict --no-check-lock --ansi
+
+  check_code:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: '8.2'
+      - run: composer update --ansi --no-progress --prefer-dist --no-interaction
+      - run: vendor/bin/phpstan analyze --ansi --no-progress
