@@ -10,30 +10,7 @@ defaults:
     shell: bash
 
 jobs:
-  check_composer:
-    name: Check composer.json
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          coverage: none
-          php-version: '8.2'
-      - run: composer validate --strict --no-check-lock --ansi
-
-  static_analysis:
-    name: Static analysis
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          coverage: none
-          php-version: '8.2'
-      - run: composer update --ansi --no-progress --prefer-dist --no-interaction
-      - run: vendor/bin/phpstan analyze --ansi --no-progress
-
-  Official:
+  run_tests:
     name: "🛡️ ${{ matrix.name }}"
     uses: "./.github/workflows/test.yml"
     with:
@@ -100,42 +77,3 @@ jobs:
             # language=bash
             tearDownCmd: |
               docker compose logs --no-color --no-log-prefix --timestamps selenium &> ./logs/selenium.docker.log
-
-  Unofficial:
-    name: "✨️ ${{ matrix.name }}"
-    uses: "./.github/workflows/test.yml"
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    with:
-      name: ${{ matrix.name }}
-      driverRepoUrl: ${{ matrix.driverRepoUrl }}
-      driverRepoBranch: ${{ matrix.driverRepoBranch }}
-      php: ${{ matrix.php }}
-      setUpCmd: ${{ matrix.setUpCmd }}
-      testCmd: ${{ matrix.testCmd }}
-      tearDownCmd: ${{ matrix.tearDownCmd }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: "Chrome"
-            driverRepoUrl: "https://gitlab.com/behat-chrome/chrome-mink-driver.git"
-            driverRepoBranch: "main"
-            php: "8.1"
-            # language=bash
-            setUpCmd: |
-              docker run --detach --quiet --network=host --shm-size=1g --entrypoint= \
-                         --volume ./vendor/mink/driver-testsuite/web-fixtures:/fixtures \
-                         --name chrome zenika/alpine-chrome:latest \
-                         chromium-browser --remote-debugging-address=127.0.0.1 --remote-debugging-port=9222 --enable-logging=stderr --v=1 \
-                                          --no-sandbox --enable-automation --headless=new --no-first-run --disable-background-networking \
-                                          --disable-gpu --disable-extensions --disable-web-security --disable-features=UseDbus
-              sed -e "s#http://localhost/#http://localhost:8002/#" -e "s#http://localhost:9222#http://127.0.0.1:9222#" phpunit.xml.dist > phpunit.xml
-              curl --retry 5 --retry-all-errors --retry-delay 1 --max-time 10 --head -X GET http://localhost:9222/
-            # language=bash
-            testCmd: |
-              export WEB_FIXTURES_BROWSER=chrome
-              export DRIVER_MACHINE_BASE_PATH=/fixtures/
-              ./vendor/bin/phpunit --colors=always --testdox
-            # language=bash
-            tearDownCmd: |
-              docker logs --timestamps chrome &> ./logs/chrome.docker.log
