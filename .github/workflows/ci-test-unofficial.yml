@@ -1,4 +1,4 @@
-name: CI
+name: Unofficial Tests
 
 on:
   workflow_dispatch:
