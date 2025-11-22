@@ -25,6 +25,8 @@ final class ScreenshotTest extends TestCase
             $this->fail('The screenshot should be a valid image');
         }
 
-        imagedestroy($img);
+        if (\PHP_VERSION_ID < 80000) {
+            imagedestroy($img);
+        }
     }
 }
