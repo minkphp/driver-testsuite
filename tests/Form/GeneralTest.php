@@ -353,7 +353,7 @@ OUT;
     /**
      * @dataProvider provideInvalidValues
      *
-     * @param array<array-key, mixed>|bool|string $value
+     * @param list<string>|bool|string $value
      */
     public function testSetInvalidValueInField(string $field, $value): void
     {
@@ -368,7 +368,7 @@ OUT;
     }
 
     /**
-     * @return iterable<string, array{string, mixed}>
+     * @return iterable<string, array{string, list<string>|bool|string}>
      */
     public static function provideInvalidValues(): iterable
     {
