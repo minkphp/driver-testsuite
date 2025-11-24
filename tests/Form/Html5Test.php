@@ -24,7 +24,7 @@ final class Html5Test extends TestCase
 
         $page->pressButton('Submit in form');
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title") !== null')) {
             $out = <<<'OUT'
   first_name = `John`,
   last_name = `Doe`,
@@ -72,7 +72,7 @@ OUT;
 
         $page->pressButton('Submit outside form');
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title") !== null')) {
             $out = <<<'OUT'
   first_name = `John`,
   last_name = `Doe`,
@@ -91,7 +91,7 @@ OUT;
 
         $page->pressButton('Submit separate form');
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title") !== null')) {
             $out = <<<'OUT'
   other_field = `hello`,
 OUT;
@@ -137,7 +137,7 @@ OUT;
         $page->fillField('first_name', 'Jimmy');
         $page->pressButton('Submit to basic form');
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title") !== null')) {
             $this->assertStringContainsString('<title>Basic Form Saving</title>', $page->getContent());
             $this->assertStringContainsString('Firstname: Jimmy', $page->getContent());
         }
@@ -152,7 +152,7 @@ OUT;
         $page->fillField('last_name', 'Jones');
         $page->pressButton('Submit as GET');
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title") !== null')) {
             $this->assertEquals(
                 $this->pathTo('advanced_form_post.php') . '?first_name=Jimmy&last_name=Jones',
                 $this->getSession()->getCurrentUrl()

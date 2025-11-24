@@ -48,7 +48,7 @@ final class GeneralTest extends TestCase
 
         $page->pressButton('Save');
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("#first") !== null')) {
             $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
             $this->assertEquals('Lastname: Kudryashov', $webAssert->elementExists('css', '#last')->getText());
@@ -70,7 +70,7 @@ final class GeneralTest extends TestCase
 
         $page->pressButton($submitVia);
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("#first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
         } else {
             $this->fail('Form was never submitted');
@@ -98,7 +98,7 @@ final class GeneralTest extends TestCase
 
         $webAssert->elementExists('xpath', 'descendant-or-self::form[1]')->submit();
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("#first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
         }
     }
@@ -113,7 +113,7 @@ final class GeneralTest extends TestCase
 
         $webAssert->elementExists('xpath', 'descendant-or-self::form[1]')->submit();
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("#first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
         }
     }
@@ -204,7 +204,7 @@ final class GeneralTest extends TestCase
 
         $button->press();
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") === "Advanced form save"')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title")?.textContent === "Advanced form save"')) {
             $out = <<<'OUT'
 array(
   agreement = `on`,
@@ -245,7 +245,7 @@ OUT;
 
         $button->press();
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+        if ($this->safePageWait(5000, 'document.querySelector("title") !== null')) {
             $out = <<<'OUT'
   first_name = `Foo &quot;item&quot;`,
   last_name = `Bar`,

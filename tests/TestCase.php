@@ -168,8 +168,11 @@ abstract class TestCase extends BaseTestCase
      *
      * @see \Behat\Mink\Session::wait()
      */
-    protected function safePageWait($time, $condition)
-    {
+    protected function safePageWait(
+        $time,
+        #[\JetBrains\PhpStorm\Language('JavaScript')]
+        $condition
+    ) {
         try {
             return $this->getSession()->wait($time, $condition);
         } catch (UnsupportedDriverActionException $e) {
