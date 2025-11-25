@@ -3,7 +3,6 @@
 namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
 use Behat\Mink\Session;
 use Behat\Mink\WebAssert;
@@ -159,6 +158,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * @param int $time
+     * @param string $condition
+     *
+     * @return bool
+     *
      * @deprecated To be removed since drivers are should wait for page navigation automatically and meanwhile tests
      *             shouldn't try fixing it.
      */
