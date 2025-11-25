@@ -48,11 +48,9 @@ final class GeneralTest extends TestCase
 
         $page->pressButton('Save');
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
-            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
-            $this->assertEquals('Lastname: Kudryashov', $webAssert->elementExists('css', '#last')->getText());
-        }
+        $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
+        $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
+        $this->assertEquals('Lastname: Kudryashov', $webAssert->elementExists('css', '#last')->getText());
     }
 
     /**
@@ -70,11 +68,7 @@ final class GeneralTest extends TestCase
 
         $page->pressButton($submitVia);
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
-        } else {
-            $this->fail('Form was never submitted');
-        }
+        $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
     }
 
     /**
@@ -98,9 +92,7 @@ final class GeneralTest extends TestCase
 
         $webAssert->elementExists('xpath', 'descendant-or-self::form[1]')->submit();
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
-        }
+        $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
     }
 
     public function testFormSubmitWithoutButton(): void
@@ -113,9 +105,7 @@ final class GeneralTest extends TestCase
 
         $webAssert->elementExists('xpath', 'descendant-or-self::form[1]')->submit();
 
-        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
-        }
+        $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
     }
 
     public function testBasicGetForm(): void
@@ -204,8 +194,8 @@ final class GeneralTest extends TestCase
 
         $button->press();
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") === "Advanced form save"')) {
-            $out = <<<'OUT'
+        $this->assertStringContainsString(
+            <<<'OUT'
 array(
   agreement = `on`,
   email = `ever.zet@gmail.com`,
@@ -218,9 +208,9 @@ array(
 )
 some_file.txt
 1 uploaded file
-OUT;
-            $this->assertStringContainsString($out, $page->getContent());
-        }
+OUT,
+            $page->getContent()
+        );
     }
 
     public function testQuoteInValue(): void
@@ -245,22 +235,27 @@ OUT;
 
         $button->press();
 
-        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $out = <<<'OUT'
+        $this->assertThat(
+            $page->getContent(),
+            $this->logicalOr(
+                $this->stringContains(
+            <<<'OUT'
   first_name = `Foo &quot;item&quot;`,
   last_name = `Bar`,
-OUT;
+OUT
+                ),
+                $this->stringContains(
             // Escaping of double quotes are optional in HTML text nodes. Even though our backend escapes
             // the quote in the HTML when returning it, browsers may apply only the minimal escaping in
             // the content they expose to Selenium depending of how they build it (they might serialize
-            // their DOM again rathet than returning the raw HTTP response content).
-            $minEscapedOut = <<<'OUT'
+            // their DOM again rather than returning the raw HTTP response content).
+            <<<'OUT'
   first_name = `Foo "item"`,
   last_name = `Bar`,
-OUT;
-
-            $this->assertThat($page->getContent(), $this->logicalOr($this->stringContains($out), $this->stringContains($minEscapedOut)));
-        }
+OUT
+                )
+            )
+        );
     }
 
     public function testMultiInput(): void

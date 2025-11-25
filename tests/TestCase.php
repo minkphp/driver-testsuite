@@ -159,21 +159,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Waits for a condition to be true, considering than it is successful for drivers not supporting wait().
-     *
-     * @param int $time
-     * @param string $condition A JS condition to evaluate
-     *
-     * @return bool
-     *
-     * @see \Behat\Mink\Session::wait()
+     * @deprecated To be removed since drivers are should wait for page navigation automatically and meanwhile tests
+     *             shouldn't try fixing it.
      */
     protected function safePageWait($time, $condition)
     {
-        try {
-            return $this->getSession()->wait($time, $condition);
-        } catch (UnsupportedDriverActionException $e) {
-            return true;
-        }
+        return true;
     }
 }
