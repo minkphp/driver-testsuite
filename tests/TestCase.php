@@ -168,6 +168,11 @@ abstract class TestCase extends BaseTestCase
      */
     protected function safePageWait($time, $condition)
     {
+        @trigger_error(
+            sprintf('The method %s is deprecated: drivers should wait for page navigation automatically', __METHOD__),
+            E_USER_DEPRECATED
+        );
+
         return true;
     }
 }
