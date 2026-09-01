@@ -80,4 +80,39 @@ final class CheckboxTest extends TestCase
         $this->assertFalse($updateMail->isChecked());
         $this->assertTrue($spamMail->isChecked());
     }
+
+    public function testCheckboxMultipleWithDisabledCheckboxes(): void
+    {
+        $this->getSession()->visit($this->pathTo('/multicheckbox_disabled_form.html'));
+        $webAssert = $this->getAssertSession();
+
+        $disabledChecked = $webAssert->elementExists('css', '[name="mail_types[]"][value="update"]');
+        $disabled = $webAssert->elementExists('css', '[name="mail_types[]"][value="spam"]');
+        $newsletter = $webAssert->elementExists('css', '[name="mail_types[]"][value="newsletter"]');
+        $digest = $webAssert->elementExists('css', '[name="mail_types[]"][value="digest"]');
+
+        $this->assertTrue($disabledChecked->isChecked());
+        $this->assertFalse($disabled->isChecked());
+
+        // the enabled checkboxes come after the disabled ones, so a driver that
+        // numbers them differently than the browser does manipulates the wrong one
+        $this->assertFalse($newsletter->isChecked());
+        $this->assertFalse($digest->isChecked());
+
+        $newsletter->check();
+        $this->assertTrue($newsletter->isChecked());
+        $this->assertFalse($digest->isChecked());
+
+        $digest->check();
+        $this->assertTrue($newsletter->isChecked());
+        $this->assertTrue($digest->isChecked());
+
+        $newsletter->uncheck();
+        $this->assertFalse($newsletter->isChecked());
+        $this->assertTrue($digest->isChecked());
+
+        // the disabled ones were not affected
+        $this->assertTrue($disabledChecked->isChecked());
+        $this->assertFalse($disabled->isChecked());
+    }
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multicheckbox Disabled Test</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+</head>
+<body>
+    <h1>Multicheckbox Disabled Test</h1>
+
+    <form method="POST" action="advanced_form_post.php">
+        <input type="checkbox" name="mail_types[]" checked="checked" value="update" disabled="disabled"/>
+        <input type="checkbox" name="mail_types[]" value="spam" disabled="disabled"/>
+        <input type="checkbox" name="mail_types[]" value="newsletter"/>
+        <input type="checkbox" name="mail_types[]" value="digest"/>
+
+        <input type="submit" name="submit" value="Register" />
+    </form>
+</body>
+</html>
