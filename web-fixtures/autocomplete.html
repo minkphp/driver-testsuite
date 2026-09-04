@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Autocomplete</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <script src="js/jquery-1.6.2-min.js"></script>
+    <script src="js/jquery-ui-1.11.4.autocomplete.min.js"></script>
+</head>
+<body>
+    <form>
+        <label for="autocomplete">Choose an animal</label>
+        <input type="text" id="autocomplete" />
+    </form>
+
+    <script type="text/javascript">
+        $( "#autocomplete" ).autocomplete({
+            source: [ "Alpaca", "Alphabeaver", "Arctic fox", "Arctic wolf", "Boomalope", "Boomrat", "Capybara" ]
+        });
+    </script>
+</body>
+</html>
