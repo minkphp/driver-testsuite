@@ -163,7 +163,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return bool
      *
-     * @deprecated To be removed since drivers are should wait for page navigation automatically and meanwhile tests
+     * @deprecated To be removed since drivers should wait for page navigation automatically and meanwhile tests
      *             shouldn't try fixing it.
      */
     protected function safePageWait($time, $condition)
