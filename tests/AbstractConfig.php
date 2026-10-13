@@ -22,14 +22,16 @@ abstract class AbstractConfig
      */
     public function mapRemoteFilePath($file)
     {
-        if (!isset($_SERVER['TEST_MACHINE_BASE_PATH'], $_SERVER['DRIVER_MACHINE_BASE_PATH'])) {
+        $testMachineBasePath = $this->getEnvVar('TEST_MACHINE_BASE_PATH');
+        $driverMachineBasePath = $this->getEnvVar('DRIVER_MACHINE_BASE_PATH');
+
+        if (null === $testMachineBasePath || null === $driverMachineBasePath) {
             return $file;
         }
 
-        $pattern = '/^' . preg_quote($_SERVER['TEST_MACHINE_BASE_PATH'], '/') . '/';
-        $basePath = $_SERVER['DRIVER_MACHINE_BASE_PATH'];
+        $pattern = '/^' . preg_quote($testMachineBasePath, '/') . '/';
 
-        return preg_replace($pattern, $basePath, $file, 1) ?? $file;
+        return preg_replace($pattern, $driverMachineBasePath, $file, 1) ?? $file;
     }
 
     /**
@@ -39,11 +41,28 @@ abstract class AbstractConfig
      */
     public function getWebFixturesUrl()
     {
-        if (!isset($_SERVER['WEB_FIXTURES_HOST']) || !\is_string($_SERVER['WEB_FIXTURES_HOST'])) {
-            return 'http://localhost:8002'; // Host used by default by mink-test-server
+        // Host used by default by mink-test-server
+        return $this->getEnvVar('WEB_FIXTURES_HOST') ?? 'http://localhost:8002';
+    }
+
+    /**
+     * Gets a variable from the environment, falling back to the $_SERVER one (e.g. a "<server>" in PHPUnit config).
+     *
+     * The environment goes first, because PHPUnit's "<server>" overwrites the $_SERVER value coming from it.
+     *
+     * @param string $name
+     *
+     * @return string|null
+     */
+    protected function getEnvVar($name)
+    {
+        $value = getenv($name);
+
+        if (false === $value) {
+            $value = $_SERVER[$name] ?? null;
         }
 
-        return $_SERVER['WEB_FIXTURES_HOST'];
+        return \is_string($value) ? $value : null;
     }
 
     /**
