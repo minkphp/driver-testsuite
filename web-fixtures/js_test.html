@@ -63,6 +63,9 @@
 
             $clicker.bind('contextmenu', function() {
                 $(this).text('right clicked');
+
+                // Don't open the browser's context menu.
+                return false;
             });
 
             var $focusDetector = $('#focus-blur-detector');
