@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Outside viewport</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+</head>
+<body>
+    <div style="height: 3000px;"></div>
+
+    <!-- in a row, so the mouse is never already over the next target -->
+    <div style="display: flex; gap: 20px;">
+        <div id="click-target">not clicked</div>
+        <div id="double-click-target">not double clicked</div>
+        <div id="right-click-target">not right clicked</div>
+        <div id="mouse-over-target">not mouse overed</div>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById('click-target').addEventListener('click', function () {
+            this.textContent = 'clicked';
+        });
+
+        document.getElementById('double-click-target').addEventListener('dblclick', function () {
+            this.textContent = 'double clicked';
+        });
+
+        document.getElementById('right-click-target').addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+            this.textContent = 'right clicked';
+        });
+
+        document.getElementById('mouse-over-target').addEventListener('mouseover', function () {
+            this.textContent = 'mouse overed';
+        });
+    </script>
+</body>
+</html>
