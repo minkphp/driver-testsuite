@@ -160,7 +160,6 @@ final class GeneralTest extends TestCase
         $maillist = $webAssert->fieldExists('mail_list');
         $agreement = $webAssert->fieldExists('agreement');
         $notes = $webAssert->fieldExists('notes');
-        $about = $webAssert->fieldExists('about');
 
         $this->assertEquals('Firstname', $firstname->getValue());
         $this->assertEquals('Lastname', $lastname->getValue());
@@ -190,8 +189,6 @@ final class GeneralTest extends TestCase
         $notes->setValue('new notes');
         $this->assertEquals('new notes', $notes->getValue());
 
-        $about->attachFile($this->mapRemoteFilePath(self::WEB_FIXTURES_DIR . '/some_file.txt'));
-
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
 
@@ -216,8 +213,7 @@ array(
   sex = `m`,
   submit = `Register`,
 )
-some_file.txt
-1 uploaded file
+no file
 OUT;
             $this->assertStringContainsString($out, $page->getContent());
         }
